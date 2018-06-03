@@ -1,8 +1,33 @@
 {
   allowUnfree = true;
 
-  packageOverrides = pkgs_: with pkgs_; {
-    gitTools = with pkgs; buildEnv {
+  packageOverrides = super: let self = super.pkgs; in rec {
+
+    ghc82Env = self.pkgs.myEnvFun {
+      name = "ghc82";
+      buildInputs = with self.haskell.packages.ghc822; [
+        self.haskell.compiler.ghc822
+        alex happy cabal-install
+        ghc-core
+        ghcid
+        hlint
+        (self.haskell.lib.dontCheck hasktags)
+      ];
+    };
+
+    ghc84Env = self.pkgs.myEnvFun {
+      name = "ghc84";
+      buildInputs = with self.haskell.packages.ghc843; [
+        self.haskell.compiler.ghc843
+        alex happy cabal-install
+        ghc-core
+        ghcid
+        hlint
+        (self.haskell.lib.dontCheck hasktags)
+      ];
+    };
+
+    gitTools = with self.pkgs; buildEnv {
       name = "gitTools";
       paths = [
         diffstat
@@ -17,7 +42,7 @@
       ];
     };
 
-    editors = with pkgs; buildEnv {
+    editors = with self.pkgs; buildEnv {
       name = "editors";
       paths = [
         emacs25Macport
@@ -25,7 +50,7 @@
       ];
     };
 
-    languageTools = with pkgs; buildEnv {
+    languageTools = with self.pkgs; buildEnv {
       name = "languageTools";
       paths = [
         cabal-install
@@ -33,7 +58,7 @@
       ];
     };
 
-    systemPackages = with pkgs; buildEnv {
+    systemPackages = with self.pkgs; buildEnv {
       name = "systemPackages";
       paths = [
         curl
