@@ -19,10 +19,10 @@
       name = "ghc84";
       buildInputs = with self.haskell.packages.ghc843; [
         self.haskell.compiler.ghc843
-        alex happy cabal-install
+        alex happy
         ghc-core
         ghcid
-        hlint
+        (self.haskell.lib.doJailbreak (self.haskell.lib.dontCheck hlint))
         (self.haskell.lib.dontCheck hasktags)
       ];
     };
