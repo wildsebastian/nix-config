@@ -1,29 +1,63 @@
-{
+{ pkgs }: {
   allowUnfree = true;
 
-  packageOverrides = super: let self = super.pkgs; in rec {
+  packageOverrides = super: let
+    self = super.pkgs;
+    myHaskellPackages = import ./haskell.nix self.pkgs; in rec {
+
+    otherHackagePackages =  libProf: self: super:
+      with pkgs.haskell.lib; let pkg = self.callPackage; in rec {
+      Agda                = dontHaddock super.Agda;
+      diagrams-contrib    = doJailbreak super.diagrams-contrib;
+      diagrams-graphviz   = doJailbreak super.diagrams-graphviz;
+      diagrams-svg        = doJailbreak super.diagrams-svg;
+      hasktags            = dontCheck super.hasktags;
+      hspec-hedgehog      = dontCheck super.hspec-hedgehog;
+      pipes-binary        = doJailbreak super.pipes-binary;
+      pipes-zlib          = dontCheck (doJailbreak super.pipes-zlib);
+      servant-auth-server = dontCheck (doJailbreak super.servant-auth-server);
+      text-show           = dontCheck (doJailbreak super.text-show);
+      time-recurrence     = doJailbreak super.time-recurrence;
+    };
+
+    haskell822Packages = self.haskell.packages.ghc822.override {
+      overrides = otherHackagePackages false;
+    };
+
+    haskell842Packages = self.haskell.packages.ghc842.override {
+      overrides = otherHackagePackages false;
+    };
 
     ghc82Env = self.pkgs.myEnvFun {
       name = "ghc82";
-      buildInputs = with self.haskell.packages.ghc822; [
-        self.haskell.compiler.ghc822
+      buildInputs = with haskell822Packages; [
+        (ghcWithHoogle (myHaskellPackages 8.2))
+        Agda
         alex happy cabal-install
         ghc-core
         ghcid
         hlint
-        (self.haskell.lib.dontCheck hasktags)
+        hasktags
       ];
     };
 
     ghc84Env = self.pkgs.myEnvFun {
       name = "ghc84";
-      buildInputs = with self.haskell.packages.ghc843; [
-        self.haskell.compiler.ghc843
+      buildInputs = with haskell842Packages; [
+        (ghcWithHoogle (myHaskellPackages 8.4))
         alex happy
         ghc-core
         ghcid
-        (self.haskell.lib.doJailbreak (self.haskell.lib.dontCheck hlint))
-        (self.haskell.lib.dontCheck hasktags)
+        hlint
+        hasktags
+      ];
+    };
+
+    jsEnv = with self.pkgs; self.pkgs.myEnvFun {
+      name = "js";
+      buildInputs = [
+        nodejs
+        yarn
       ];
     };
 
