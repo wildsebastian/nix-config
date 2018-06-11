@@ -7,17 +7,20 @@
 
     otherHackagePackages =  libProf: self: super:
       with pkgs.haskell.lib; let pkg = self.callPackage; in rec {
-      Agda                = dontHaddock super.Agda;
-      diagrams-contrib    = doJailbreak super.diagrams-contrib;
-      diagrams-graphviz   = doJailbreak super.diagrams-graphviz;
-      diagrams-svg        = doJailbreak super.diagrams-svg;
-      hasktags            = dontCheck super.hasktags;
-      hspec-hedgehog      = dontCheck super.hspec-hedgehog;
-      pipes-binary        = doJailbreak super.pipes-binary;
-      pipes-zlib          = dontCheck (doJailbreak super.pipes-zlib);
-      servant-auth-server = dontCheck (doJailbreak super.servant-auth-server);
-      text-show           = dontCheck (doJailbreak super.text-show);
-      time-recurrence     = doJailbreak super.time-recurrence;
+      Agda                      = dontHaddock super.Agda;
+      diagrams-contrib          = doJailbreak super.diagrams-contrib;
+      diagrams-graphviz         = doJailbreak super.diagrams-graphviz;
+      diagrams-svg              = doJailbreak super.diagrams-svg;
+      # esqueleto               = dontCheck (doJailbreak super.esqueleto);
+      hasktags                  = dontCheck super.hasktags;
+      # hasql-cursor-transaction  = doJailbreak super.hasql-cursor-transaction;
+      # hasql-migration           = dontCheck (doJailbreak super.hasql-migration);
+      hspec-hedgehog            = dontCheck super.hspec-hedgehog;
+      pipes-binary              = doJailbreak super.pipes-binary;
+      pipes-zlib                = dontCheck (doJailbreak super.pipes-zlib);
+      servant-auth-server       = dontCheck (doJailbreak super.servant-auth-server);
+      text-show                 = dontCheck (doJailbreak super.text-show);
+      time-recurrence           = doJailbreak super.time-recurrence;
     };
 
     haskell822Packages = self.haskell.packages.ghc822.override {
@@ -76,10 +79,12 @@
       ];
     };
 
+    myemacs = import ./emacs.nix { pkgs = self; };
+
     editors = with self.pkgs; buildEnv {
       name = "editors";
       paths = [
-        emacs25Macport
+        myemacs
         vim
       ];
     };
@@ -97,6 +102,7 @@
       paths = [
         curl
         gnupg
+        libiconv
         mosh
         openssl_1_1_0
         python36Packages.powerline

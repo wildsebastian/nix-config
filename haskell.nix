@@ -3,15 +3,43 @@ pkgs: version: hpkgs: with hpkgs;
 # These work with every version of GHC environments are created for
 [
   aeson
+  amqp
+  async
   base
   bytestring
+  conduit
+  conduit-extra
   containers
   criterion
+  cryptonite
+  cryptonite-conduit
+  # esqueleto
+  fast-logger
   ghc
+  hasql
+  # hasql-transaction
+  hasql-pool
+  hasql-th
+  # hasql-cursor-transaction
+  # hasql-cursor-query
+  # hasql-migration
   hedgehog
   hspec
   lens
   mtl
+  monad-logger
+  persistent
+  persistent-mysql
+  persistent-postgresql
+  persistent-template
+  pipes
+  pipes-concurrency
+  pipes-csv
+  pipes-group
+  pipes-parse
+  pipes-safe
+  postgresql-binary
+  postgresql-simple
   QuickCheck
   servant
   servant-auth
@@ -27,6 +55,8 @@ pkgs: version: hpkgs: with hpkgs;
   transformers
   unordered-containers
   vector
+  wai
+  warp
   xml
 ] ++
 
