@@ -10,11 +10,14 @@ in
   ]) ++ (with epkgs.melpaPackages; [
     ac-haskell-process
     auto-complete
+    base16-theme
+    color-theme-solarized
     dashboard
     evil
     flycheck
     haskell-mode
     multiple-cursors
+    neotree
     page-break-lines
     projectile
     rainbow-delimiters

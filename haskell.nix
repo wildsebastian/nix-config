@@ -25,6 +25,8 @@ pkgs: version: hpkgs: with hpkgs;
   # hasql-migration
   hedgehog
   hspec
+  hspec-wai
+  hspec-wai-json
   lens
   mtl
   monad-logger
@@ -56,6 +58,7 @@ pkgs: version: hpkgs: with hpkgs;
   unordered-containers
   vector
   wai
+  wai-logger
   warp
   xml
 ] ++
