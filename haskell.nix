@@ -17,7 +17,7 @@ pkgs: version: hpkgs: with hpkgs;
   fast-logger
   ghc
   hasql
-  # hasql-transaction
+  hasql-transaction
   hasql-pool
   hasql-th
   # hasql-cursor-transaction

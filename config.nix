@@ -27,7 +27,7 @@
       overrides = otherHackagePackages false;
     };
 
-    haskell842Packages = self.haskell.packages.ghc842.override {
+    haskell843Packages = self.haskell.packages.ghc843.override {
       overrides = otherHackagePackages false;
     };
 
@@ -46,7 +46,7 @@
 
     ghc84Env = self.pkgs.myEnvFun {
       name = "ghc84";
-      buildInputs = with haskell842Packages; [
+      buildInputs = with haskell843Packages; [
         (ghcWithHoogle (myHaskellPackages 8.4))
         alex happy
         ghc-core
@@ -61,6 +61,13 @@
       buildInputs = [
         nodejs
         yarn
+      ];
+    };
+
+    dbEnv = with self.pkgs; self.pkgs.myEnvFun {
+      name = "db";
+      buildInputs = [
+        postgresql100
       ];
     };
 
