@@ -10,6 +10,7 @@ pkgs: version: hpkgs: with hpkgs;
   conduit
   conduit-extra
   containers
+  contravariant
   criterion
   cryptonite
   cryptonite-conduit
@@ -45,6 +46,7 @@ pkgs: version: hpkgs: with hpkgs;
   QuickCheck
   servant
   servant-auth
+  servant-auth-server
   servant-client
   servant-server
   tasty
@@ -56,6 +58,7 @@ pkgs: version: hpkgs: with hpkgs;
   time
   transformers
   unordered-containers
+  uuid
   vector
   wai
   wai-logger

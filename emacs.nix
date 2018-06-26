@@ -18,6 +18,7 @@ in
     haskell-mode
     multiple-cursors
     neotree
+    nix-mode
     page-break-lines
     projectile
     rainbow-delimiters

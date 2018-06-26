@@ -56,6 +56,13 @@
       ];
     };
 
+    coq88Env = with self.pkgs; self.pkgs.myEnvFun {
+      name = "coq88";
+      buildInputs = [
+        coq_8_8
+      ];
+    };
+
     jsEnv = with self.pkgs; self.pkgs.myEnvFun {
       name = "js";
       buildInputs = [
@@ -101,6 +108,13 @@
       paths = [
         cabal-install
         cabal2nix
+      ];
+    };
+
+    chatTools = with self.pkgs; buildEnv {
+      name = "chatTools";
+      paths = [
+        weechat
       ];
     };
 
