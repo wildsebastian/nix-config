@@ -17,6 +17,7 @@
       # hasql-migration           = dontCheck (doJailbreak super.hasql-migration);
       hspec-hedgehog            = dontCheck super.hspec-hedgehog;
       pipes-binary              = doJailbreak super.pipes-binary;
+      pipes-group               = doJailbreak super.pipes-group;
       pipes-zlib                = dontCheck (doJailbreak super.pipes-zlib);
       servant-auth-server       = dontCheck (doJailbreak super.servant-auth-server);
       text-show                 = dontCheck (doJailbreak super.text-show);
@@ -121,6 +122,7 @@
     systemPackages = with self.pkgs; buildEnv {
       name = "systemPackages";
       paths = [
+        autossh
         curl
         gnupg
         libiconv
