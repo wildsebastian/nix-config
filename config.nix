@@ -19,6 +19,7 @@
       pipes-binary              = doJailbreak super.pipes-binary;
       pipes-group               = doJailbreak super.pipes-group;
       pipes-zlib                = dontCheck (doJailbreak super.pipes-zlib);
+      servant                   = doJailbreak super.servant;
       servant-auth-server       = dontCheck (doJailbreak super.servant-auth-server);
       text-show                 = dontCheck (doJailbreak super.text-show);
       time-recurrence           = doJailbreak super.time-recurrence;
