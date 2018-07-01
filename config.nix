@@ -43,6 +43,7 @@
         ghcid
         hlint
         hasktags
+        stylish-haskell
       ];
     };
 
@@ -55,6 +56,7 @@
         ghcid
         hlint
         hasktags
+        stylish-haskell
       ];
     };
 

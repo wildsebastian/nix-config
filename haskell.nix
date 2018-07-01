@@ -6,6 +6,8 @@ pkgs: version: hpkgs: with hpkgs;
   amqp
   async
   base
+  base-encoding
+  base64-bytestring
   bytestring
   conduit
   conduit-extra
@@ -28,6 +30,7 @@ pkgs: version: hpkgs: with hpkgs;
   hspec
   hspec-wai
   hspec-wai-json
+  json
   lens
   mtl
   monad-logger

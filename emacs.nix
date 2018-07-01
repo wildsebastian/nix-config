@@ -22,6 +22,7 @@ in
     page-break-lines
     projectile
     rainbow-delimiters
+    restclient
     use-package
     whitespace-cleanup-mode
   ]) ++ (with epkgs.elpaPackages; [
