@@ -30,6 +30,8 @@ pkgs: version: hpkgs: with hpkgs;
   hspec
   hspec-wai
   hspec-wai-json
+  http-client
+  http-client-tls
   json
   lens
   mtl
