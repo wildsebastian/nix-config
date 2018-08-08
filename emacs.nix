@@ -5,7 +5,6 @@ let
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 in
   emacsWithPackages (epkgs: (with epkgs.melpaStablePackages; [
-    magit
     zerodark-theme
   ]) ++ (with epkgs.melpaPackages; [
     ac-haskell-process
@@ -14,8 +13,10 @@ in
     color-theme-solarized
     dashboard
     evil
+    evil-magit
     flycheck
     haskell-mode
+    magit
     multiple-cursors
     neotree
     nix-mode

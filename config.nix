@@ -8,19 +8,22 @@
     otherHackagePackages =  libProf: self: super:
       with pkgs.haskell.lib; let pkg = self.callPackage; in rec {
       Agda                      = dontHaddock super.Agda;
+      semigroups                = dontCheck (doJailbreak super.semigroups);
+      ListLike                  = dontCheck (doJailbreak super.ListLike);
       diagrams-contrib          = doJailbreak super.diagrams-contrib;
       diagrams-graphviz         = doJailbreak super.diagrams-graphviz;
       diagrams-svg              = doJailbreak super.diagrams-svg;
-      # esqueleto               = dontCheck (doJailbreak super.esqueleto);
+      enclosed-exceptions       = dontCheck super.enclosed-exceptions;
       hasktags                  = dontCheck super.hasktags;
-      # hasql-cursor-transaction  = doJailbreak super.hasql-cursor-transaction;
-      # hasql-migration           = dontCheck (doJailbreak super.hasql-migration);
       hspec-hedgehog            = dontCheck super.hspec-hedgehog;
+      liquidhaskell             = doJailbreak super.liquidhaskell;
       pipes-binary              = doJailbreak super.pipes-binary;
       pipes-group               = doJailbreak super.pipes-group;
       pipes-zlib                = dontCheck (doJailbreak super.pipes-zlib);
+      process-extras            = dontCheck (doJailbreak super.process-extras);
       servant                   = doJailbreak super.servant;
       servant-auth-server       = dontCheck (doJailbreak super.servant-auth-server);
+      text-builder              = dontCheck (doJailbreak super.text-builder);
       text-show                 = dontCheck (doJailbreak super.text-show);
       time-recurrence           = doJailbreak super.time-recurrence;
     };
@@ -111,7 +114,7 @@
       name = "languageTools";
       paths = [
         cabal-install
-        cabal2nix
+        (self.pkgs.haskell.lib.dontCheck cabal2nix)
       ];
     };
 

@@ -16,16 +16,12 @@ pkgs: version: hpkgs: with hpkgs;
   criterion
   cryptonite
   cryptonite-conduit
-  # esqueleto
   fast-logger
   ghc
   hasql
   hasql-transaction
   hasql-pool
   hasql-th
-  # hasql-cursor-transaction
-  # hasql-cursor-query
-  # hasql-migration
   hedgehog
   hspec
   hspec-wai
@@ -80,7 +76,6 @@ pkgs: version: hpkgs: with hpkgs;
   diagrams-lib
   diagrams-svg
 ]) ++
-
 # These only work with GHC 8.2
 (pkgs.stdenv.lib.optionals (version > 8.1 && version < 8.3)
 [
