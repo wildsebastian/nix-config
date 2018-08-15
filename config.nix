@@ -70,6 +70,13 @@
       ];
     };
 
+    ocamlEnv = with self.pkgs; self.pkgs.myEnvFun {
+      name = "ocaml";
+      buildInputs = [
+        ocaml
+      ];
+    };
+
     jsEnv = with self.pkgs; self.pkgs.myEnvFun {
       name = "js";
       buildInputs = [
