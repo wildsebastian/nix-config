@@ -114,7 +114,7 @@
       name = "languageTools";
       paths = [
         cabal-install
-        (self.pkgs.haskell.lib.dontCheck cabal2nix)
+        (self.pkgs.haskell.lib.dontCheck (self.pkgs.haskell.lib.doJailbreak cabal2nix))
       ];
     };
 
