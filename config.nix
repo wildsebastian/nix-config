@@ -28,19 +28,18 @@
       time-recurrence           = doJailbreak super.time-recurrence;
     };
 
-    haskell822Packages = self.haskell.packages.ghc822.override {
-      overrides = otherHackagePackages false;
-    };
-
     haskell843Packages = self.haskell.packages.ghc843.override {
       overrides = otherHackagePackages false;
     };
 
-    ghc82Env = self.pkgs.myEnvFun {
-      name = "ghc82";
-      buildInputs = with haskell822Packages; [
-        (ghcWithHoogle (myHaskellPackages 8.2))
-        Agda
+    haskell843PackagesProf = self.haskell.packages.ghc843.override {
+      overrides = otherHackagePackages true;
+    };
+
+    ghc84EnvProf = self.pkgs.myEnvFun {
+      name = "ghc84-prof";
+      buildInputs = with haskell843PackagesProf; [
+        (ghcWithHoogle (myHaskellPackages 8.4))
         alex happy cabal-install
         ghc-core
         ghcid

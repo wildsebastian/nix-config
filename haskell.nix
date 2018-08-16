@@ -70,20 +70,4 @@ pkgs: version: hpkgs: with hpkgs;
   wai-logger
   warp
   xml
-] ++
-
-# These don't work with GHC 8.4 yet
-(pkgs.stdenv.lib.optionals (version < 8.3)
-[
-  diagrams
-  diagrams-core
-  diagrams-graphviz
-  diagrams-lib
-  diagrams-svg
-]) ++
-# These only work with GHC 8.2
-(pkgs.stdenv.lib.optionals (version > 8.1 && version < 8.3)
-[
-  liquidhaskell
-])
-
+]
