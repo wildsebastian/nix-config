@@ -3,6 +3,11 @@ pkgs: version: hpkgs: with hpkgs;
 # These work with every version of GHC environments are created for
 [
   aeson
+  amazonka
+  amazonka-core
+  amazonka-cost-explorer
+  amazonka-s3
+  amazonka-pricing
   amqp
   async
   base

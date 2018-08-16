@@ -112,6 +112,7 @@
     editors = with self.pkgs; buildEnv {
       name = "editors";
       paths = [
+        emacs-all-the-icons-fonts
         myemacs
         vim
       ];
