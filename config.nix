@@ -76,6 +76,20 @@
       ];
     };
 
+    elmEnv = with self.pkgs; self.pkgs.myEnvFun {
+      name = "elm";
+      buildInputs = with elmPackages; [
+        elm
+        elm-compiler
+        elm-format
+        elm-interface-to-json
+        elm-make
+        elm-package
+        elm-reactor
+        elm-repl
+      ];
+    };
+
     jsEnv = with self.pkgs; self.pkgs.myEnvFun {
       name = "js";
       buildInputs = [

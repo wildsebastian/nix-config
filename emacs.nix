@@ -12,6 +12,7 @@ in
     base16-theme
     color-theme-solarized
     dashboard
+    elm-mode
     evil
     evil-magit
     flycheck
