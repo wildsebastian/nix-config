@@ -23,6 +23,7 @@
       process-extras            = dontCheck (doJailbreak super.process-extras);
       servant                   = doJailbreak super.servant;
       servant-auth-server       = dontCheck (doJailbreak super.servant-auth-server);
+      servant-client            = dontCheck super.servant-client;
       text-builder              = dontCheck (doJailbreak super.text-builder);
       text-show                 = dontCheck (doJailbreak super.text-show);
       time-recurrence           = doJailbreak super.time-recurrence;
@@ -49,7 +50,7 @@
       ];
     };
 
-    ghc84Env = self.pkgs.myEnvFun {
+     ghc84Env = self.pkgs.myEnvFun {
       name = "ghc84";
       buildInputs = with haskell843Packages; [
         (ghcWithHoogle (myHaskellPackages 8.4))
@@ -59,6 +60,14 @@
         hlint
         hasktags
         stylish-haskell
+      ];
+    };
+
+    ghcjsEnv = self.pkgs.myEnvFun {
+      name = "ghcjs";
+      buildInputs = [
+        self.haskell.compiler.ghc843
+        self.haskell.compiler.ghcjs
       ];
     };
 
@@ -80,13 +89,7 @@
       name = "elm";
       buildInputs = with elmPackages; [
         elm
-        elm-compiler
         elm-format
-        elm-interface-to-json
-        elm-make
-        elm-package
-        elm-reactor
-        elm-repl
       ];
     };
 

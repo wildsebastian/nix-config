@@ -35,6 +35,7 @@ pkgs: version: hpkgs: with hpkgs;
   http-client-tls
   json
   lens
+  miso
   mtl
   monad-logger
   persistent
