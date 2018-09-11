@@ -155,6 +155,7 @@
         autossh
         curl
         gnupg
+        imgcat
         libiconv
         mosh
         openssl_1_1_0
