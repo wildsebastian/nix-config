@@ -17,11 +17,11 @@ update-all:
 	nix-channel --update
 	for i in $(PACK); do                 \
 		echo Updating $$i;               \
-		nix-env -j 4 -u --leq -Q -k $$i; \
+		nix-env -f '<nixpkgs>' -j 4 -u --leq -Q -k $$i; \
 	done
 	for i in $(ENVS); do                 \
 		echo Updating $$i;               \
-		nix-env -j 4 -u --leq -Q -k $$i; \
+		nix-env -f '<nixpkgs>' -j 4 -u --leq -Q -k $$i; \
 	done
 
 gc:

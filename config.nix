@@ -123,13 +123,11 @@
       ];
     };
 
-    myemacs = import ./emacs.nix { pkgs = self; };
-
     editors = with self.pkgs; buildEnv {
       name = "editors";
       paths = [
         emacs-all-the-icons-fonts
-        myemacs
+        emacs
         vim
       ];
     };
