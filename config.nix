@@ -156,7 +156,7 @@
         imgcat
         libiconv
         mosh
-        openssl_1_1_0
+        openssl_1_1
         python36Packages.powerline
         tmux
         wget
