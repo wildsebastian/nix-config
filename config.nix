@@ -63,6 +63,41 @@
       ];
     };
 
+    haskell861Packages = self.haskell.packages.ghc861.override {
+      overrides = otherHackagePackages false;
+    };
+
+    haskell861PackagesProf = self.haskell.packages.ghc861.override {
+      overrides = otherHackagePackages true;
+    };
+
+    ghc86EnvProf = self.pkgs.myEnvFun {
+      name = "ghc86-prof";
+      buildInputs = with haskell861PackagesProf; [
+        (ghcWithHoogle (myHaskellPackages 8.6))
+        alex happy cabal-install
+        ghc-core
+        ghcid
+        hlint
+        hasktags
+        stylish-haskell
+      ];
+    };
+
+     ghc86Env = self.pkgs.myEnvFun {
+      name = "ghc86";
+      buildInputs = with haskell861Packages; [
+        (ghcWithHoogle (myHaskellPackages 8.6))
+        alex happy
+        ghc-core
+        ghcid
+        hlint
+        hasktags
+        stylish-haskell
+      ];
+    };
+
+
     ghcjsEnv = self.pkgs.myEnvFun {
       name = "ghcjs";
       buildInputs = [
