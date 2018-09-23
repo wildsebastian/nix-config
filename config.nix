@@ -103,6 +103,8 @@
       buildInputs = [
         self.haskell.compiler.ghc843
         self.haskell.compiler.ghcjs
+
+        self.haskell.packages.ghcjs.miso
       ];
     };
 
