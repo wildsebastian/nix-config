@@ -97,17 +97,6 @@
       ];
     };
 
-
-    ghcjsEnv = self.pkgs.myEnvFun {
-      name = "ghcjs";
-      buildInputs = [
-        self.haskell.compiler.ghc843
-        self.haskell.compiler.ghcjs
-
-        self.haskell.packages.ghcjs.miso
-      ];
-    };
-
     coq88Env = with self.pkgs; self.pkgs.myEnvFun {
       name = "coq88";
       buildInputs = [
@@ -134,6 +123,7 @@
       name = "js";
       buildInputs = [
         nodejs
+        watchman
         yarn
       ];
     };

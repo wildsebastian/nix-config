@@ -10,8 +10,19 @@ ENVS = env-js \
        env-ghc84 \
        env-ocaml \
        env-ghc84-prof \
-       env-elm \
-       env-ghcjs
+       env-elm
+
+install:
+	nix-channel --update
+	for i in $(PACK); do                 \
+		echo Updating $$i;               \
+		nix-env -f '<nixpkgs>' -j 4 -i $$i; \
+	done
+	for i in $(ENVS); do                 \
+		echo Updating $$i;               \
+		nix-env -f '<nixpkgs>' -j 4 -i $$i; \
+	done
+
 
 update-all:
 	nix-channel --update
