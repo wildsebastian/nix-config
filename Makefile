@@ -35,5 +35,27 @@ update-all:
 		nix-env -f '<nixpkgs>' -j 4 -u --leq -Q -k $$i; \
 	done
 
+
+update-pack:
+	nix-channel --update
+	for i in $(PACK); do                 \
+		echo Updating $$i;               \
+		nix-env -f '<nixpkgs>' -j 4 -u --leq -Q -k $$i; \
+	done
+
+
+update-env:
+	nix-channel --update
+	for i in $(ENVS); do                 \
+		echo Updating $$i;               \
+		nix-env -f '<nixpkgs>' -j 4 -u --leq -Q -k $$i; \
+	done
+
+
+gc-all:
+	nix-env --delete-generations old
+	nix-collect-garbage
+
 gc:
 	nix-collect-garbage --delete-older-than 7d
+
