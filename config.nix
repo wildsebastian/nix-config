@@ -10,6 +10,8 @@
       Agda                      = dontHaddock super.Agda;
       semigroups                = dontCheck (doJailbreak super.semigroups);
       ListLike                  = dontCheck (doJailbreak super.ListLike);
+      cabal-helper              = doJailbreak super.cabal-helper;
+      ghc-mod                   = dontCheck (doJailbreak super.ghc-mod);
       diagrams-contrib          = doJailbreak super.diagrams-contrib;
       diagrams-graphviz         = doJailbreak super.diagrams-graphviz;
       diagrams-svg              = doJailbreak super.diagrams-svg;
@@ -42,6 +44,7 @@
       buildInputs = with haskell843PackagesProf; [
         (ghcWithHoogle (myHaskellPackages 8.4))
         alex happy cabal-install
+        cabal-helper
         ghc-core
         ghcid
         hlint
@@ -54,7 +57,8 @@
       name = "ghc84";
       buildInputs = with haskell843Packages; [
         (ghcWithHoogle (myHaskellPackages 8.4))
-        alex happy
+        alex happy cabal-install
+        cabal-helper
         ghc-core
         ghcid
         hlint
@@ -179,6 +183,7 @@
       paths = [
         autossh
         curl
+        fswatch
         gnupg
         imgcat
         libiconv

@@ -3,6 +3,7 @@ pkgs: version: hpkgs: with hpkgs;
 # These work with every version of GHC environments are created for
 [
   aeson
+  aeson-casing
   amazonka
   amazonka-core
   amazonka-cost-explorer
@@ -23,10 +24,6 @@ pkgs: version: hpkgs: with hpkgs;
   cryptonite-conduit
   fast-logger
   ghc
-  hasql
-  hasql-transaction
-  hasql-pool
-  hasql-th
   hedgehog
   hspec
   hspec-wai
@@ -40,7 +37,6 @@ pkgs: version: hpkgs: with hpkgs;
   monad-logger
   persistent
   persistent-mysql
-  persistent-postgresql
   persistent-template
   pipes
   pipes-concurrency
@@ -48,8 +44,6 @@ pkgs: version: hpkgs: with hpkgs;
   pipes-group
   pipes-parse
   pipes-safe
-  postgresql-binary
-  postgresql-simple
   QuickCheck
   servant
   servant-auth
