@@ -31,17 +31,17 @@
       time-recurrence           = doJailbreak super.time-recurrence;
     };
 
-    haskell843Packages = self.haskell.packages.ghc843.override {
+    haskell844Packages = self.haskell.packages.ghc844.override {
       overrides = otherHackagePackages false;
     };
 
-    haskell843PackagesProf = self.haskell.packages.ghc843.override {
+    haskell844PackagesProf = self.haskell.packages.ghc844.override {
       overrides = otherHackagePackages true;
     };
 
     ghc84EnvProf = self.pkgs.myEnvFun {
       name = "ghc84-prof";
-      buildInputs = with haskell843PackagesProf; [
+      buildInputs = with haskell844PackagesProf; [
         (ghcWithHoogle (myHaskellPackages 8.4))
         alex happy cabal-install
         cabal-helper
@@ -55,7 +55,7 @@
 
      ghc84Env = self.pkgs.myEnvFun {
       name = "ghc84";
-      buildInputs = with haskell843Packages; [
+      buildInputs = with haskell844Packages; [
         (ghcWithHoogle (myHaskellPackages 8.4))
         alex happy cabal-install
         cabal-helper
@@ -135,7 +135,7 @@
     dbEnv = with self.pkgs; self.pkgs.myEnvFun {
       name = "db";
       buildInputs = [
-        postgresql100
+        postgresql_11
       ];
     };
 
