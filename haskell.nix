@@ -19,7 +19,6 @@ pkgs: version: hpkgs: with hpkgs;
   conduit-extra
   containers
   contravariant
-  criterion
   cryptonite
   cryptonite-conduit
   fast-logger
@@ -43,7 +42,6 @@ pkgs: version: hpkgs: with hpkgs;
   pipes-csv
   pipes-group
   pipes-parse
-  pipes-safe
   QuickCheck
   servant
   servant-auth
@@ -65,4 +63,9 @@ pkgs: version: hpkgs: with hpkgs;
   wai-logger
   warp
   xml
-]
+] ++
+# These don't work with GHC 8.6 yet
+(pkgs.stdenv.lib.optionals (version < 8.6)
+[
+  criterion
+])

@@ -8,27 +8,33 @@
     otherHackagePackages =  libProf: self: super:
       with pkgs.haskell.lib; let pkg = self.callPackage; in rec {
       Agda                      = dontHaddock super.Agda;
-      semigroups                = dontCheck (doJailbreak super.semigroups);
       ListLike                  = dontCheck (doJailbreak super.ListLike);
       cabal-helper              = doJailbreak super.cabal-helper;
-      ghc-mod                   = dontCheck (doJailbreak super.ghc-mod);
       diagrams-contrib          = doJailbreak super.diagrams-contrib;
       diagrams-graphviz         = doJailbreak super.diagrams-graphviz;
       diagrams-svg              = doJailbreak super.diagrams-svg;
       enclosed-exceptions       = dontCheck super.enclosed-exceptions;
+      ghc-mod                   = dontCheck (doJailbreak super.ghc-mod);
       hasktags                  = dontCheck super.hasktags;
       hspec-hedgehog            = dontCheck super.hspec-hedgehog;
+      jose                      = dontCheck (doJailbreak super.jose);
+      lifted-base               = dontCheck (doJailbreak super.lifted-base);
       liquidhaskell             = doJailbreak super.liquidhaskell;
       pipes-binary              = doJailbreak super.pipes-binary;
       pipes-group               = doJailbreak super.pipes-group;
       pipes-zlib                = dontCheck (doJailbreak super.pipes-zlib);
       process-extras            = dontCheck (doJailbreak super.process-extras);
+      semigroups                = dontCheck (doJailbreak super.semigroups);
       servant                   = doJailbreak super.servant;
       servant-auth-server       = dontCheck (doJailbreak super.servant-auth-server);
       servant-client            = dontCheck super.servant-client;
+      servant-client-core       = dontCheck (doJailbreak super.servant-client-core);
+      servant-server            = dontCheck (doJailbreak super.servant-server);
+      tasty-hspec               = dontCheck (doJailbreak super.tasty-hspec);
       text-builder              = dontCheck (doJailbreak super.text-builder);
       text-show                 = dontCheck (doJailbreak super.text-show);
       time-recurrence           = doJailbreak super.time-recurrence;
+      wl-pprint-annotated       = dontCheck (doJailbreak super.wl-pprint-annotated);
     };
 
     haskell844Packages = self.haskell.packages.ghc844.override {
@@ -67,37 +73,37 @@
       ];
     };
 
-    haskell861Packages = self.haskell.packages.ghc861.override {
+    haskell862Packages = self.haskell.packages.ghc862.override {
       overrides = otherHackagePackages false;
     };
 
-    haskell861PackagesProf = self.haskell.packages.ghc861.override {
+    haskell862PackagesProf = self.haskell.packages.ghc862.override {
       overrides = otherHackagePackages true;
     };
 
     ghc86EnvProf = self.pkgs.myEnvFun {
       name = "ghc86-prof";
-      buildInputs = with haskell861PackagesProf; [
+      buildInputs = with haskell862PackagesProf; [
         (ghcWithHoogle (myHaskellPackages 8.6))
         alex happy cabal-install
         ghc-core
         ghcid
         hlint
         hasktags
-        stylish-haskell
+        (self.pkgs.haskell.lib.doJailbreak stylish-haskell)
       ];
     };
 
      ghc86Env = self.pkgs.myEnvFun {
       name = "ghc86";
-      buildInputs = with haskell861Packages; [
+      buildInputs = with haskell862Packages; [
         (ghcWithHoogle (myHaskellPackages 8.6))
         alex happy
         ghc-core
         ghcid
         hlint
         hasktags
-        stylish-haskell
+        (self.pkgs.haskell.lib.doJailbreak stylish-haskell)
       ];
     };
 
