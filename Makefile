@@ -7,47 +7,57 @@ PACK = editors \
 ENVS = env-js \
        env-db \
        env-coq88 \
-       env-ghc84 \
        env-ocaml \
-       env-ghc84-prof \
        env-elm
+
+HASKELL = env-ghc84 \
+		  env-ghc84-prof \
+		  env-ghc86 \
+		  env-ghc86-prof \
 
 install:
 	nix-channel --update
-	for i in $(PACK); do                 \
-		echo Updating $$i;               \
+	for i in $(PACK); do                 	\
+		echo Updating $$i;               	\
 		nix-env -f '<nixpkgs>' -j 4 -i $$i; \
 	done
-	for i in $(ENVS); do                 \
-		echo Updating $$i;               \
+	for i in $(ENVS); do                 	\
+		echo Updating $$i;               	\
 		nix-env -f '<nixpkgs>' -j 4 -i $$i; \
 	done
 
 
 update-all:
 	nix-channel --update
-	for i in $(PACK); do                 \
-		echo Updating $$i;               \
+	for i in $(PACK); do                 				\
+		echo Updating $$i;               				\
 		nix-env -f '<nixpkgs>' -j 4 -u --leq -Q -k $$i; \
 	done
-	for i in $(ENVS); do                 \
-		echo Updating $$i;               \
+	for i in $(ENVS); do                 				\
+		echo Updating $$i;               				\
 		nix-env -f '<nixpkgs>' -j 4 -u --leq -Q -k $$i; \
 	done
 
 
 update-pack:
 	nix-channel --update
-	for i in $(PACK); do                 \
-		echo Updating $$i;               \
+	for i in $(PACK); do                 				\
+		echo Updating $$i;               				\
 		nix-env -f '<nixpkgs>' -j 4 -u --leq -Q -k $$i; \
 	done
 
 
 update-env:
 	nix-channel --update
-	for i in $(ENVS); do                 \
-		echo Updating $$i;               \
+	for i in $(ENVS); do                 				\
+		echo Updating $$i;               				\
+		nix-env -f '<nixpkgs>' -j 4 -u --leq -Q -k $$i; \
+	done
+
+
+update-haskell:
+	for i in $(HASKELL); do								\
+		echo Updating $$i; 								\
 		nix-env -f '<nixpkgs>' -j 4 -u --leq -Q -k $$i; \
 	done
 
