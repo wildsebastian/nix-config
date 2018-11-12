@@ -12,7 +12,7 @@
   # environment.darwinConfig = "$HOME/.config/nixpkgs/darwin/configuration.nix";
 
   # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
+  services.nix-daemon.enable = false;
   nix.package = pkgs.nix;
 
   # Create /etc/bashrc that loads the nix-darwin environment.
@@ -28,4 +28,12 @@
   # $ sysctl -n hw.ncpu
   nix.maxJobs = 2;
   nix.buildCores = 2;
+
+  nix.nixPath = [
+    "darwin-config=$HOME/.nixpkgs/darwin-configuration.nix"
+    "nixpkgs=$HOME/.nix-defexpr/nixpkgs"
+    "darwin=$HOME/.nix-defexpr/darwin"
+  ];
+
+  nixpkgs.config.allowUnfree = true;
 }
