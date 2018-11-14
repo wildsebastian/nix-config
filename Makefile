@@ -16,7 +16,6 @@ HASKELL = env-ghc84 \
 		  env-ghc86-prof \
 
 install:
-	nix-channel --update
 	for i in $(PACK); do                 	\
 		echo Updating $$i;               	\
 		nix-env -f '<nixpkgs>' -j 4 -i $$i; \
@@ -28,7 +27,6 @@ install:
 
 
 update-all:
-	nix-channel --update
 	for i in $(PACK); do                 				\
 		echo Updating $$i;               				\
 		nix-env -f '<nixpkgs>' -j 4 -u --leq -Q -k $$i; \
@@ -40,7 +38,6 @@ update-all:
 
 
 update-pack:
-	nix-channel --update
 	for i in $(PACK); do                 				\
 		echo Updating $$i;               				\
 		nix-env -f '<nixpkgs>' -j 4 -u --leq -Q -k $$i; \
@@ -48,7 +45,6 @@ update-pack:
 
 
 update-env:
-	nix-channel --update
 	for i in $(ENVS); do                 				\
 		echo Updating $$i;               				\
 		nix-env -f '<nixpkgs>' -j 4 -u --leq -Q -k $$i; \
