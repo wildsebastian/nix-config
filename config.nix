@@ -69,6 +69,7 @@
         ghcid
         hlint
         hasktags
+        stack
         stylish-haskell
       ];
     };
@@ -104,6 +105,7 @@
         hlint
         hasktags
         (self.pkgs.haskell.lib.doJailbreak stylish-haskell)
+        stack
       ];
     };
 
