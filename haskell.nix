@@ -20,6 +20,7 @@ pkgs: version: hpkgs: with hpkgs;
   containers
   contravariant
   criterion_1_5_3_0
+  cron
   cryptonite
   cryptonite-conduit
   digest
