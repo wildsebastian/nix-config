@@ -59,7 +59,7 @@
       ];
     };
 
-     ghc84Env = self.pkgs.myEnvFun {
+     ghc82Env = self.pkgs.myEnvFun {
       name = "ghc82";
       buildInputs = with haskell822Packages; [
         (ghcWithHoogle (myHaskellPackages 8.2))
