@@ -30,12 +30,9 @@ pkgs: version: hpkgs: with hpkgs;
   generics-sop_0_4_0_1
   ghc
   hedgehog
-  hspec_2_6_0
-  hspec-core_2_6_0
   hspec-discover_2_6_0
   hspec-wai
   hspec-wai-json
-  http-api-data_0_4
   http-client
   http-client-tls
   json
