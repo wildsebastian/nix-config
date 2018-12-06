@@ -13,6 +13,7 @@ pkgs: version: hpkgs: with hpkgs;
   amqp
   async
   base
+  base-orphans_0_8
   base-encoding
   base64-bytestring
   bytestring

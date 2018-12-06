@@ -17,6 +17,9 @@
       ghc-mod                   = dontCheck (doJailbreak super.ghc-mod);
       hasktags                  = dontCheck super.hasktags;
       hspec-hedgehog            = dontCheck super.hspec-hedgehog;
+      hspec_2_6_0               = dontCheck (doJailbreak super.hspec_2_6_0);
+      hspec-core_2_6_0          = dontCheck (doJailbreak super.hspec-core_2_6_0);
+      http-api-data_0_4         = dontCheck (doJailbreak super.http-api-data_0_4);
       jose                      = dontCheck (doJailbreak super.jose);
       lifted-base               = dontCheck (doJailbreak super.lifted-base);
       liquidhaskell             = doJailbreak super.liquidhaskell;
@@ -25,6 +28,7 @@
       pipes-zlib                = dontCheck (doJailbreak super.pipes-zlib);
       process-extras            = dontCheck (doJailbreak super.process-extras);
       semigroups                = dontCheck (doJailbreak super.semigroups);
+      semigroupoids_5_3_1       = dontCheck (doJailbreak super.semigroupoids_5_3_1);
       tasty-hspec               = dontCheck (doJailbreak super.tasty-hspec);
       text-builder              = dontCheck (doJailbreak super.text-builder);
       text-show                 = dontCheck (doJailbreak super.text-show);
