@@ -2,7 +2,8 @@ pkgs: version: hpkgs: with hpkgs;
 
 # These work with every version of GHC environments are created for
 [
-  aeson
+  QuickCheck_2_12_6_1
+  aeson_1_4_2_0
   aeson-casing
   amazonka
   amazonka-core
@@ -25,11 +26,13 @@ pkgs: version: hpkgs: with hpkgs;
   cryptonite-conduit
   digest
   fast-logger
+  generics-sop_0_4_0_1
   ghc
   hedgehog
-  hspec
+  hspec_2_6_0
   hspec-wai
   hspec-wai-json
+  http-api-data_0_4
   http-client
   http-client-tls
   json
@@ -38,6 +41,7 @@ pkgs: version: hpkgs: with hpkgs;
   miso
   mtl
   monad-logger
+  network_2_8_0_0
   persistent
   persistent-mysql
   persistent-template
@@ -46,10 +50,12 @@ pkgs: version: hpkgs: with hpkgs;
   pipes-csv
   pipes-group
   pipes-parse
-  QuickCheck
+  semigroupoids_5_3_1
   servant_0_15
   servant-client_0_15
+  servant-client-core_0_15
   servant-server_0_15
+  tagged_0_8_6
   tasty
   tasty-hunit
   tasty-quickcheck
