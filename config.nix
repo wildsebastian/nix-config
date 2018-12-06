@@ -29,6 +29,10 @@
       process-extras            = dontCheck (doJailbreak super.process-extras);
       semigroups                = dontCheck (doJailbreak super.semigroups);
       semigroupoids_5_3_1       = dontCheck (doJailbreak super.semigroupoids_5_3_1);
+      servant_0_15              = dontCheck (doJailbreak super.servant_0_15);
+      servant-client_0_15       = dontCheck (doJailbreak super.servant-client_0_15);
+      servant-client-core_0_15  = dontCheck (doJailbreak super.servant-client-core_0_15);
+      servant-server_0_15       = dontCheck (doJailbreak super.servant-server_0_15);
       tasty-hspec               = dontCheck (doJailbreak super.tasty-hspec);
       text-builder              = dontCheck (doJailbreak super.text-builder);
       text-show                 = dontCheck (doJailbreak super.text-show);

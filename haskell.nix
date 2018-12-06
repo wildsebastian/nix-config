@@ -50,11 +50,6 @@ pkgs: version: hpkgs: with hpkgs;
   pipes-csv
   pipes-group
   pipes-parse
-  semigroupoids_5_3_1
-  servant_0_15
-  servant-client_0_15
-  servant-client-core_0_15
-  servant-server_0_15
   tagged_0_8_6
   tasty
   tasty-hunit
