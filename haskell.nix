@@ -30,6 +30,8 @@ pkgs: version: hpkgs: with hpkgs;
   ghc
   hedgehog
   hspec_2_6_0
+  hspec-core_2_6_0
+  hspec-discover_2_6_0
   hspec-wai
   hspec-wai-json
   http-api-data_0_4
