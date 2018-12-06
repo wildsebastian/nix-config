@@ -47,11 +47,9 @@ pkgs: version: hpkgs: with hpkgs;
   pipes-group
   pipes-parse
   QuickCheck
-  servant
-  servant-auth
-  servant-auth-server
-  servant-client
-  servant-server
+  servant_0_15
+  servant-client_0_15
+  servant-server_0_15
   tasty
   tasty-hunit
   tasty-quickcheck

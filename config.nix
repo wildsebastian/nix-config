@@ -25,11 +25,6 @@
       pipes-zlib                = dontCheck (doJailbreak super.pipes-zlib);
       process-extras            = dontCheck (doJailbreak super.process-extras);
       semigroups                = dontCheck (doJailbreak super.semigroups);
-      servant                   = doJailbreak super.servant;
-      servant-auth-server       = dontCheck (doJailbreak super.servant-auth-server);
-      servant-client            = dontCheck super.servant-client;
-      servant-client-core       = dontCheck (doJailbreak super.servant-client-core);
-      servant-server            = dontCheck (doJailbreak super.servant-server);
       tasty-hspec               = dontCheck (doJailbreak super.tasty-hspec);
       text-builder              = dontCheck (doJailbreak super.text-builder);
       text-show                 = dontCheck (doJailbreak super.text-show);
@@ -50,7 +45,6 @@
       buildInputs = with haskell822PackagesProf; [
         (ghcWithHoogle (myHaskellPackages 8.2))
         alex happy cabal-install
-        cabal-helper
         ghc-core
         ghcid
         hlint
@@ -64,12 +58,10 @@
       buildInputs = with haskell822Packages; [
         (ghcWithHoogle (myHaskellPackages 8.2))
         alex happy cabal-install
-        cabal-helper
         ghc-core
         ghcid
         hlint
         hasktags
-        stack
         stylish-haskell
       ];
     };

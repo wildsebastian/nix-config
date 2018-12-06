@@ -17,7 +17,7 @@ HASKELL = env-ghc82 \
 		  env-ghc86 \
 		  env-ghc86-prof \
 
-install:
+install-server:
 	for i in $(PACK); do                 	\
 		echo Updating $$i;               	\
 		nix-env -f '<nixpkgs>' -j 2 -i $$i; \
@@ -26,9 +26,13 @@ install:
 		echo Updating $$i;               	\
 		nix-env -f '<nixpkgs>' -j 2 -i $$i; \
 	done
+	for i in $(HASKELL); do								\
+		echo Updating $$i; 								\
+		nix-env -f '<nixpkgs>' -j 2 -i $$i; \
+	done
 
 
-update-all:
+update-all-server:
 	for i in $(PACK); do                 				\
 		echo Updating $$i;               				\
 		nix-env -f '<nixpkgs>' -j 2 -u --leq -Q -k $$i; \
@@ -36,27 +40,60 @@ update-all:
 	for i in $(ENVS); do                 				\
 		echo Updating $$i;               				\
 		nix-env -f '<nixpkgs>' -j 2 -u --leq -Q -k $$i; \
+	done
+	for i in $(HASKELL); do								\
+		echo Updating $$i; 								\
+		nix-env -f '<nixpkgs>' -j 2 -u --leq -Q -k $$i; \
+	done
+
+install:
+	for i in $(PACK); do                 	\
+		echo Updating $$i;               	\
+		nix-env -f '<nixpkgs>' -j 2 -i $$i --substituters ssh-ng://nixpkgs-imac; \
+	done
+	for i in $(ENVS); do                 	\
+		echo Updating $$i;               	\
+		nix-env -f '<nixpkgs>' -j 2 -i $$i --substituters ssh-ng://nixpkgs-imac; \
+	done
+	for i in $(HASKELL); do								\
+		echo Updating $$i; 								\
+		nix-env -f '<nixpkgs>' -j 2 -i $$i --substituters ssh-ng://nixpkgs-imac; \
+	done
+
+
+update-all:
+	for i in $(PACK); do                 				\
+		echo Updating $$i;               				\
+		nix-env -f '<nixpkgs>' -j 2 -u --leq -Q -k $$i --substituters ssh-ng://nixpkgs-imac; \
+	done
+	for i in $(ENVS); do                 				\
+		echo Updating $$i;               				\
+		nix-env -f '<nixpkgs>' -j 2 -u --leq -Q -k $$i --substituters ssh-ng://nixpkgs-imac; \
+	done
+	for i in $(HASKELL); do								\
+		echo Updating $$i; 								\
+		nix-env -f '<nixpkgs>' -j 2 -u --leq -Q -k $$i --substituters ssh-ng://nixpkgs-imac; \
 	done
 
 
 update-pack:
 	for i in $(PACK); do                 				\
 		echo Updating $$i;               				\
-		nix-env -f '<nixpkgs>' -j 2 -u --leq -Q -k $$i; \
+		nix-env -f '<nixpkgs>' -j 2 -u --leq -Q -k $$i --substituters ssh-ng://nixpkgs-imac; \
 	done
 
 
 update-env:
 	for i in $(ENVS); do                 				\
 		echo Updating $$i;               				\
-		nix-env -f '<nixpkgs>' -j 2 -u --leq -Q -k $$i; \
+		nix-env -f '<nixpkgs>' -j 2 -u --leq -Q -k $$i --substituters ssh-ng://nixpkgs-imac; \
 	done
 
 
 update-haskell:
 	for i in $(HASKELL); do								\
 		echo Updating $$i; 								\
-		nix-env -f '<nixpkgs>' -j 2 -u --leq -Q -k $$i; \
+		nix-env -f '<nixpkgs>' -j 2 -u --leq -Q -k $$i --substituters ssh-ng://nixpkgs-imac; \
 	done
 
 
