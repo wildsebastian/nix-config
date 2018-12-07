@@ -55,6 +55,7 @@ pkgs: version: hpkgs: with hpkgs;
   servant-client
   servant-client-core
   servant-server
+  shake
   tagged
   tasty
   tasty-hunit
@@ -64,6 +65,7 @@ pkgs: version: hpkgs: with hpkgs;
   text
   time
   transformers
+  turtle
   unordered-containers
   uuid
   vector
