@@ -58,8 +58,13 @@ pkgs: version: hpkgs: with hpkgs;
   shake
   tagged
   tasty
+  tasty-discover
+  tasty-golden
+  tasty-hedgehog
   tasty-hunit
+  tasty-hspec
   tasty-quickcheck
+  tasty-smallcheck
   tasty-th
   template-haskell
   text
