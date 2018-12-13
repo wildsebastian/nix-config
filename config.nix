@@ -111,17 +111,17 @@
       ];
     };
 
-    haskell862Packages = self.haskell.packages.ghc862.override {
+    haskell863Packages = self.haskell.packages.ghc863.override {
       overrides = otherHackagePackages false;
     };
 
-    haskell862PackagesProf = self.haskell.packages.ghc862.override {
+    haskell863PackagesProf = self.haskell.packages.ghc863.override {
       overrides = otherHackagePackages true;
     };
 
     ghc86EnvProf = self.pkgs.myEnvFun {
       name = "ghc86-prof";
-      buildInputs = with haskell862PackagesProf; [
+      buildInputs = with haskell863PackagesProf; [
         (ghcWithHoogle (myHaskellPackages 8.6))
         alex happy cabal-install
         ghc-core
@@ -134,7 +134,7 @@
 
      ghc86Env = self.pkgs.myEnvFun {
       name = "ghc86";
-      buildInputs = with haskell862Packages; [
+      buildInputs = with haskell863Packages; [
         (ghcWithHoogle (myHaskellPackages 8.6))
         alex happy
         ghc-core
