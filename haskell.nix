@@ -54,6 +54,7 @@ pkgs: version: hpkgs: with hpkgs;
   servant
   servant-client
   servant-client-core
+  servant-github-webhook
   servant-server
   shake
   tagged
