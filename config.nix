@@ -32,7 +32,6 @@
       servant                   = dontCheck (doJailbreak super.servant);
       servant-client            = dontCheck (doJailbreak super.servant-client);
       servant-client-core       = dontCheck (doJailbreak super.servant-client-core);
-      servant-github-webhook    = dontCheck (doJailbreak super.servant-github-webhook);
       servant-server            = dontCheck (doJailbreak super.servant-server);
       tasty-hspec               = dontCheck (doJailbreak super.tasty-hspec);
       text-builder              = dontCheck (doJailbreak super.text-builder);
