@@ -12,4 +12,5 @@ pkgs: hpkgs: with hpkgs;
   lens
   miso
   servant
+  psqueues
 ]

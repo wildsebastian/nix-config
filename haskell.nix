@@ -13,6 +13,7 @@ pkgs: version: hpkgs: with hpkgs;
   amqp
   async
   base
+  base-compat-batteries
   base-orphans
   base-encoding
   base64-bytestring
@@ -50,6 +51,8 @@ pkgs: version: hpkgs: with hpkgs;
   pipes-csv
   pipes-group
   pipes-parse
+  psqueues
+  process-extras
   semigroupoids
   servant
   servant-client

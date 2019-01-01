@@ -10,7 +10,10 @@
       with pkgs.haskell.lib; let pkg = self.callPackage; in rec {
       Agda                      = dontHaddock super.Agda;
       ListLike                  = dontCheck (doJailbreak super.ListLike);
+      aeson                     = dontCheck (doJailbreak super.aeson);
+      base-compat-batteries     = dontCheck (doJailbreak super.base-compat-batteries);
       cabal-helper              = doJailbreak super.cabal-helper;
+      cron                      = dontCheck (doJailbreak super.cron);
       diagrams-contrib          = doJailbreak super.diagrams-contrib;
       diagrams-graphviz         = doJailbreak super.diagrams-graphviz;
       diagrams-svg              = doJailbreak super.diagrams-svg;
@@ -27,6 +30,7 @@
       pipes-binary              = doJailbreak super.pipes-binary;
       pipes-group               = doJailbreak super.pipes-group;
       pipes-zlib                = dontCheck (doJailbreak super.pipes-zlib);
+      psqueues                  = dontCheck (doJailbreak super.psqueues);
       process-extras            = dontCheck (doJailbreak super.process-extras);
       semigroups                = dontCheck (doJailbreak super.semigroups);
       semigroupoids             = dontCheck (doJailbreak super.semigroupoids);
@@ -50,6 +54,7 @@
       lens             = dontCheck super.lens;
       miso             = dontCheck super.miso;
       servant          = dontCheck (doJailbreak super.servant);
+      psqueues         = dontCheck (doJailbreak super.psqueues);
     };
 
     ghcjs844Packages = self.haskell.packages.ghcjs.override {
