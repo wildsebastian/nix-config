@@ -54,7 +54,7 @@
       lens             = dontCheck super.lens;
       miso             = dontCheck super.miso;
       servant          = dontCheck (doJailbreak super.servant);
-      psqueues         = dontCheck (doJailbreak super.psqueues);
+      psqueues         = dontCheck super.psqueues;
     };
 
     ghcjs844Packages = self.haskell.packages.ghcjs.override {
