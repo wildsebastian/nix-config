@@ -4,6 +4,7 @@
   packageOverrides = super: let
     self = super.pkgs;
     myHaskellPackages = import ./haskell.nix self.pkgs; in rec {
+    myGhcJsPackages = import ./ghcjs.nix self.pkgs;
 
     otherHackagePackages =  libProf: self: super:
       with pkgs.haskell.lib; let pkg = self.callPackage; in rec {
@@ -38,6 +39,28 @@
       text-show                 = dontCheck (doJailbreak super.text-show);
       time-recurrence           = doJailbreak super.time-recurrence;
       wl-pprint-annotated       = dontCheck (doJailbreak super.wl-pprint-annotated);
+    };
+
+    otherHackagePackagesJS = libProf: self: super:
+      with pkgs.haskell.lib; let pkg = self.callPackage; in rec {
+      tasty-quickcheck = dontCheck super.tasty-quickcheck;
+      http-types       = dontCheck super.http-types;
+      comonad          = dontCheck super.comonad;
+      semigroupoids    = dontCheck super.semigroupoids;
+      lens             = dontCheck super.lens;
+      miso             = dontCheck super.miso;
+      servant          = dontCheck (doJailbreak super.servant);
+    };
+
+    ghcjs844Packages = self.haskell.packages.ghcjs.override {
+      overrides = otherHackagePackagesJS false;
+    };
+
+    ghcjsEnv = self.pkgs.myEnvFun {
+      name = "ghcjs";
+      buildInputs = with ghcjs844Packages; [
+        (ghcWithHoogle myGhcJsPackages)
+      ];
     };
 
     haskell822Packages = self.haskell.packages.ghc822.override {
