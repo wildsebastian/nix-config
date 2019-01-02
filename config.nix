@@ -176,10 +176,11 @@
       ];
     };
 
+    coq_without_ide = self.pkgs.coq_8_8.override { buildIde = false; };
     coq88Env = with self.pkgs; self.pkgs.myEnvFun {
       name = "coq88";
       buildInputs = [
-        coq_8_8
+        coq_without_ide
       ];
     };
 
@@ -193,7 +194,7 @@
     elmEnv = with self.pkgs; self.pkgs.myEnvFun {
       name = "elm";
       buildInputs = with elmPackages; [
-        elm
+        (self.pkgs.haskell.lib.doJailbreak elm)
         elm-format
       ];
     };
