@@ -47,6 +47,7 @@
 
     otherHackagePackagesJS = libProf: self: super:
       with pkgs.haskell.lib; let pkg = self.callPackage; in rec {
+      QuickCheck       = dontCheck (doJailbreak super.QuickCheck);
       aeson            = dontCheck (doJailbreak super.aeson);
       tasty-quickcheck = dontCheck super.tasty-quickcheck;
       http-types       = dontCheck super.http-types;
