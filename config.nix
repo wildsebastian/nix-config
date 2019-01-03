@@ -9,6 +9,7 @@
     otherHackagePackages =  libProf: self: super:
       with pkgs.haskell.lib; let pkg = self.callPackage; in rec {
       Agda                      = dontHaddock super.Agda;
+      Diff                      = dontCheck super.Diff;
       ListLike                  = dontCheck (doJailbreak super.ListLike);
       aeson                     = dontCheck (doJailbreak super.aeson);
       base-compat-batteries     = dontCheck (doJailbreak super.base-compat-batteries);
