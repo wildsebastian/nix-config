@@ -31,6 +31,7 @@ pkgs: version: hpkgs: with hpkgs;
   generics-sop
   ghc
   hedgehog
+  hedis
   hspec-discover
   hspec-wai
   hspec-wai-json
