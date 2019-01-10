@@ -219,6 +219,7 @@
     gitTools = with self.pkgs; buildEnv {
       name = "gitTools";
       paths = [
+        darcs
         diffstat
         diffutils
         gitRepo
@@ -226,6 +227,7 @@
         gitAndTools.gitFull
         gitAndTools.gitflow
         gitstats
+        mercurialFull
         patch
         patchutils
       ];
@@ -264,6 +266,7 @@
         fswatch
         gnupg
         imgcat
+        jq
         libiconv
         mosh
         openssl_1_1
