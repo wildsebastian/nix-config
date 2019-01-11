@@ -219,7 +219,6 @@
     gitTools = with self.pkgs; buildEnv {
       name = "gitTools";
       paths = [
-        (self.pkgs.haskell.lib.doJailbreak darcs)
         diffstat
         diffutils
         gitRepo
