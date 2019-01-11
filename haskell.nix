@@ -26,6 +26,11 @@ pkgs: version: hpkgs: with hpkgs;
   cron
   cryptonite
   cryptonite-conduit
+  dhall
+  dhall-json
+  dhall-bash
+  dhall-text
+  dhall-nix
   digest
   fast-logger
   generics-sop
