@@ -65,6 +65,7 @@ pkgs: version: hpkgs: with hpkgs;
   servant-client-core
   servant-server
   shake
+  sqlite-simple
   tagged
   tasty
   tasty-discover
