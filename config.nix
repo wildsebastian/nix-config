@@ -56,6 +56,7 @@
       tasty-quickcheck = dontCheck super.tasty-quickcheck;
       http-types       = dontCheck super.http-types;
       comonad          = dontCheck super.comonad;
+      conduit-extra    = dontCheck super.conduit-extra;
       semigroupoids    = dontCheck super.semigroupoids;
       lens             = dontCheck super.lens;
       miso             = dontCheck super.miso;
