@@ -21,10 +21,12 @@
       enclosed-exceptions       = dontCheck super.enclosed-exceptions;
       ghc-mod                   = dontCheck (doJailbreak super.ghc-mod);
       hasktags                  = dontCheck super.hasktags;
+      hnix                      = dontCheck (doJailbreak super.hnix);
       hspec-hedgehog            = dontCheck super.hspec-hedgehog;
       hspec                     = dontCheck (doJailbreak super.hspec);
       hspec-core                = dontCheck (doJailbreak super.hspec-core);
       http-api-data             = dontCheck (doJailbreak super.http-api-data);
+      insert-ordered-containers = dontCheck (doJailbreak super.insert-ordered-containers);
       jose                      = dontCheck (doJailbreak super.jose);
       lifted-base               = dontCheck (doJailbreak super.lifted-base);
       liquidhaskell             = doJailbreak super.liquidhaskell;
@@ -42,6 +44,7 @@
       tasty-hspec               = dontCheck (doJailbreak super.tasty-hspec);
       text-builder              = dontCheck (doJailbreak super.text-builder);
       text-show                 = dontCheck (doJailbreak super.text-show);
+      these                     = dontCheck (doJailbreak super.these);
       time-recurrence           = doJailbreak super.time-recurrence;
       wl-pprint-annotated       = dontCheck (doJailbreak super.wl-pprint-annotated);
     };
