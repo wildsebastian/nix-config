@@ -30,7 +30,6 @@ pkgs: version: hpkgs: with hpkgs;
   dhall-json
   dhall-bash
   dhall-text
-  dhall-nix
   digest
   fast-logger
   generics-sop
