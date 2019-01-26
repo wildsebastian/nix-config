@@ -31,6 +31,7 @@
       pipes-binary              = doJailbreak super.pipes-binary;
       pipes-group               = doJailbreak super.pipes-group;
       pipes-zlib                = dontCheck (doJailbreak super.pipes-zlib);
+      postgresql-simple         = dontCheck (doJailbreak super.postgresql-simple);
       psqueues                  = dontCheck (doJailbreak super.psqueues);
       process-extras            = dontCheck (doJailbreak super.process-extras);
       semigroups                = dontCheck (doJailbreak super.semigroups);

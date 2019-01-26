@@ -56,6 +56,7 @@ pkgs: version: hpkgs: with hpkgs;
   pipes-csv
   pipes-group
   pipes-parse
+  postgresql-simple
   psqueues
   process-extras
   semigroupoids

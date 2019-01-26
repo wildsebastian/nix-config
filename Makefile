@@ -16,6 +16,7 @@ HASKELL = env-ghc82 \
 		  env-ghc84-prof \
 		  env-ghc86 \
 		  env-ghc86-prof \
+		  env-ghcjs
 
 install-server:
 	for i in $(PACK); do                 	\
