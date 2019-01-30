@@ -11,9 +11,10 @@
       Agda                      = dontHaddock super.Agda;
       Diff                      = dontCheck super.Diff;
       ListLike                  = dontCheck (doJailbreak super.ListLike);
-      aeson                     = dontCheck (doJailbreak super.aeson);
-      base-compat-batteries     = dontCheck (doJailbreak super.base-compat-batteries);
+      aeson                     = dontCheck (doJailbreak (addBuildDepend super.aeson self.contravariant));
+      base-compat-batteries     = dontCheck (doJailbreak (addBuildDepend super.base-compat-batteries self.contravariant));
       cabal-helper              = doJailbreak super.cabal-helper;
+      cereal                    = dontCheck super.cereal;
       cron                      = dontCheck (doJailbreak super.cron);
       diagrams-contrib          = doJailbreak super.diagrams-contrib;
       diagrams-graphviz         = doJailbreak super.diagrams-graphviz;
@@ -51,6 +52,7 @@
       with pkgs.haskell.lib; let pkg = self.callPackage; in rec {
       QuickCheck       = dontCheck (doJailbreak super.QuickCheck);
       aeson            = dontCheck (doJailbreak super.aeson);
+      cereal           = dontCheck super.cereal;
       tasty-quickcheck = dontCheck super.tasty-quickcheck;
       http-types       = dontCheck super.http-types;
       comonad          = dontCheck super.comonad;
