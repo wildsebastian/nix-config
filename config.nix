@@ -44,6 +44,7 @@
       tasty-hspec               = dontCheck (doJailbreak super.tasty-hspec);
       text-builder              = dontCheck (doJailbreak super.text-builder);
       text-show                 = dontCheck (doJailbreak super.text-show);
+      tls                       = dontCheck (doJailbreak super.tls);
       time-recurrence           = doJailbreak super.time-recurrence;
       wl-pprint-annotated       = dontCheck (doJailbreak super.wl-pprint-annotated);
     };
