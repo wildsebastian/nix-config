@@ -1,5 +1,6 @@
 { pkgs }: {
   allowUnfree = true;
+  allowBroken = true;
 
   packageOverrides = super: let
     self = super.pkgs;
@@ -22,6 +23,7 @@
       enclosed-exceptions       = dontCheck super.enclosed-exceptions;
       ghc-mod                   = dontCheck (doJailbreak super.ghc-mod);
       hasktags                  = dontCheck super.hasktags;
+      hpack_0_31_1              = super.hpack;
       hspec-hedgehog            = dontCheck super.hspec-hedgehog;
       hspec                     = dontCheck (doJailbreak super.hspec);
       hspec-core                = dontCheck (doJailbreak super.hspec-core);
@@ -47,6 +49,7 @@
       tls                       = dontCheck (doJailbreak super.tls);
       time-recurrence           = doJailbreak super.time-recurrence;
       wl-pprint-annotated       = dontCheck (doJailbreak super.wl-pprint-annotated);
+      yaml_0_11_0_0             = super.yaml;
     };
 
     otherHackagePackagesJS = libProf: self: super:
@@ -62,7 +65,7 @@
       lens             = dontCheck super.lens;
       miso             = dontCheck super.miso;
       servant          = dontCheck (doJailbreak super.servant);
-      psqueues         = dontCheck super.psqueues;
+      psqueues         = dontCheck (doJailbreak super.psqueues);
     };
 
     ghcjs844Packages = self.haskell.packages.ghcjs.override {
