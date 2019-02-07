@@ -39,6 +39,7 @@ pkgs: version: hpkgs: with hpkgs;
   hspec-discover
   hspec-wai
   hspec-wai-json
+  http-conduit
   http-client
   http-client-tls
   json

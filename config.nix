@@ -28,6 +28,7 @@
       hspec                     = dontCheck (doJailbreak super.hspec);
       hspec-core                = dontCheck (doJailbreak super.hspec-core);
       http-api-data             = dontCheck (doJailbreak super.http-api-data);
+      http-conduit              = dontCheck (doJailbreak super.http-conduit);
       jose                      = dontCheck (doJailbreak super.jose);
       lifted-base               = dontCheck (doJailbreak super.lifted-base);
       liquidhaskell             = doJailbreak super.liquidhaskell;
