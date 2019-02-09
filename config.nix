@@ -41,6 +41,8 @@
       semigroups                = dontCheck (doJailbreak super.semigroups);
       semigroupoids             = dontCheck (doJailbreak super.semigroupoids);
       servant                   = dontCheck (doJailbreak super.servant);
+      servant-auth              = dontCheck (doJailbreak super.servant-auth);
+      servant-auth-server       = dontCheck (doJailbreak super.servant-auth-server);
       servant-client            = dontCheck (doJailbreak super.servant-client);
       servant-client-core       = dontCheck (doJailbreak super.servant-client-core);
       servant-server            = dontCheck (doJailbreak super.servant-server);

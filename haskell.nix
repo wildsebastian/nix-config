@@ -62,6 +62,8 @@ pkgs: version: hpkgs: with hpkgs;
   process-extras
   semigroupoids
   servant
+  servant-auth
+  servant-auth-server
   servant-client
   servant-client-core
   servant-server
