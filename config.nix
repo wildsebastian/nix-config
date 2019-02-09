@@ -80,40 +80,6 @@
       ];
     };
 
-    haskell822Packages = self.haskell.packages.ghc822.override {
-      overrides = otherHackagePackages false;
-    };
-
-    haskell822PackagesProf = self.haskell.packages.ghc822.override {
-      overrides = otherHackagePackages true;
-    };
-
-    ghc82EnvProf = self.pkgs.myEnvFun {
-      name = "ghc82-prof";
-      buildInputs = with haskell822PackagesProf; [
-        (ghcWithHoogle (myHaskellPackages 8.2))
-        alex happy cabal-install
-        ghc-core
-        ghcid
-        hlint
-        hasktags
-        (self.pkgs.haskell.lib.doJailbreak stylish-haskell)
-      ];
-    };
-
-     ghc82Env = self.pkgs.myEnvFun {
-      name = "ghc82";
-      buildInputs = with haskell822Packages; [
-        (ghcWithHoogle (myHaskellPackages 8.2))
-        alex happy cabal-install
-        ghc-core
-        ghcid
-        hlint
-        hasktags
-        (self.pkgs.haskell.lib.doJailbreak stylish-haskell)
-      ];
-    };
-
     haskell844Packages = self.haskell.packages.ghc844.override {
       overrides = otherHackagePackages false;
     };
