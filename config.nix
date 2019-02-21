@@ -71,7 +71,7 @@
       psqueues         = dontCheck (doJailbreak super.psqueues);
     };
 
-    ghcjs844Packages = self.haskell.packages.ghcjs.override {
+    ghcjs844Packages = self.haskell.packages.ghcjs84.override {
       overrides = otherHackagePackagesJS false;
     };
 
@@ -181,6 +181,7 @@
       name = "js";
       buildInputs = [
         nodejs
+        (pkgs.haskell.lib.doJailbreak purescript)
         watchman
         yarn
       ];
@@ -239,6 +240,7 @@
       paths = [
         autossh
         curl
+        entr
         fswatch
         gnupg
         imgcat
