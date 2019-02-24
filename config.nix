@@ -181,7 +181,6 @@
       name = "js";
       buildInputs = [
         nodejs
-        (pkgs.haskell.lib.doJailbreak purescript)
         watchman
         yarn
       ];
