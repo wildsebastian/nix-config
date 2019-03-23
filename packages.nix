@@ -15,9 +15,9 @@ with pkgs; [
     patchutils
 
     cabal-install
-    (pkgs.haskell.lib.dontCheck (pkgs.haskell.lib.doJailbreak cabal2nix))
-    (haskellPackages_8_6.ghcid)
-    (haskellPackages_8_6.hlint)
+    (pkgs.haskell.lib.dontCheck (pkgs.haskell.lib.doJailbreak haskellPackages.cabal2nix))
+    (haskellPackages.ghcid)
+    (haskellPackages.hlint)
     carnix
 
     coq_8_9

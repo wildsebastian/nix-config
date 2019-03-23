@@ -52,28 +52,21 @@
   nix.maxJobs = 2;
   nix.buildCores = 2;
 
-  nix.nixPath = [
-    "darwin-config=$HOME/.nixpkgs/darwin-configuration.nix"
-    "nixpkgs=$HOME/.nix-defexpr/nixpkgs"
-    "darwin=$HOME/.nix-defexpr/darwin"
-  ];
-
   nix.extraOptions = ''
     gc-keep-derivations = true
     gc-keep-outputs = true
   '';
 
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-      allowBrowken = false;
-      allowUnsupportedSystem = true;
-    };
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowBrowken = false;
+  nixpkgs.config.allowUnsupportedSystem = true;
+  # nixpkgs.overlays = [ (import ./overlays/haskell.nix) ];
 
-    overlays = [
-      (import ./overlays/ghc.nix)
-    ];
-  };
+  nix.nixPath = [
+    "darwin-config=$HOME/.nixpkgs/darwin-configuration.nix"
+    "nixpkgs=$HOME/.nix-defexpr/nixpkgs"
+    "darwin=$HOME/.nix-defexpr/darwin"
+  ];
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = false;
