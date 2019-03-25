@@ -11,7 +11,7 @@
     set -g prefix C-a
     unbind C-b
 
-    set -s escape-time 1
+    set -s escape-time 0
     set-option -g history-limit 10000
 
     bind | split-window -h
@@ -32,15 +32,15 @@
 
     set-option -g allow-rename off
     set-option -g status on
-    set-option -g status-interval 1
+    set-option -g status-interval 60
     set-option -g status-justify centre
     set-option -g status-keys vi
-    set-option -g status-left "#[bg=default]#(tmux_uptime.sh)#[fg=white,bg=default]"
-    set-option -g status-left-length 20
+    set-option -g status-left "#[bg=default]#(servicehealth) #[fg=white,bg=default] #(tmux_uptime.sh)#[fg=white,bg=default]"
+    set-option -g status-left-length 60
     set-option -g status-left-style default
     set-option -g status-position bottom
-    set-option -g status-right "#[fg=white,bg=default]%a %d.%m.%Y %H:%M:%S"
-    set-option -g status-right-length 140
+    set-option -g status-right "#[fg=white,bg=default]%a %d.%m.%Y %H:%M"
+    set-option -g status-right-length 40
     set-option -g status-right-style default
     set-option -g status-style fg=colour136,bg=colour235
 

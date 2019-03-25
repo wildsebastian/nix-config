@@ -53,12 +53,12 @@
       echo -n "%{%F{green}%}$ARROW%{%f%}"
     }
 
-    date() {
+    prompt_date() {
       echo -n "%{%F{white}%} %D{%a %d.%m.%Y %H:%M:%S}%{%f%}"
     }
 
     lambda() {
-      echo -n "%{%F{blue}%}$LAMBDA%{%f%}"
+      echo -n "%{%F{green}%}$LAMBDA%{%f%}"
     }
 
     path() {
@@ -74,7 +74,7 @@
 
     PROMPT='$(path) $(gitstatus)
     $(lambda)$(arrow) '
-    RPROMPT=$RPROMPT_PREFIX'$(date) $(exitcode)'$RPROMPT_SUFFIX
+    RPROMPT=$RPROMPT_PREFIX'$(prompt_date) $(exitcode)'$RPROMPT_SUFFIX
   '';
 
   programs.zsh.loginShellInit = ''
