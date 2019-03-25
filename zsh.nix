@@ -27,22 +27,26 @@
     LINEDOWN=$'\e[1B'
 
     gitstatus() {
-      setopt promptsubst
-      autoload -Uz vcs_info
+      if git rev-parse --git-dir > /dev/null 2>&1; then
+        setopt promptsubst
+        autoload -Uz vcs_info
 
-      zstyle ':vcs_info:*' enable git
-      zstyle ':vcs_info:*' get-revision true
-      zstyle ':vcs_info:*' check-for-changes true
-      zstyle ':vcs_info:*' stagedstr '\u271A'
-      zstyle ':vcs_info:*' unstagedstr '\u272A'
-      zstyle ':vcs_info:*' formats ' %b \uF418 %u%c '
-      zstyle ':vcs_info:*' actionformats ' %b \uF418 %u%c '
-      vcs_info
-      if [ -z "$(git status -s)" ]; then
-        echo -n "%F{green}$vcs_info_msg_0_%f"
+        zstyle ':vcs_info:*' enable git
+        zstyle ':vcs_info:*' get-revision true
+        zstyle ':vcs_info:*' check-for-changes true
+        zstyle ':vcs_info:*' stagedstr '\u271A'
+        zstyle ':vcs_info:*' unstagedstr '\u272A'
+        zstyle ':vcs_info:*' formats ' %b \uF418 %u%c '
+        zstyle ':vcs_info:*' actionformats ' %b \uF418 %u%c '
+        vcs_info
+        if [ -z "$(git status -s)" ]; then
+          echo -n "%F{green}$vcs_info_msg_0_%f"
+        else
+          echo -n "%F{yellow}$vcs_info_msg_0_%f"
+        fi
       else
-        echo -n "%F{yellow}$vcs_info_msg_0_%f"
-      fi
+        echo -n ""
+      fi;
     }
 
     arrow() {
