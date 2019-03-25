@@ -24,6 +24,11 @@ let
       :config
       (load-theme 'solarized-dark t))
 
+    (use-package exec-path-from-shell
+      :config
+      (exec-path-from-shell-copy-env "PATH")
+      (exec-path-from-shell-copy-env "NIX_PATH"))
+
     (use-package evil
       :init
       (setq evil-want-keybinding nil)
@@ -40,6 +45,12 @@ let
       :init
       (add-hook 'elpy-mode-hook 'flycheck-mode)
       :config (global-flycheck-mode))
+
+    (use-package lsp-mode
+      :commands lsp)
+
+    (use-package lsp-ui
+      :commands lsp-ui-mode)
 
     (use-package projectile
       :commands projectile-mode
@@ -71,13 +82,40 @@ let
       ("\\.v\\'" . coq-mode))
 
     (use-package haskell-mode
+      :after direnv
       :mode
       ("\\.hs\\'" . haskell-mode)
       :config
-      (add-hook 'haskell-mode-hook 'company-mode))
+      (add-hook 'haskell-mode-hook 'company-mode)
+      (add-hook 'haskell-interactive-mode-hook 'company-mode))
+
+    (use-package ghcid
+      :after haskell-mode)
+
+    (use-package dante
+      :ensure t
+      :after haskell-mode
+      :commands 'dante-mode
+      :init
+        (setq dante-repl-command-line '("cabal new-repl"))
+        (add-hook 'haskell-mode-hook 'flycheck-mode)
+        ;; OR:
+        ;; (add-hook 'haskell-mode-hook 'flymake-mode)
+        (add-hook 'haskell-mode-hook 'dante-mode)
+        (add-hook 'dante-mode-hook
+           '(lambda () (flycheck-add-next-checker 'haskell-dante
+                        '(warning . haskell-hlint))))
+        )
+
+    (setq flymake-no-changes-timeout nil)
+    (setq flymake-start-syntax-check-on-newline nil)
+    (setq flycheck-check-syntax-automatically '(save mode-enabled))
+    (auto-save-visited-mode 1)
+    (setq auto-save-visited-interval 1)
 
     (use-package web-mode
       :defer t
+      :mode
       ("\\.css\\'" . web-mode)
       ("\\.html\\'" . web-mode)
       ("\\.htm\\'" . web-mode)
@@ -97,18 +135,22 @@ in
       ''
     )
     company
-    company-ghci
     company-nixos-options
+    dante
     direnv
     editorconfig
     elpy
     evil
     evil-collection
+    exec-path-from-shell
     fill-column-indicator
     flycheck
     flycheck-haskell
     haskell-mode
     ivy
+    lsp-haskell
+    lsp-mode
+    lsp-ui
     magit
     nix-mode
     projectile
