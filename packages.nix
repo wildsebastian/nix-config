@@ -28,6 +28,9 @@ with pkgs; [
     purescript
     python2
     python3
+    python37Packages.pip
+    python37Packages.setuptools
+    python37Packages.virtualenv
     watchman
     yarn
 
