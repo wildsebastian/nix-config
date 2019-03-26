@@ -48,14 +48,16 @@ let
       :config (global-flycheck-mode))
 
     (use-package lsp-mode
-      :commands lsp)
+      :commands lsp
+      :config
+      (add-hook 'python-mode-hook #'lsp)
+      (add-hook 'haskell-mode-hook #'lsp))
 
     (use-package lsp-ui
       :commands lsp-ui-mode)
 
     (use-package lsp-haskell
       :config
-      (add-hook 'haskell-mode-hook #'lsp)
       (setq lsp-haskell-process-path-hie "hie-wrapper"))
 
     (use-package company-lsp
@@ -115,8 +117,12 @@ let
     (use-package nix-mode
       :mode ("\\.nix\\'" . nix-mode))
 
+    (use-package python-mode
+      :mode ("\\.py\\'" . python-mode))
+
     (use-package elpy
-      :mode ("\\.py\\'" . elpy))
+      :config
+      (add-hook 'python-mode-hook 'elpy-mode))
   '';
 in
   emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
