@@ -44,6 +44,7 @@ let
       :defer 2
       :init
       (add-hook 'elpy-mode-hook 'flycheck-mode)
+      (add-hook 'haskell-mode-hook 'flycheck-mode)
       :config (global-flycheck-mode))
 
     (use-package lsp-mode
@@ -51,6 +52,14 @@ let
 
     (use-package lsp-ui
       :commands lsp-ui-mode)
+
+    (use-package lsp-haskell
+      :config
+      (add-hook 'haskell-mode-hook #'lsp)
+      (setq lsp-haskell-process-path-hie "hie-wrapper"))
+
+    (use-package company-lsp
+      :commands company-lsp)
 
     (use-package projectile
       :commands projectile-mode
@@ -89,24 +98,6 @@ let
       (add-hook 'haskell-mode-hook 'company-mode)
       (add-hook 'haskell-interactive-mode-hook 'company-mode))
 
-    (use-package ghcid
-      :after haskell-mode)
-
-    (use-package dante
-      :ensure t
-      :after haskell-mode
-      :commands 'dante-mode
-      :init
-        (setq dante-repl-command-line '("cabal new-repl"))
-        (add-hook 'haskell-mode-hook 'flycheck-mode)
-        ;; OR:
-        ;; (add-hook 'haskell-mode-hook 'flymake-mode)
-        (add-hook 'haskell-mode-hook 'dante-mode)
-        (add-hook 'dante-mode-hook
-           '(lambda () (flycheck-add-next-checker 'haskell-dante
-                        '(warning . haskell-hlint))))
-        )
-
     (setq flymake-no-changes-timeout nil)
     (setq flymake-start-syntax-check-on-newline nil)
     (setq flycheck-check-syntax-automatically '(save mode-enabled))
@@ -135,8 +126,8 @@ in
       ''
     )
     company
+    company-lsp
     company-nixos-options
-    dante
     direnv
     editorconfig
     elpy
