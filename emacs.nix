@@ -29,16 +29,19 @@ let
       (exec-path-from-shell-copy-env "PATH")
       (exec-path-from-shell-copy-env "NIX_PATH"))
 
+    (use-package fill-column-indicator
+      :config
+      (setq fci-rule-column 79)
+      (setq fci-rule-width 1)
+      (setq fci-rule-color "red")
+      (add-hook 'python-mode-hook 'fci-mode)
+      (add-hook 'haskell-mode-hook 'fci-mode))
+
     (use-package evil
       :init
       (setq evil-want-keybinding nil)
       :config
       (evil-mode 1))
-
-    (use-package evil-collection
-      :after evil
-      :config
-      (evil-collection-init))
 
     (use-package flycheck
       :defer 2
@@ -138,7 +141,6 @@ in
     editorconfig
     elpy
     evil
-    evil-collection
     exec-path-from-shell
     fill-column-indicator
     flycheck
