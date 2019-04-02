@@ -59,7 +59,7 @@
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowBrowken = false;
-  nixpkgs.config.allowUnsupportedSystem = true;
+  nixpkgs.config.allowUnsupportedSystem = false;
   # nixpkgs.overlays = [ (import ./overlays/haskell.nix) ];
 
   nix.nixPath = [

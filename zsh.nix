@@ -83,6 +83,10 @@
     }
 
     eval "$(direnv hook zsh)"
+
+    function gi() {
+      curl -sL https://www.gitignore.io/api/$@
+    }
   '';
 
   environment.etc."zshenv".text = ''

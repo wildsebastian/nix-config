@@ -9,20 +9,14 @@ let
     (eval-when-compile
       (require 'use-package))
 
-    (when (version<= "26.0.50" emacs-version )
-      (global-display-line-numbers-mode))
-
     (setq inhibit-startup-screen t)
-    (setq initial-scratch-message nil)
     (scroll-bar-mode -1)
     (tool-bar-mode -1)
     (menu-bar-mode -1)
 
-    (use-package solarized-theme
-      :init
-      (setq solarized-theme t)
+    (use-package base16-theme
       :config
-      (load-theme 'solarized-dark t))
+      (load-theme 'base16-default-dark t))
 
     (use-package exec-path-from-shell
       :config
@@ -38,10 +32,24 @@ let
       (add-hook 'haskell-mode-hook 'fci-mode))
 
     (use-package evil
+      :ensure t
       :init
+      (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
       (setq evil-want-keybinding nil)
       :config
       (evil-mode 1))
+
+    (use-package evil-collection
+      :after evil
+      :ensure t
+      :config
+      (evil-collection-init))
+
+    (use-package undo-tree
+      :config
+      (global-undo-tree-mode))
+
+    (use-package goto-chg)
 
     (use-package flycheck
       :defer 2
@@ -100,8 +108,12 @@ let
       :mode
       ("\\.hs\\'" . haskell-mode)
       :config
+      (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
       (add-hook 'haskell-mode-hook 'company-mode)
-      (add-hook 'haskell-interactive-mode-hook 'company-mode))
+      (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+      (add-hook 'haskell-interactive-mode-hook 'company-mode)
+      (add-to-list 'completion-ignored-extensions ".hi")
+      (custom-set-variables '(haskell-stylish-on-save t)))
 
     (setq flymake-no-changes-timeout nil)
     (setq flymake-start-syntax-check-on-newline nil)
@@ -128,12 +140,13 @@ let
       (add-hook 'python-mode-hook 'elpy-mode))
   '';
 in
-  emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
+  emacsWithPackages (epkgs: (with epkgs.melpaPackages; with epkgs.elpaPackages; [
     (pkgs.runCommand "default.el" {} ''
       mkdir -p $out/share/emacs/site-lisp
       cp ${myEmacsConfig} $out/share/emacs/site-lisp/default.el
       ''
     )
+    base16-theme
     company
     company-lsp
     company-nixos-options
@@ -141,10 +154,12 @@ in
     editorconfig
     elpy
     evil
+    evil-collection
     exec-path-from-shell
     fill-column-indicator
     flycheck
     flycheck-haskell
+    goto-chg
     haskell-mode
     ivy
     lsp-haskell
@@ -156,6 +171,7 @@ in
     projectile-direnv
     proof-general
     solarized-theme
+    undo-tree
     use-package
     web-mode
   ]))
