@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-uptime_01=$(uptime | cut -d ',' -f 3 | cut -d ' ' -f 4)
-uptime_01_int=$(uptime | cut -d ',' -f 3 | cut -d ' ' -f 4 | cut -d. -f1)
+uptime_01=$(uptime | sed -E 's/.*load averages: ([0-9]+\.[0-9]+) ([0-9]+\.[0-9]+) ([0-9]+\.[0-9]+)/\1/')
+uptime_01_int=$(uptime | sed -E 's/.*load averages: ([0-9]+)\.[0-9]+ ([0-9]+\.[0-9]+) ([0-9]+\.[0-9]+)/\1/')
 
-uptime_05=$(uptime | cut -d ',' -f 3 | cut -d ' ' -f 5)
-uptime_05_int=$(uptime | cut -d ',' -f 3 | cut -d ' ' -f 5 | cut -d. -f1)
+uptime_05=$(uptime | sed -E 's/.*load averages: ([0-9]+\.[0-9]+) ([0-9]+\.[0-9]+) ([0-9]+\.[0-9]+)/\2/')
+uptime_05_int=$(uptime | sed -E 's/.*load averages: ([0-9]+\.[0-9]+) ([0-9]+)\.[0-9]+ ([0-9]+\.[0-9]+)/\2/')
 
-uptime_15=$(uptime | cut -d ',' -f 3 | cut -d ' ' -f 6)
-uptime_15_int=$(uptime | cut -d ',' -f 3 | cut -d ' ' -f 6 | cut -d. -f1)
+uptime_15=$(uptime | sed -E 's/.*load averages: ([0-9]+\.[0-9]+) ([0-9]+\.[0-9]+) ([0-9]+\.[0-9]+)/\3/')
+uptime_15_int=$(uptime | sed -E 's/.*load averages: ([0-9]+\.[0-9]+) ([0-9]+\.[0-9]+) ([0-9]+)\.[0-9]+/\3/')
 
 if [ $uptime_01_int -le 4 ]; then
   printf "#[fg=green]"
