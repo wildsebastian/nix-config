@@ -9,10 +9,10 @@ let
     (eval-when-compile
       (require 'use-package))
 
-    (setq inhibit-startup-screen t)
     (scroll-bar-mode -1)
     (tool-bar-mode -1)
     (menu-bar-mode -1)
+    (global-linum-mode 1)
 
     (use-package base16-theme
       :config
@@ -31,6 +31,8 @@ let
       (add-hook 'python-mode-hook 'fci-mode)
       (add-hook 'haskell-mode-hook 'fci-mode))
 
+    (use-package fzf)
+
     (use-package evil
       :ensure t
       :init
@@ -40,10 +42,13 @@ let
       (evil-mode 1))
 
     (use-package evil-collection
-      :after evil
-      :ensure t
+      :after (company evil)
       :config
+      (require 'company-tng)
       (evil-collection-init))
+
+    (use-package evil-magit
+      :after evil)
 
     (use-package undo-tree
       :config
@@ -71,9 +76,6 @@ let
       :config
       (setq lsp-haskell-process-path-hie "hie-wrapper"))
 
-    (use-package company-lsp
-      :commands company-lsp)
-
     (use-package projectile
       :commands projectile-mode
       :bind-keymap ("C-c p" . projectile-command-map)
@@ -98,6 +100,9 @@ let
       :config
       (add-to-list 'company-backends 'company-ghci)
       (add-to-list 'company-backends 'company-nixos-options))
+
+    (use-package company-lsp
+      :commands company-lsp)
 
     (use-package proof-site
       :mode
@@ -155,10 +160,12 @@ in
     elpy
     evil
     evil-collection
+    evil-magit
     exec-path-from-shell
     fill-column-indicator
     flycheck
     flycheck-haskell
+    fzf
     goto-chg
     haskell-mode
     ivy
