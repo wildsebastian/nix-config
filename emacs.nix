@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  myEmacs = pkgs.emacs;
+  myEmacs = pkgs.emacsMacport;
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
   myEmacsConfig = pkgs.writeText "default.el" ''
     (require 'package)
