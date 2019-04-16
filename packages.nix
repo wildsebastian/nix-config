@@ -7,7 +7,7 @@ with pkgs; [
   diffutils
   gitRepo
   gitAndTools.git-imerge
-  gitAndTools.gitFull
+  (gitAndTools.gitFull.override { sendEmailSupport = true; })
   gitAndTools.gitflow
   gitstats
   mercurialFull
@@ -22,6 +22,7 @@ with pkgs; [
   (haskellPackages.stylish-haskell)
   carnix
 
+  closurecompiler
   coq_8_9
   elmPackages.elm
   elmPackages.elm-format

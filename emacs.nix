@@ -28,15 +28,17 @@ let
       (setq fci-rule-column 79)
       (setq fci-rule-width 1)
       (setq fci-rule-color "red")
-      (add-hook 'python-mode-hook 'fci-mode)
-      (add-hook 'haskell-mode-hook 'fci-mode))
+      (add-hook 'haskell-mode-hook 'fci-mode)
+      (add-hook 'nix-mode-hook 'fci-mode)
+      (add-hook 'python-mode-hook 'fci-mode))
 
     (use-package fzf)
 
     (use-package evil
       :ensure t
       :init
-      (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
+      ;; This is optional since it's already set to t by default.
+      (setq evil-want-integration t)
       (setq evil-want-keybinding nil)
       :config
       (evil-mode 1))
@@ -145,7 +147,8 @@ let
       (add-hook 'python-mode-hook 'elpy-mode))
   '';
 in
-  emacsWithPackages (epkgs: (with epkgs.melpaPackages; with epkgs.elpaPackages; [
+emacsWithPackages (epkgs: (
+  with epkgs.melpaPackages; with epkgs.elpaPackages; [
     (pkgs.runCommand "default.el" {} ''
       mkdir -p $out/share/emacs/site-lisp
       cp ${myEmacsConfig} $out/share/emacs/site-lisp/default.el
@@ -181,4 +184,5 @@ in
     undo-tree
     use-package
     web-mode
-  ]))
+  ]
+))
