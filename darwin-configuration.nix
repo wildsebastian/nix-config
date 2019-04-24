@@ -60,7 +60,9 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowBrowken = false;
   nixpkgs.config.allowUnsupportedSystem = false;
-  # nixpkgs.overlays = [ (import ./overlays/haskell.nix) ];
+  nixpkgs.overlays = [ (import ./overlays/haskell.nix)
+                       (import ./overlays/vim.nix)
+                     ];
 
   nix.nixPath = [
     "darwin-config=$HOME/.nixpkgs/darwin-configuration.nix"
