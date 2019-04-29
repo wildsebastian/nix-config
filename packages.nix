@@ -18,6 +18,7 @@ with pkgs; [
   (pkgs.haskell.lib.dontCheck (pkgs.haskell.lib.doJailbreak haskellPackages.cabal2nix))
   (haskellPackages.ghcid)
   (haskellPackages.hlint)
+  (pkgs.haskell.lib.dontCheck (pkgs.haskell.lib.doJailbreak haskellPackages.patat))
   (haskellPackages.stylish-cabal)
   (haskellPackages.stylish-haskell)
   carnix

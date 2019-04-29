@@ -145,6 +145,13 @@ let
     (use-package elpy
       :config
       (add-hook 'python-mode-hook 'elpy-mode))
+
+    (use-package markdown-mode
+      :commands (markdown-mode gfm-mode)
+      :mode (("README\\.md\\'" . gfm-mode)
+             ("\\.md\\'" . markdown-mode)
+             ("\\.markdown\\'" . markdown-mode))
+      :init (setq markdown-command "multimarkdown"))
   '';
 in
 emacsWithPackages (epkgs: (
@@ -176,6 +183,7 @@ emacsWithPackages (epkgs: (
     lsp-mode
     lsp-ui
     magit
+    markdown-mode
     nix-mode
     projectile
     projectile-direnv
