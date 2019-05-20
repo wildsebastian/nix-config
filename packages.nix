@@ -1,8 +1,6 @@
 { pkgs, config }:
 
 with pkgs; [
-  (import ./emacs.nix { inherit pkgs; })
-
   diffstat
   diffutils
   gitRepo
@@ -24,6 +22,7 @@ with pkgs; [
   carnix
 
   closurecompiler
+  compass
   coq_8_9
   elmPackages.elm
   elmPackages.elm-format

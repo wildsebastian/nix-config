@@ -2,13 +2,13 @@
 
 # Create Main Session
 tmux new-session -s Main -n Main -d
-tmux new-window -n Nix -t Main:1
-tmux send-keys -t Main:1 'cd ~/.nixpkgs' C-m
-tmux new-window -n monadT -t Main:1
-tmux send-keys -t Main:1 'cd ~' C-m
+tmux new-window -n Nix -t Main:2
+tmux send-keys -t Main:2 'cd ~/.nixpkgs' C-m
+tmux new-window -n monadT -t Main:3
+tmux send-keys -t Main:3 'cd ~' C-m
 
 # Create Dev Session
 tmux new-session -s Dev -n General -d
-tmux send-keys -t General:0 'cd ~/src/' C-m
+tmux send-keys -t General:1 'cd ~/src/' C-m
 
 tmux attach -t Main

@@ -45,11 +45,11 @@
     set-option -g status-style fg=colour136,bg=colour235
 
     # default window title colors
-    set-window-option -g window-status-fg colour244  # base0
-    set-window-option -g window-status-bg default
+    set-window-option -g window-status-style fg=colour244  # base0
+    set-window-option -g window-status-style bg=default
 
     # active window title colors
-    set-window-option -g window-status-current-fg colour166  # orange
-    set-window-option -g window-status-current-bg default
+    set-window-option -g window-status-current-style fg=colour166  # orange
+    set-window-option -g window-status-current-style bg=default
     '';
 }
