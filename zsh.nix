@@ -97,8 +97,6 @@
 
   environment.shellAliases = {
     drs   = "darwin-rebuild switch";
-    em    = "~/Applications/Nix\\ Apps/Emacs.app/Contents/MacOS/Emacs --no-splash";
-    emnw  = "~/Applications/Nix\\ Apps/Emacs.app/Contents/MacOS/Emacs -nw --no-splash";
     gf    = "git fetch";
     gg    = "git log --color --graph";
     gl    = "git log --color -32";
