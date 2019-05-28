@@ -9,14 +9,16 @@
           "base16-vim"
           "direnv-vim"
           "editorconfig-vim"
+          "fugitive"
           "fugitive-gitlab-vim"
           "fzfWrapper"
+          "vim-gutentags"
           "hlint-refactor-vim"
+          "LanguageClient-neovim"
           "lightline-vim"
-          "vim-fugitive"
           "vim-gitbranch"
-          "vim-gitgutter"
           "vim-multiple-cursors"
+          "vim-signify"
           "youcompleteme"
         ];
       }
@@ -51,6 +53,12 @@
         \ 'component_function': {
         \   'gitbranch': 'gitbranch#name'
         \ },
+        \ }
+
+      set statusline+=%{gutentags#statusline()}
+      let g:LanguageClient_serverCommands = {
+        \ 'haskell': ['hie-wrapper'],
+        \ 'python': ['pyls'],
         \ }
     '';
   };

@@ -43,6 +43,7 @@ with pkgs; [
 
   autossh
   curl
+  ctags
   direnv
   entr
   fswatch
