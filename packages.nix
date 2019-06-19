@@ -12,33 +12,6 @@ with pkgs; [
   patch
   patchutils
 
-  cabal-install
-  (pkgs.haskell.lib.dontCheck (pkgs.haskell.lib.doJailbreak haskellPackages.cabal2nix))
-  (haskellPackages.ghcid)
-  (haskellPackages.hlint)
-  (pkgs.haskell.lib.dontCheck (pkgs.haskell.lib.doJailbreak haskellPackages.patat))
-  (haskellPackages.stylish-cabal)
-  (haskellPackages.stylish-haskell)
-  carnix
-
-  closurecompiler
-  compass
-  coq_8_9
-  elmPackages.elm
-  elmPackages.elm-format
-  nodejs
-  ocaml
-  purescript
-  python2
-  python3
-  python37Packages.pip
-  python37Packages.setuptools
-  python37Packages.virtualenv
-  watchman
-  yarn
-
-  postgresql_11
-
   weechat
 
   autossh
