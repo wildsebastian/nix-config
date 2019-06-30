@@ -9,17 +9,11 @@
           "base16-vim"
           "direnv-vim"
           "editorconfig-vim"
-          "fugitive"
-          "fugitive-gitlab-vim"
           "fzfWrapper"
-          "vim-gutentags"
-          "hlint-refactor-vim"
-          "LanguageClient-neovim"
           "lightline-vim"
           "vim-gitbranch"
           "vim-multiple-cursors"
           "vim-signify"
-          "youcompleteme"
         ];
       }
       { names = [ "vim-nix" "vim-addon-nix" ]; filename_regex = "^.nix\$"; }
@@ -27,7 +21,16 @@
     ];
 
     vimConfig = ''
+      set hidden
+
+      set nobackup
+      set nowritebackup
+
       scriptencoding utf-8
+      set cmdheight=2
+      set updatetime=300
+      set shortmess+=c
+      set signcolumn=yes
       set encoding=utf-8
       set backspace=2
       set tabstop=2
@@ -53,13 +56,7 @@
         \ 'component_function': {
         \   'gitbranch': 'gitbranch#name'
         \ },
-        \ }
-
-      set statusline+=%{gutentags#statusline()}
-      let g:LanguageClient_serverCommands = {
-        \ 'haskell': ['hie-wrapper'],
-        \ 'python': ['pyls'],
-        \ }
+      \ }
     '';
   };
 }

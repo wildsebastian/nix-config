@@ -12,8 +12,6 @@ with pkgs; [
   patch
   patchutils
 
-  weechat
-
   autossh
   curl
   ctags
