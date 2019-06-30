@@ -1,6 +1,8 @@
 { pkgs, config }:
 
 with pkgs; [
+  (import ./emacs.nix { inherit pkgs; })
+
   diffstat
   diffutils
   gitRepo
@@ -11,6 +13,8 @@ with pkgs; [
   mercurialFull
   patch
   patchutils
+
+  python3
 
   autossh
   curl

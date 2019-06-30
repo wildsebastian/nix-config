@@ -60,8 +60,7 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowBroken = true;
   nixpkgs.config.allowUnsupportedSystem = false;
-  nixpkgs.overlays = [ (import ./overlays/haskell.nix)
-                     ];
+  nixpkgs.overlays = [ (import ./overlays/haskell.nix) ];
 
   nix.nixPath = [
     "darwin-config=$HOME/.nixpkgs/darwin-configuration.nix"
@@ -72,6 +71,6 @@
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = false;
 
-  # services.emacs.enable = true;
-  # services.emacs.package = (import ./emacs.nix { inherit pkgs; });
+  services.emacs.enable = true;
+  services.emacs.package = (import ./emacs.nix { inherit pkgs; });
 }

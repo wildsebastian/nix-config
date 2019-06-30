@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  myEmacs = pkgs.emacsMacport;
+  myEmacs = pkgs.emacs;
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
   myEmacsConfig = pkgs.writeText "default.el" ''
     (require 'package)
@@ -9,188 +9,116 @@ let
     (eval-when-compile
       (require 'use-package))
 
+    (use-package dashboard
+      :ensure t
+      :config
+      (setq dashboard-startup-banner 'logo)
+      (dashboard-setup-startup-hook))
+
     (scroll-bar-mode -1)
     (tool-bar-mode -1)
     (menu-bar-mode -1)
-    (global-linum-mode 1)
-
-    (use-package base16-theme
+    (use-package zenburn-theme
       :config
-      (load-theme 'base16-default-dark t))
+      (load-theme 'zenburn t))
 
-    (use-package exec-path-from-shell
-      :config
-      (exec-path-from-shell-copy-env "PATH")
-      (exec-path-from-shell-copy-env "NIX_PATH"))
+    (setq tab-width 2
+      indent-tabs-mode nil)
 
-    (use-package fill-column-indicator
-      :config
-      (setq fci-rule-column 79)
-      (setq fci-rule-width 1)
-      (setq fci-rule-color "red")
-      (add-hook 'haskell-mode-hook 'fci-mode)
-      (add-hook 'nix-mode-hook 'fci-mode)
-      (add-hook 'python-mode-hook 'fci-mode))
+    (setq make-backup-files nil)
+    (defalias 'yes-or-no-p 'y-or-n-p)
 
-    (use-package fzf)
+    (setq echo-keystrokes 0.1
+      use-dialog-box nil
+      visible-bell t)
+    (show-paren-mode t)
+
+    (use-package all-the-icons)
 
     (use-package evil
-      :ensure t
       :init
-      ;; This is optional since it's already set to t by default.
-      (setq evil-want-integration t)
       (setq evil-want-keybinding nil)
       :config
       (evil-mode 1))
 
     (use-package evil-collection
-      :after (company evil)
+      :after evil
       :config
-      (require 'company-tng)
-      (evil-collection-init))
+        (evil-collection-init))
 
     (use-package evil-magit
       :after evil)
 
-    (use-package undo-tree
-      :config
-      (global-undo-tree-mode))
-
-    (use-package goto-chg)
-
-    (use-package flycheck
-      :defer 2
-      :init
-      (add-hook 'elpy-mode-hook 'flycheck-mode)
-      (add-hook 'haskell-mode-hook 'flycheck-mode)
-      :config (global-flycheck-mode))
-
-    (use-package lsp-mode
-      :commands lsp
-      :config
-      (add-hook 'python-mode-hook #'lsp)
-      (add-hook 'haskell-mode-hook #'lsp))
-
-    (use-package lsp-ui
-      :commands lsp-ui-mode)
-
-    (use-package lsp-haskell
-      :config
-      (setq lsp-haskell-process-path-hie "hie-wrapper"))
-
-    (use-package projectile
-      :commands projectile-mode
-      :bind-keymap ("C-c p" . projectile-command-map)
-      :defer t
-      :config
-      (projectile-global-mode))
-
-    (use-package direnv
-      :config
-      (direnv-mode 1))
-
-    (use-package editorconfig
-      :config
-      (editorconfig-mode 1))
+    (use-package treemacs-evil
+      :after evil)
 
     (use-package magit)
+    
+    (use-package direnv)
 
-    (use-package company
-      :init
-      (add-hook 'after-init-hook 'global-company-mode)
-      (add-hook 'haskell-interactive-mode-hook 'company-mode)
+    (use-package projectile
       :config
-      (add-to-list 'company-backends 'company-ghci)
-      (add-to-list 'company-backends 'company-nixos-options))
+      (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+      (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+      (projectile-mode +1))
 
-    (use-package company-lsp
-      :commands company-lsp)
-
-    (use-package proof-site
-      :mode
-      ("\\.v\\'" . coq-mode))
-
-    (use-package haskell-mode
-      :after direnv
-      :mode
-      ("\\.hs\\'" . haskell-mode)
-      :config
-      (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-      (add-hook 'haskell-mode-hook 'company-mode)
-      (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
-      (add-hook 'haskell-interactive-mode-hook 'company-mode)
-      (add-to-list 'completion-ignored-extensions ".hi")
-      (custom-set-variables '(haskell-stylish-on-save t)))
-
-    (setq flymake-no-changes-timeout nil)
-    (setq flymake-start-syntax-check-on-newline nil)
-    (setq flycheck-check-syntax-automatically '(save mode-enabled))
-    (auto-save-visited-mode 1)
-    (setq auto-save-visited-interval 1)
-
-    (use-package web-mode
+    (use-package treemacs
       :defer t
-      :mode
-      ("\\.css\\'" . web-mode)
-      ("\\.html\\'" . web-mode)
-      ("\\.htm\\'" . web-mode)
-      ("\\.js\\'" . web-mode))
+      :init
+      (with-eval-after-load 'winum
+        (define-key winum-keymap (kbd "M-0") #'treemacs-select-window)))
+
+    (use-package treemacs-projectile
+      :after treemacs projectile
+      :ensure t)
+
+    (use-package spaceline-config
+      :config
+      (spaceline-spacemacs-theme))
+
+    (use-package lsp-mode
+      :commands lsp)
+    (use-package lsp-ui :commands lsp-ui-mode)
+    (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+    (use-package dap-mode)
 
     (use-package nix-mode
-      :mode ("\\.nix\\'" . nix-mode))
-
-    (use-package python-mode
-      :mode ("\\.py\\'" . python-mode))
-
+      :mode "\\.nix\\'")
+    
     (use-package elpy
-      :config
-      (add-hook 'python-mode-hook 'elpy-mode))
-
-    (use-package markdown-mode
-      :commands (markdown-mode gfm-mode)
-      :mode (("README\\.md\\'" . gfm-mode)
-             ("\\.md\\'" . markdown-mode)
-             ("\\.markdown\\'" . markdown-mode))
-      :init (setq markdown-command "multimarkdown"))
+      :defer t
+      :init
+      (advice-add 'python-mode :before 'elpy-enable))
   '';
 in
 emacsWithPackages (epkgs: (
-  with epkgs.melpaPackages; with epkgs.elpaPackages; [
+  with epkgs.melpaPackages; [
     (pkgs.runCommand "default.el" {} ''
       mkdir -p $out/share/emacs/site-lisp
       cp ${myEmacsConfig} $out/share/emacs/site-lisp/default.el
       ''
     )
-    base16-theme
-    company
-    company-lsp
-    company-nixos-options
+    all-the-icons
+    dap-mode
+    dashboard
     direnv
-    editorconfig
     elpy
     evil
     evil-collection
     evil-magit
-    exec-path-from-shell
-    fill-column-indicator
-    flycheck
-    flycheck-haskell
-    fzf
-    goto-chg
-    haskell-mode
-    ivy
-    lsp-haskell
     lsp-mode
+    lsp-treemacs
     lsp-ui
     magit
-    markdown-mode
     nix-mode
+    page-break-lines
     projectile
-    projectile-direnv
-    proof-general
-    solarized-theme
-    undo-tree
+    spaceline
+    spaceline-all-the-icons
+    treemacs
+    treemacs-evil
+    treemacs-projectile
     use-package
-    web-mode
+    zenburn-theme
   ]
 ))
