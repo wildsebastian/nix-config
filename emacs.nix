@@ -22,6 +22,12 @@ let
       :config
       (load-theme 'zenburn t))
 
+    (use-package fill-column-indicator
+      :config
+      (setq fci-rule-column 80
+            fci-rule-color "red"
+            fci-rule-width 1))
+
     (setq tab-width 2
       indent-tabs-mode nil)
 
@@ -44,6 +50,8 @@ let
     (use-package evil-collection
       :after evil
       :config
+        (setq evil-want-integration nil
+         evil-collection-company-use-tng nil)
         (evil-collection-init))
 
     (use-package evil-magit
@@ -53,8 +61,10 @@ let
       :after evil)
 
     (use-package magit)
-    
-    (use-package direnv)
+
+    (use-package direnv
+      :config
+      (direnv-mode))
 
     (use-package projectile
       :config
@@ -76,19 +86,46 @@ let
       :config
       (spaceline-spacemacs-theme))
 
+    (use-package editorconfig
+      :config
+      (editorconfig-mode 1))
+
+    (use-package company
+      :config
+      (setq company-idle-delay 0.3)
+
+      (global-company-mode 1)
+
+      (global-set-key (kbd "C-<tab>") 'company-complete))
+
+    (use-package company-lsp
+      :requires company
+      :config
+        (push 'company-lsp company-backends)
+        ;; Disable client-side cache because the LSP server does a better job.
+        (setq company-transformers nil
+              company-lsp-async t
+              company-lsp-cache-candidates nil))
+
     (use-package lsp-mode
-      :commands lsp)
+      :after direnv
+      :hook (python-mode . lsp)
+      :commands lsp
+      :config
+        (setq lsp-enable-snippet nil))
     (use-package lsp-ui :commands lsp-ui-mode)
     (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
     (use-package dap-mode)
 
     (use-package nix-mode
       :mode "\\.nix\\'")
-    
+
     (use-package elpy
-      :defer t
+      :after
+        direnv
+        python-mode
       :init
-      (advice-add 'python-mode :before 'elpy-enable))
+      (elpy-enable))
   '';
 in
 emacsWithPackages (epkgs: (
@@ -99,13 +136,17 @@ emacsWithPackages (epkgs: (
       ''
     )
     all-the-icons
+    company
+    company-lsp
     dap-mode
     dashboard
     direnv
+    editorconfig
     elpy
     evil
     evil-collection
     evil-magit
+    fill-column-indicator
     lsp-mode
     lsp-treemacs
     lsp-ui
