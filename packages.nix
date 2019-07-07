@@ -20,6 +20,7 @@ with pkgs; [
   curl
   ctags
   direnv
+  editorconfig-core-c
   entr
   fswatch
   fzf

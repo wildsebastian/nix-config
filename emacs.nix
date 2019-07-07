@@ -13,6 +13,10 @@ let
       :ensure t
       :config
       (setq dashboard-startup-banner 'logo)
+      (setq dashboard-items '((projects . 5)
+                              (bookmarks . 5)
+                              (recents . 5)
+                              (agenda . 5)))
       (dashboard-setup-startup-hook))
 
     (scroll-bar-mode -1)
@@ -86,9 +90,22 @@ let
       :config
       (spaceline-spacemacs-theme))
 
+    (use-package fzf)
+
     (use-package editorconfig
       :config
       (editorconfig-mode 1))
+
+    (use-package undo-tree
+      :init
+      (global-undo-tree-mode)
+      :config
+      (setq undo-tree-visualizer-diff t)
+      (setq undo-tree-visualizer-timestamps t))
+
+    (use-package flycheck
+      :config
+      (global-flycheck-mode))
 
     (use-package company
       :config
@@ -98,6 +115,13 @@ let
 
       (global-set-key (kbd "C-<tab>") 'company-complete))
 
+    (use-package lsp-mode
+      :after direnv
+      :hook (python-mode . lsp)
+      :commands lsp
+      :config
+        (setq lsp-enable-snippet nil))
+    (use-package lsp-ui :commands lsp-ui-mode)
     (use-package company-lsp
       :requires company
       :config
@@ -106,14 +130,6 @@ let
         (setq company-transformers nil
               company-lsp-async t
               company-lsp-cache-candidates nil))
-
-    (use-package lsp-mode
-      :after direnv
-      :hook (python-mode . lsp)
-      :commands lsp
-      :config
-        (setq lsp-enable-snippet nil))
-    (use-package lsp-ui :commands lsp-ui-mode)
     (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
     (use-package dap-mode)
 
@@ -121,15 +137,17 @@ let
       :mode "\\.nix\\'")
 
     (use-package elpy
+      :defer t
       :after
         direnv
         python-mode
       :init
+      (advice-add 'python-mode :before 'elpy-enable)
       (elpy-enable))
   '';
 in
 emacsWithPackages (epkgs: (
-  with epkgs.melpaPackages; [
+  with epkgs.melpaPackages; with epkgs.elpaPackages; [
     (pkgs.runCommand "default.el" {} ''
       mkdir -p $out/share/emacs/site-lisp
       cp ${myEmacsConfig} $out/share/emacs/site-lisp/default.el
@@ -147,6 +165,8 @@ emacsWithPackages (epkgs: (
     evil-collection
     evil-magit
     fill-column-indicator
+    flycheck
+    fzf
     lsp-mode
     lsp-treemacs
     lsp-ui
@@ -159,6 +179,7 @@ emacsWithPackages (epkgs: (
     treemacs
     treemacs-evil
     treemacs-projectile
+    undo-tree
     use-package
     zenburn-theme
   ]
