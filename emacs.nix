@@ -9,6 +9,8 @@ let
     (eval-when-compile
       (require 'use-package))
 
+    (prefer-coding-system 'utf-8)
+
     (use-package dashboard
       :ensure t
       :config
@@ -144,6 +146,29 @@ let
       :init
       (advice-add 'python-mode :before 'elpy-enable)
       (elpy-enable))
+
+    (use-package markdown-mode
+      :mode
+      (("README\\.md\\'" . gfm-mode)
+       ("\\.md\\'" . markdown-mode)
+       ("\\.markdown\\'" . markdown-mode))
+      :init
+      (setq markdown-command "multimarkdown"))
+
+    (use-package org
+      :mode
+      ("\\.org\\'" . org-mode))
+
+    (use-package yaml-mode
+      :mode
+      ("\\.yml\\'" . yaml-mode))
+
+    (use-package dockerfile-mode
+      :mode
+      ("Dockerfile\\'" . dockerfile-mode))
+    (use-package docker
+      :bind ("C-c d" . docker))
+    (use-package docker-compose-mode)
   '';
 in
 emacsWithPackages (epkgs: (
@@ -159,6 +184,9 @@ emacsWithPackages (epkgs: (
     dap-mode
     dashboard
     direnv
+    docker
+    docker-compose-mode
+    dockerfile-mode
     editorconfig
     elpy
     evil
@@ -171,7 +199,9 @@ emacsWithPackages (epkgs: (
     lsp-treemacs
     lsp-ui
     magit
+    markdown-mode
     nix-mode
+    org
     page-break-lines
     projectile
     spaceline
@@ -181,6 +211,7 @@ emacsWithPackages (epkgs: (
     treemacs-projectile
     undo-tree
     use-package
+    yaml-mode
     zenburn-theme
   ]
 ))
