@@ -169,6 +169,18 @@ let
     (use-package docker
       :bind ("C-c d" . docker))
     (use-package docker-compose-mode)
+
+    (use-package purescript-mode
+      :mode
+      ("\\.purs\\'" . purescript-mode))
+
+    (use-package psc-ide
+      :hook
+      (purescript-mode . psc-ide-mode)
+      (purescript-mode . company-mode)
+      (purescript-mode . flycheck-mode)
+      :config
+      (setq psc-ide-use-npm-bin t))
   '';
 in
 emacsWithPackages (epkgs: (
@@ -204,6 +216,8 @@ emacsWithPackages (epkgs: (
     org
     page-break-lines
     projectile
+    psc-ide
+    purescript-mode
     spaceline
     spaceline-all-the-icons
     treemacs
