@@ -105,6 +105,6 @@
     grbm  = "git rebase origin/master";
     gst   = "git status";
 
-    grepy = "grep --include='*.py' -r";
+    grepy = "grep --include='*.py' --exclude='.direnv' -r";
   };
 }
