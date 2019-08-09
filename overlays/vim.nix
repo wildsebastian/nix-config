@@ -1,4 +1,4 @@
 self: super:
 {
-  vim = super.vimHugeX.override { guiSupport = "gtk3"; };
+  vim = super.neovim;
 }
