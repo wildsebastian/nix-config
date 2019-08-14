@@ -181,6 +181,11 @@ let
       (purescript-mode . flycheck-mode)
       :config
       (setq psc-ide-use-npm-bin t))
+
+    (use-package tuareg
+      :mode
+      ("\\.ml\\'" . tuareg-mode)
+      ("\\.re\\'" . tuareg-mode))
   '';
 in
 emacsWithPackages (epkgs: (
@@ -223,6 +228,7 @@ emacsWithPackages (epkgs: (
     treemacs
     treemacs-evil
     treemacs-projectile
+    tuareg
     undo-tree
     use-package
     yaml-mode
