@@ -32,5 +32,6 @@ with pkgs; [
   mosh
   nixops
   openssl_1_1
+  weechat
   wget
 ]
