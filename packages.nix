@@ -17,6 +17,7 @@ with pkgs; [
   python3
 
   autossh
+  cachix
   curl
   ctags
   direnv
