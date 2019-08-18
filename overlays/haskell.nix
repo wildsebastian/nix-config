@@ -4,7 +4,7 @@ self: super:
     packageOverrides = selfH: superH: rec {
       QuickCheck    = self.haskell.lib.dontCheck superH.QuickCheck;
       Glob          = self.haskell.lib.dontCheck superH.Glob;
-      cachix        = self.callPackage ./cachix.nix {};
+      cachix        = self.callPackage ../nix/cachix.nix {};
       cron          = self.haskell.lib.dontCheck superH.cron;
       comonad       = self.haskell.lib.dontCheck superH.comonad;
       hakyll        = self.haskell.lib.dontCheck (self.haskell.lib.doJailbreak superH.hakyll);
