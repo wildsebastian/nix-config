@@ -186,6 +186,10 @@ let
       :mode
       ("\\.ml\\'" . tuareg-mode)
       ("\\.re\\'" . tuareg-mode))
+
+    (use-package haskell-mode
+      :mode
+      ("\\.hs\\'" . haskell-mode))
   '';
 in
 emacsWithPackages (epkgs: (
@@ -212,6 +216,7 @@ emacsWithPackages (epkgs: (
     fill-column-indicator
     flycheck
     fzf
+    haskell-mode
     lsp-mode
     lsp-treemacs
     lsp-ui
