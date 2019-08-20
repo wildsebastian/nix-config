@@ -22,7 +22,7 @@ with pkgs; [
   python3
 
   autossh
-  cachix
+  # cachix
   curl
   ctags
   direnv
