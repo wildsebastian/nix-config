@@ -18,7 +18,6 @@ with pkgs; [
   patchutils
 
   # (all-hies.selection { selector = p: { inherit (p) ghc844 ghc865; }; })
-  cachix
   python3
 
   autossh
