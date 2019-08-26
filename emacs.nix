@@ -24,11 +24,17 @@ let
     (scroll-bar-mode -1)
     (tool-bar-mode -1)
     (menu-bar-mode -1)
+    (global-display-line-numbers-mode)
     (use-package zenburn-theme
       :config
       (load-theme 'zenburn t))
 
     (use-package fill-column-indicator
+      :hook
+      (haskell-mode . fci-mode)
+      (php-mode . fci-mode)
+      (python-mode . fci-mode)
+      (org-mode . fci-mode)
       :config
       (setq fci-rule-column 80
             fci-rule-color "red"
@@ -159,6 +165,12 @@ let
       :mode
       ("\\.org\\'" . org-mode))
 
+    (use-package org-journal
+      :after org
+      :custom
+      (org-journal-dir "~/notes/journal/")
+      (org-journal-date-format "%A, %d %B %Y"))
+
     (use-package yaml-mode
       :mode
       ("\\.yml\\'" . yaml-mode))
@@ -190,6 +202,10 @@ let
     (use-package haskell-mode
       :mode
       ("\\.hs\\'" . haskell-mode))
+
+    (use-package php-mode
+      :mode
+      ("\\.php\\'" . php-mode))
   '';
 in
 emacsWithPackages (epkgs: (
@@ -224,7 +240,9 @@ emacsWithPackages (epkgs: (
     markdown-mode
     nix-mode
     org
+    org-journal
     page-break-lines
+    php-mode
     projectile
     psc-ide
     purescript-mode

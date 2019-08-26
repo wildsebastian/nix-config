@@ -21,6 +21,7 @@ with pkgs; [
   python3
 
   autossh
+  awscli
   # cachix
   curl
   ctags
