@@ -1,0 +1,4 @@
+#!/bin/sh
+
+emacs --bg-daemon=notes
+emacs --bg-daemon=dev

@@ -96,15 +96,17 @@
   '';
 
   environment.shellAliases = {
-    nixs  = "nix-env -f '<nixpkgs>' -qaP | grep";
-    nixhs = "nix-env -f '<nixpkgs>' -qaP -A haskellPackages | grep";
-    drs   = "darwin-rebuild switch";
-    gf    = "git fetch";
-    gg    = "git log --color --graph";
-    gl    = "git log --color -32";
-    grbm  = "git rebase origin/master";
-    gst   = "git status";
+    nixs        = "nix-env -f '<nixpkgs>' -qaP | grep";
+    nixhs       = "nix-env -f '<nixpkgs>' -qaP -A haskellPackages | grep";
+    drs         = "darwin-rebuild switch";
+    gf          = "git fetch";
+    gg          = "git log --color --graph";
+    gl          = "git log --color -32";
+    grbm        = "git rebase origin/master";
+    gst         = "git status";
 
-    grepy = "grep --include='*.py' --exclude='.direnv' -r";
+    grepy       = "grep --include='*.py' --exclude='.direnv' -r";
+    emacsdev    = "emacsclient -c -s dev &";
+    emacsnotes  = "emacsclient -c -s notes &";
   };
 }

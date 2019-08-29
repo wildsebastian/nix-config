@@ -24,6 +24,7 @@ let
     (scroll-bar-mode -1)
     (tool-bar-mode -1)
     (menu-bar-mode -1)
+    (display-time-mode 1)
     (global-display-line-numbers-mode)
     (use-package zenburn-theme
       :config
