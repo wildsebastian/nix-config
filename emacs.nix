@@ -226,7 +226,7 @@ emacsWithPackages (epkgs: (
     docker-compose-mode
     dockerfile-mode
     editorconfig
-    elpy
+    epkgs.melpaPackages.elpy
     evil
     evil-collection
     evil-magit
