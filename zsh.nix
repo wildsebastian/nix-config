@@ -106,7 +106,6 @@
     gst         = "git status";
 
     grepy       = "grep --include='*.py' --exclude='.direnv' -r";
-    emacsdev    = "emacsclient -c -s dev &";
-    emacsnotes  = "emacsclient -c -s notes &";
+    runemacs    = "emacsclient -c -s main &";
   };
 }
