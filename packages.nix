@@ -17,12 +17,9 @@ with pkgs; [
   patch
   patchutils
 
-  # (all-hies.selection { selector = p: { inherit (p) ghc844 ghc865; }; })
-  python3
-
   autossh
   awscli
-  # cachix
+  cachix
   curl
   ctags
   direnv
@@ -36,7 +33,6 @@ with pkgs; [
   jq
   minify
   mosh
-  nixops
   openssl_1_1
   wget
 ]

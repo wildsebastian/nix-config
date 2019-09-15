@@ -9,6 +9,8 @@ let
     (eval-when-compile
       (require 'use-package))
 
+    (add-to-list 'default-frame-alist '(font . "Hack Nerd Font-11"))
+    (set-face-attribute 'default t :font "Hack Nerd Font-11")
     (prefer-coding-system 'utf-8)
 
     (use-package dashboard
@@ -29,6 +31,10 @@ let
     (use-package zenburn-theme
       :config
       (load-theme 'zenburn t))
+
+    (use-package whitespace-cleanup-mode
+      :config
+      (global-whitespace-cleanup-mode 1))
 
     (use-package fill-column-indicator
       :hook
@@ -145,14 +151,18 @@ let
     (use-package nix-mode
       :mode "\\.nix\\'")
 
-    (use-package elpy
-      :defer t
-      :after
-        direnv
-        python-mode
-      :init
-      (advice-add 'python-mode :before 'elpy-enable)
-      (elpy-enable))
+    (use-package python
+      :mode
+      ("\\.py" . python-mode)
+      :config
+      (flymake-mode)
+      (use-package elpy
+        :after
+          python-mode
+        :init
+        (advice-add 'python-mode :before 'elpy-enable)
+        (elpy-enable)
+      ))
 
     (use-package markdown-mode
       :mode
@@ -164,7 +174,10 @@ let
 
     (use-package org
       :mode
-      ("\\.org\\'" . org-mode))
+      ("\\.org\\'" . org-mode)
+      :custom
+      (org-agenda-files '("~/notes/"))
+      (org-journal-enable-agenda-integration t))
 
     (use-package org-journal
       :after org
@@ -226,7 +239,7 @@ emacsWithPackages (epkgs: (
     docker-compose-mode
     dockerfile-mode
     editorconfig
-    epkgs.melpaPackages.elpy
+    elpy
     evil
     evil-collection
     evil-magit
@@ -255,6 +268,7 @@ emacsWithPackages (epkgs: (
     tuareg
     undo-tree
     use-package
+    whitespace-cleanup-mode
     yaml-mode
     zenburn-theme
   ]
