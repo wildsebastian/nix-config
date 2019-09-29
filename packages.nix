@@ -1,8 +1,5 @@
 { pkgs, config }:
 
-#let
-#  all-hies = import (fetchTarball "https://github.com/infinisil/all-hies/tarball/master") {};
-#in
 with pkgs; [
   (import ./emacs.nix { inherit pkgs; })
 
@@ -19,6 +16,7 @@ with pkgs; [
 
   autossh
   awscli
+  cabal2nix
   cachix
   curl
   ctags

@@ -176,8 +176,9 @@ let
       :mode
       ("\\.org\\'" . org-mode)
       :custom
-      (org-agenda-files '("~/notes/"))
-      (org-journal-enable-agenda-integration t))
+      (org-agenda-files (directory-files-recursively "~/notes/" "\\.org$"))
+      (org-journal-enable-agenda-integration t)
+      (org-modules (quote (org-habit))))
 
     (use-package org-journal
       :after org
