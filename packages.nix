@@ -17,7 +17,6 @@ with pkgs; [
   autossh
   awscli
   cabal2nix
-  cachix
   curl
   ctags
   direnv
