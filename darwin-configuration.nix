@@ -8,7 +8,10 @@ in
     ./tmux.nix
     ./vim.nix
     ./zsh.nix
-  ] ++ (if localconfig.hostname == "Nixpkgs" then [./postgres.nix] else []);
+  ] ++ (if localconfig.hostname == "Nixpkgs" then [
+    ./postgres.nix
+    ./redis.nix
+  ] else []);
 
   system.defaults.NSGlobalDomain.AppleShowScrollBars = "WhenScrolling";
   system.defaults.NSGlobalDomain.AppleKeyboardUIMode = 3;
