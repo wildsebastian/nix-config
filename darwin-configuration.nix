@@ -5,7 +5,7 @@
     ./tmux.nix
     ./vim.nix
     ./zsh.nix
-  ];
+  ] ++ (if "$HOME" == "nixpkgs.local" then [./nixserve.nix] else []);
 
   system.defaults.NSGlobalDomain.AppleShowScrollBars = "WhenScrolling";
   system.defaults.NSGlobalDomain.AppleKeyboardUIMode = 3;
@@ -71,7 +71,7 @@
   ];
 
   # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = false;
+  services.nix-daemon.enable = if "$HOME" == "nixpkgs.local" then true else false;
 
   services.emacs.enable = false;
   services.emacs.package = (import ./emacs.nix { inherit pkgs; });

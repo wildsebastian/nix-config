@@ -1,5 +1,12 @@
 { pkgs, config }:
 
+let server_packages = with pkgs;
+  if "$HOME" == "nixpkgs.local" then
+  [ nix-serve
+  ]
+  else
+    [];
+in
 with pkgs; [
   (import ./emacs.nix { inherit pkgs; })
 
@@ -32,4 +39,4 @@ with pkgs; [
   mosh
   openssl_1_1
   wget
-]
+] ++ server_packages
