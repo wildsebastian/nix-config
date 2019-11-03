@@ -8,7 +8,7 @@ in
     ./tmux.nix
     ./vim.nix
     ./zsh.nix
-  ] ++ (if localconfig.hostname == "Nixpkgs" then [./nixserve.nix] else []);
+  ];
 
   system.defaults.NSGlobalDomain.AppleShowScrollBars = "WhenScrolling";
   system.defaults.NSGlobalDomain.AppleKeyboardUIMode = 3;
