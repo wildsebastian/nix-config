@@ -1,7 +1,9 @@
 { pkgs, config }:
 
-let server_packages = with pkgs;
-  if "$HOME" == "nixpkgs.local" then
+let
+  localconfig = import ./local.nix;
+  server_packages = with pkgs;
+  if localconfig.hostname == "Nixpkgs" then
   [ nix-serve
   ]
   else
