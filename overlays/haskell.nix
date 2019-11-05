@@ -30,6 +30,7 @@ self: pkgs:
             } + "/document") {};
           semigroupoids     = dontCheck super.semigroupoids;
           servant           = dontCheck super.servant;
+          time-compat       = dontCheck super.time-compat;
         };
       };
 
