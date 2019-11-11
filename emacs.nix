@@ -124,10 +124,8 @@ let
 
     (use-package company
       :config
-      (setq company-idle-delay 0.3)
-
-      (global-company-mode 1)
-
+      (setq company-idle-delay 0)
+      (setq company-minimum-prefix-length 1)
       (global-set-key (kbd "C-<tab>") 'company-complete))
 
     (use-package lsp-mode

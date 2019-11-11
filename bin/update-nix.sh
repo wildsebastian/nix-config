@@ -7,3 +7,5 @@ git pull upstream master
 git push origin master
 cd ~
 darwin-rebuild switch
+
+nix-collect-garbage --delete-older-than 7d

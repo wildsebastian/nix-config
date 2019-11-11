@@ -6,6 +6,7 @@
     enableSensible = true;
     plugins = [
       { names = [
+          "ale"
           "base16-vim"
           "direnv-vim"
           "editorconfig-vim"
@@ -17,7 +18,6 @@
         ];
       }
       { names = [ "vim-nix" "vim-addon-nix" ]; filename_regex = "^.nix\$"; }
-      { name = "python-mode"; filename_regex = "^.py\$"; }
     ];
 
     vimConfig = ''
@@ -37,6 +37,7 @@
       set softtabstop=0
       set shiftwidth=2
       set expandtab
+      set nofoldenable
 
       set number
       set showcmd
