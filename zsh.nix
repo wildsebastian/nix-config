@@ -73,7 +73,7 @@
     RPROMPT_SUFFIX='%{'$LINEDOWN'%}' # one line down
 
     PROMPT='$(path) $(gitstatus)
-    $(lambda)$(arrow) '
+    $(lambda) %m $(arrow) '
     RPROMPT=$RPROMPT_PREFIX'$(prompt_date) $(exitcode)'$RPROMPT_SUFFIX
   '';
 
