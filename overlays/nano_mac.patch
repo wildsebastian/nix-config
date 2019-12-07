@@ -1,0 +1,29 @@
+From f516cddce749c3bf938271ef3182b9169ac8cbcc Mon Sep 17 00:00:00 2001
+From: Benno Schulenberg <bensberg@telfort.nl>
+Date: Fri, 6 Dec 2019 12:19:32 +0100
+Subject: build: fix compilation on macOS, where 'st_mtim' is unknown
+
+This fixes https://savannah.gnu.org/bugs/?57367.
+Reported-by: Bo Anderson <bo@toxicflames.co.uk>
+Tested-by: Bo Anderson <bo@toxicflames.co.uk>
+---
+ src/text.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/text.c b/src/text.c
+index 81e8e8b7..011633c4 100644
+--- a/src/text.c
++++ b/src/text.c
+@@ -31,6 +31,10 @@
+ #include <unistd.h>
+ #include <sys/wait.h>
+ 
++#if defined(__APPLE__) && !defined(st_mtim)
++#define st_mtim  st_mtimespec
++#endif
++
+ #ifndef NANO_TINY
+ static pid_t pid_of_command = -1;
+ 		/* The PID of the forked process -- needed when wanting to abort it. */
+-- 
+cgit v1.2.1
