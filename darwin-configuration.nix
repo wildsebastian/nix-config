@@ -68,6 +68,7 @@ in
   nixpkgs.config.allowUnsupportedSystem = false;
   nixpkgs.overlays = [ (import ./overlays/haskell.nix)
                        (import ./overlays/vim.nix)
+                       (import ./overlays/nano.nix)
                      ];
 
   nix.nixPath = [
