@@ -23,6 +23,7 @@ with pkgs; [
   patch
   patchutils
 
+  alacritty
   autossh
   awscli
   cabal2nix
@@ -39,6 +40,7 @@ with pkgs; [
   jq
   minify
   mosh
+  neovim
   openssl_1_1
   wget
 ] ++ server_packages

@@ -108,5 +108,6 @@
     grepy       = "grep --include='*.py' --exclude='.direnv' -r";
     em          = "emacs --bg-daemon=main && emacsclient -c -s main &";
     ec          = "emacsclient -c -s main &";
+    vim         = "nvim";
   };
 }
