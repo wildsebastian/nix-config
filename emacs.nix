@@ -12,213 +12,93 @@ let
     (add-to-list 'default-frame-alist '(font . "Hack Nerd Font-11"))
     (set-face-attribute 'default t :font "Hack Nerd Font-11")
     (prefer-coding-system 'utf-8)
+    (global-display-line-numbers-mode 1)
+    (setq display-line-numbers "relative")
 
-    (use-package dashboard
-      :ensure t
-      :config
-      (setq dashboard-startup-banner 'logo)
-      (setq dashboard-items '((projects . 5)
-                              (bookmarks . 5)
-                              (recents . 5)
-                              (agenda . 5)))
-      (dashboard-setup-startup-hook))
-
-    (scroll-bar-mode -1)
-    (tool-bar-mode -1)
-    (menu-bar-mode -1)
-    (display-time-mode 1)
-    (global-display-line-numbers-mode)
+    ;; Modes that are always active
     (use-package zenburn-theme
       :config
       (load-theme 'zenburn t))
-
-    (use-package whitespace-cleanup-mode
-      :config
-      (global-whitespace-cleanup-mode 1))
-
-    (use-package fill-column-indicator
-      :hook
-      (haskell-mode . fci-mode)
-      (php-mode . fci-mode)
-      (python-mode . fci-mode)
-      (org-mode . fci-mode)
-      :config
-      (setq fci-rule-column 80
-            fci-rule-color "red"
-            fci-rule-width 1))
-
-    (setq tab-width 2
-      indent-tabs-mode nil)
-
-    (setq make-backup-files nil)
-    (defalias 'yes-or-no-p 'y-or-n-p)
-
-    (setq echo-keystrokes 0.1
-      use-dialog-box nil
-      visible-bell t)
-    (show-paren-mode t)
-
-    (use-package all-the-icons)
-
-    (use-package evil
-      :init
-      (setq evil-want-keybinding nil)
-      :config
-      (evil-mode 1))
-
-    (use-package evil-collection
-      :after evil
-      :config
-        (setq evil-want-integration nil
-         evil-collection-company-use-tng nil)
-        (evil-collection-init))
-
-    (use-package evil-magit
-      :after evil)
-
-    (use-package treemacs-evil
-      :after evil)
-
-    (use-package magit)
-
-    (use-package direnv
-      :config
-      (direnv-mode))
-
-    (use-package projectile
-      :config
-      (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-      (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-      (projectile-mode +1))
-
-    (use-package treemacs
-      :defer t
-      :init
-      (with-eval-after-load 'winum
-        (define-key winum-keymap (kbd "M-0") #'treemacs-select-window)))
-
-    (use-package treemacs-projectile
-      :after treemacs projectile
-      :ensure t)
-
-    (use-package spaceline-config
-      :config
-      (spaceline-spacemacs-theme))
-
-    (use-package fzf)
 
     (use-package editorconfig
       :config
       (editorconfig-mode 1))
 
-    (use-package undo-tree
+    (use-package evil
       :init
-      (global-undo-tree-mode)
+      (setq evil-want-keybinding nil)
       :config
-      (setq undo-tree-visualizer-diff t)
-      (setq undo-tree-visualizer-timestamps t))
+      (evil-mode))
 
-    (use-package flycheck
+    (use-package evil-collection
+      :after evil
       :config
-      (global-flycheck-mode))
+      (setq evil-want-integration nil
+       evil-collection-company-use-tng nil)
+      (evil-collection-init))
 
-    (use-package company
-      :config
-      (setq company-idle-delay 0)
-      (setq company-minimum-prefix-length 1)
-      (global-set-key (kbd "C-<tab>") 'company-complete))
+    (use-package fzf)
 
-    (use-package lsp-mode
-      :after direnv
-      :hook (python-mode . lsp)
-      :commands lsp
+    (use-package all-the-icons)
+
+    (use-package treemacs
+      :init
+      (with-eval-after-load 'winum
+        (define-key winum-keymap (kbd "M-0") #'treemacs-select-window)))
+
+    (use-package treemacs-evil
+      :after treemacs)
+
+    (use-package projectile
       :config
-        (setq lsp-enable-snippet nil))
-    (use-package lsp-ui :commands lsp-ui-mode)
-    (use-package company-lsp
-      :requires company
+      (projectile-mode +1))
+
+    ;; Modes that are loaded under certain circumstances
+    (use-package direnv
+      :init
+      (add-hook 'before-hack-local-variables-hook #'direnv-update-environment)
       :config
-        (push 'company-lsp company-backends)
-        ;; Disable client-side cache because the LSP server does a better job.
-        (setq company-transformers nil
-              company-lsp-async t
-              company-lsp-cache-candidates nil))
-    (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
-    (use-package dap-mode)
+      (direnv-mode))
 
     (use-package nix-mode
       :mode "\\.nix\\'")
 
     (use-package python
-      :mode
-      ("\\.py" . python-mode)
-      :config
-      (flymake-mode)
-      (use-package elpy
-        :after
-          python-mode
-        :init
-        (advice-add 'python-mode :before 'elpy-enable)
-        (elpy-enable)
-      ))
+      :mode ("\\.py" . python-mode))
 
-    (use-package markdown-mode
-      :mode
-      (("README\\.md\\'" . gfm-mode)
-       ("\\.md\\'" . markdown-mode)
-       ("\\.markdown\\'" . markdown-mode))
-      :init
-      (setq markdown-command "multimarkdown"))
-
-    (use-package org
-      :mode
-      ("\\.org\\'" . org-mode)
-      :custom
-      (org-agenda-files (directory-files-recursively "~/notes/" "\\.org$"))
-      (org-journal-enable-agenda-integration t)
-      (org-modules (quote (org-habit))))
-
-    (use-package org-journal
-      :after org
-      :custom
-      (org-journal-dir "~/notes/journal/")
-      (org-journal-date-format "%A, %d %B %Y"))
-
-    (use-package yaml-mode
-      :mode
-      ("\\.yml\\'" . yaml-mode))
-
-    (use-package dockerfile-mode
-      :mode
-      ("Dockerfile\\'" . dockerfile-mode))
-    (use-package docker
-      :bind ("C-c d" . docker))
-    (use-package docker-compose-mode)
-
-    (use-package purescript-mode
-      :mode
-      ("\\.purs\\'" . purescript-mode))
-
-    (use-package psc-ide
+    (use-package lsp-mode
       :hook
-      (purescript-mode . psc-ide-mode)
-      (purescript-mode . company-mode)
-      (purescript-mode . flycheck-mode)
+      (python-mode . lsp-deferred)
+      :commands
+      (lsp lsp-deferred)
       :config
-      (setq psc-ide-use-npm-bin t))
+      (setq lsp-enable-snippet nil)
+      (setq lsp-pyls-plugins-pylint-enabled nil)
+      (setq lsp-pyls-configuration-sources ["flake8"])
+      (setq lsp-pyls-plugins-pycodestyle-max-line-length 120))
 
-    (use-package tuareg
-      :mode
-      ("\\.ml\\'" . tuareg-mode)
-      ("\\.re\\'" . tuareg-mode))
+    (use-package lsp-ui
+      :after lsp-mode
+      :commands lsp-ui-mode)
 
-    (use-package haskell-mode
-      :mode
-      ("\\.hs\\'" . haskell-mode))
+    (use-package lsp-treemacs
+      :after lsp-mode
+      :commands lsp-treemacs-errors-list)
 
-    (use-package php-mode
-      :mode
-      ("\\.php\\'" . php-mode))
+    (use-package company
+      :config
+      (setq company-idle-delay 0)
+      (setq company-minimum-prefix-length 2))
+
+    (use-package company-box
+      :hook (company-mode . company-box-mode))
+
+    (use-package company-lsp
+      :config
+      (push 'company-lsp company-backends))
+
+    (use-package flycheck
+      :hook (python-mode . flycheck-mode))
   '';
 in
 emacsWithPackages (epkgs: (
@@ -230,45 +110,22 @@ emacsWithPackages (epkgs: (
     )
     all-the-icons
     company
+    company-box
     company-lsp
-    dap-mode
-    dashboard
     direnv
-    docker
-    docker-compose-mode
-    dockerfile-mode
     editorconfig
-    elpy
     evil
     evil-collection
-    evil-magit
-    fill-column-indicator
     flycheck
     fzf
-    haskell-mode
     lsp-mode
-    lsp-treemacs
     lsp-ui
-    magit
-    markdown-mode
+    lsp-treemacs
     nix-mode
-    org
-    org-journal
-    page-break-lines
-    php-mode
+    zenburn-theme
     projectile
-    psc-ide
-    purescript-mode
-    spaceline
-    spaceline-all-the-icons
     treemacs
     treemacs-evil
-    treemacs-projectile
-    tuareg
-    undo-tree
     use-package
-    whitespace-cleanup-mode
-    yaml-mode
-    zenburn-theme
   ]
 ))
