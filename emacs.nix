@@ -12,8 +12,12 @@ let
     (add-to-list 'default-frame-alist '(font . "Hack Nerd Font-11"))
     (set-face-attribute 'default t :font "Hack Nerd Font-11")
     (prefer-coding-system 'utf-8)
+    (menu-bar-mode -1)
+    (scroll-bar-mode -1)
+    (tool-bar-mode -1)
+    (flymake-mode -1)
     (global-display-line-numbers-mode 1)
-    (setq display-line-numbers "relative")
+    (setq display-line-numbers-type 'relative)
 
     ;; Modes that are always active
     (use-package zenburn-theme
@@ -52,6 +56,19 @@ let
     (use-package projectile
       :config
       (projectile-mode +1))
+
+    (use-package fill-column-indicator
+      :hook
+      (python-mode . fci-mode)
+      (nix-mode . fci-mode)
+      :config
+      (setq fci-rule-width 1)
+      (setq fci-rule-color "red"))
+
+    (use-package magit)
+
+    (use-package evil-magit
+      :after (evil magit))
 
     ;; Modes that are loaded under certain circumstances
     (use-package direnv
@@ -116,11 +133,14 @@ emacsWithPackages (epkgs: (
     editorconfig
     evil
     evil-collection
+    evil-magit
+    fill-column-indicator
     flycheck
     fzf
     lsp-mode
     lsp-ui
     lsp-treemacs
+    magit
     nix-mode
     zenburn-theme
     projectile

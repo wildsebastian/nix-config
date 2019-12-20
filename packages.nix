@@ -25,7 +25,6 @@ with pkgs; [
 
   alacritty
   autossh
-  awscli
   cabal2nix
   curl
   ctags
