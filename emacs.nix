@@ -59,8 +59,9 @@ let
 
     (use-package fill-column-indicator
       :hook
-      (python-mode . fci-mode)
+      (haskell-mode . fci-mode)
       (nix-mode . fci-mode)
+      (python-mode . fci-mode)
       :config
       (setq fci-rule-width 1)
       (setq fci-rule-color "red"))
@@ -82,6 +83,12 @@ let
 
     (use-package python
       :mode ("\\.py" . python-mode))
+
+    (use-package haskell-mode
+      :mode ("\\.hs" . haskell-mode)
+      :config
+      (flycheck-mode 1)
+      (flycheck-haskell-setup))
 
     (use-package lsp-mode
       :hook
@@ -116,6 +123,9 @@ let
 
     (use-package flycheck
       :hook (python-mode . flycheck-mode))
+
+    (use-package flycheck-haskell
+      :commands flycheck-haskell-setup)
   '';
 in
 emacsWithPackages (epkgs: (
@@ -136,7 +146,9 @@ emacsWithPackages (epkgs: (
     evil-magit
     fill-column-indicator
     flycheck
+    flycheck-haskell
     fzf
+    haskell-mode
     lsp-mode
     lsp-ui
     lsp-treemacs
