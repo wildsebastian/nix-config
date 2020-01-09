@@ -66,10 +66,10 @@ let
       (setq fci-rule-width 1)
       (setq fci-rule-color "red"))
 
-    ;;(use-package magit)
+    (use-package magit)
 
-    ;;(use-package evil-magit
-    ;;  :after (evil magit))
+    (use-package evil-magit
+      :after (evil magit))
 
     ;; Modes that are loaded under certain circumstances
     (use-package direnv
@@ -143,6 +143,7 @@ emacsWithPackages (epkgs: (
     editorconfig
     evil
     evil-collection
+    evil-magit
     fill-column-indicator
     flycheck
     flycheck-haskell
@@ -151,6 +152,7 @@ emacsWithPackages (epkgs: (
     lsp-mode
     lsp-ui
     lsp-treemacs
+    magit
     nix-mode
     zenburn-theme
     projectile
