@@ -4,9 +4,7 @@ let
   localconfig = import ./local.nix;
   server_packages = with pkgs;
   if localconfig.hostname == "Nixpkgs" then
-  [ certbot
-    nginx
-  ]
+    []
   else
     [];
 in
