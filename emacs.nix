@@ -143,7 +143,6 @@ emacsWithPackages (epkgs: (
     editorconfig
     evil
     evil-collection
-    ;;evil-magit
     fill-column-indicator
     flycheck
     flycheck-haskell
@@ -152,7 +151,6 @@ emacsWithPackages (epkgs: (
     lsp-mode
     lsp-ui
     lsp-treemacs
-    ;;magit
     nix-mode
     zenburn-theme
     projectile
