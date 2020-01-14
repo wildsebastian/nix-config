@@ -96,6 +96,7 @@ let
       :commands
       (lsp lsp-deferred)
       :config
+      (setq lsp-prefer-flymake nil)
       (setq lsp-enable-snippet nil)
       (setq lsp-pyls-plugins-pylint-enabled nil)
       (setq lsp-pyls-configuration-sources ["flake8"])
