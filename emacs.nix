@@ -68,6 +68,12 @@ let
 
     (use-package magit)
 
+    (use-package forge
+      :after magit)
+
+    (use-package transient
+      :after magit)
+
     (use-package evil-magit
       :after (evil magit))
 
@@ -148,6 +154,7 @@ emacsWithPackages (epkgs: (
     fill-column-indicator
     flycheck
     flycheck-haskell
+    forge
     fzf
     haskell-mode
     lsp-mode
@@ -157,6 +164,7 @@ emacsWithPackages (epkgs: (
     nix-mode
     zenburn-theme
     projectile
+    transient
     treemacs
     treemacs-evil
     use-package
