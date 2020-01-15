@@ -9,8 +9,8 @@ let
     (eval-when-compile
       (require 'use-package))
 
-    (add-to-list 'default-frame-alist '(font . "Hack Nerd Font-11"))
-    (set-face-attribute 'default t :font "Hack Nerd Font-11")
+    (add-to-list 'default-frame-alist '(font . "JetBrains Mono-13"))
+    (set-face-attribute 'default t :font "JetBrains Mono-13")
     (prefer-coding-system 'utf-8)
     (menu-bar-mode -1)
     (scroll-bar-mode -1)
