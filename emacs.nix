@@ -20,9 +20,9 @@ let
     (setq display-line-numbers-type 'relative)
 
     ;; Modes that are always active
-    (use-package zenburn-theme
+    (use-package nord-theme
       :config
-      (load-theme 'zenburn t))
+      (load-theme 'nord t))
 
     (use-package editorconfig
       :config
@@ -162,7 +162,7 @@ emacsWithPackages (epkgs: (
     lsp-treemacs
     magit
     nix-mode
-    zenburn-theme
+    nord-theme
     projectile
     transient
     treemacs

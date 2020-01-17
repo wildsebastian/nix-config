@@ -22,6 +22,7 @@ with pkgs; [
   patch
   patchutils
 
+  ag
   alacritty
   autossh
   cabal2nix
