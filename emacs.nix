@@ -45,6 +45,15 @@ let
 
     (use-package all-the-icons)
 
+    (use-package dashboard
+      :config
+      (dashboard-setup-startup-hook)
+      (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+      (setq dashboard-banner-logo-title "Welcome Sebastian")
+      (setq dashboard-startup-banner 'logo)
+      (setq dashboard-items '((projects . 5)
+                              (registers . 5))))
+
     (use-package treemacs
       :init
       (with-eval-after-load 'winum
@@ -90,11 +99,18 @@ let
     (use-package python
       :mode ("\\.py" . python-mode))
 
+    (defun haskell-mode-after-save-handler () nil)
+
     (use-package haskell-mode
-      :mode ("\\.hs" . haskell-mode)
+      :mode
+      ("\\.hs" . haskell-mode)
+      ("\\.ghci$" . ghci-script-mode)
+      ("\\.cabal$" . haskell-cabal-mode)
+      :interpreter
+      (("runghc" . haskell-mode)
+       ("runhaskell" . haskell-mode))
       :config
-      (flycheck-mode 1)
-      (flycheck-haskell-setup))
+      (setq haskell-stylish-on-save t))
 
     (use-package lsp-mode
       :hook
@@ -129,7 +145,9 @@ let
       (push 'company-lsp company-backends))
 
     (use-package flycheck
-      :hook (python-mode . flycheck-mode))
+      :hook
+      (python-mode . flycheck-mode)
+      (haskell-mode . flycheck-mode))
 
     (use-package flycheck-haskell
       :commands flycheck-haskell-setup)
@@ -146,6 +164,7 @@ emacsWithPackages (epkgs: (
     company
     company-box
     company-lsp
+    dashboard
     direnv
     editorconfig
     evil
@@ -163,6 +182,7 @@ emacsWithPackages (epkgs: (
     magit
     nix-mode
     nord-theme
+    page-break-lines
     projectile
     transient
     treemacs
