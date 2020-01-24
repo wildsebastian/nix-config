@@ -43,6 +43,16 @@ let
 
     (use-package fzf)
 
+    (use-package helm-config
+      :config
+      (setq-default helm-M-x-fuzzy-match t))
+
+    (use-package helm-ag
+      :after helm)
+
+    (use-package helm-projectile
+      :after helm)
+
     (use-package all-the-icons)
 
     (use-package dashboard
@@ -176,6 +186,9 @@ emacsWithPackages (epkgs: (
     forge
     fzf
     haskell-mode
+    helm
+    helm-ag
+    helm-projectile
     lsp-mode
     lsp-ui
     lsp-treemacs
