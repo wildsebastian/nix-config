@@ -41,6 +41,16 @@ let
        evil-collection-company-use-tng nil)
       (evil-collection-init))
 
+    (use-package elfeed
+      :defer 2
+      :config
+      (setq elfeed-feeds
+        '("https://haskellweekly.news/newsletter.atom"
+          "https://api.quantamagazine.org/feed/"
+          "neilmitchell.blogspot.com/feeds/4325603572653260736/comments/default"
+          "https://weekly.nixos.org/feeds/all.rss.xml"
+          "https://bartoszmilewski.com/feed/")))
+
     (use-package fzf)
 
     (use-package helm-config
@@ -122,7 +132,20 @@ let
       :config
       (setq haskell-stylish-on-save t))
 
+    (use-package yaml-mode
+      :mode
+      ("\\.yml\\'" . yaml-mode))
+
+    (use-package idris-mode
+      :mode
+      ("\\.idr" . idris-mode))
+
+    (use-package php-mode
+      :mode
+      ("\\.php" . php-mode))
+
     (use-package lsp-mode
+      :defer 2
       :hook
       (python-mode . lsp-deferred)
       :commands
@@ -136,11 +159,19 @@ let
 
     (use-package lsp-ui
       :after lsp-mode
-      :commands lsp-ui-mode)
+      :commands lsp-ui-mode
+      :config
+      (setq lsp-ui-doc-enable nil
+            lsp-ui-sideline-enable nil
+            lsp-ui-flycheck-enable t))
 
     (use-package lsp-treemacs
       :after lsp-mode
       :commands lsp-treemacs-errors-list)
+
+    (use-package dap-mode
+      :config
+      (dap-mode t))
 
     (use-package company
       :config
@@ -174,9 +205,11 @@ emacsWithPackages (epkgs: (
     company
     company-box
     company-lsp
+    dap-mode
     dashboard
     direnv
     editorconfig
+    elfeed
     evil
     evil-collection
     evil-magit
@@ -189,6 +222,7 @@ emacsWithPackages (epkgs: (
     helm
     helm-ag
     helm-projectile
+    idris-mode
     lsp-mode
     lsp-ui
     lsp-treemacs
@@ -196,10 +230,12 @@ emacsWithPackages (epkgs: (
     nix-mode
     nord-theme
     page-break-lines
+    php-mode
     projectile
     transient
     treemacs
     treemacs-evil
     use-package
+    yaml-mode
   ]
 ))
