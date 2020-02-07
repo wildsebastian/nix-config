@@ -106,6 +106,10 @@ let
     (use-package evil-magit
       :after (evil magit))
 
+    (use-package docker
+      :defer 5
+      :bind ("C-c d" . docker))
+
     ;; Modes that are loaded under certain circumstances
     (use-package direnv
       :init
@@ -144,6 +148,15 @@ let
       :mode
       ("\\.php" . php-mode))
 
+    (use-package markdown-mode
+      :commands (markdown-mode gfm-mode)
+      :mode
+      (("README\\.md\\'" . gfm-mode)
+       ("\\.md\\'" . markdown-mode)
+       ("\\.markdown\\'" . markdown-mode))
+      :init
+      (setq markdown-command "multimarkdown"))
+
     (use-package lsp-mode
       :defer 2
       :hook
@@ -151,6 +164,7 @@ let
       :commands
       (lsp lsp-deferred)
       :config
+      (setq lsp-auto-configure t)
       (setq lsp-prefer-flymake nil)
       (setq lsp-enable-snippet nil)
       (setq lsp-pyls-plugins-pylint-enabled nil)
@@ -160,30 +174,34 @@ let
     (use-package lsp-ui
       :after lsp-mode
       :commands lsp-ui-mode
+      :hook
+      (python-mode . flycheck-mode)
       :config
-      (setq lsp-ui-doc-enable nil
-            lsp-ui-sideline-enable nil
+      (setq lsp-ui-doc-enable t
+            lsp-ui-sideline-enable t
             lsp-ui-flycheck-enable t))
 
     (use-package lsp-treemacs
       :after lsp-mode
       :commands lsp-treemacs-errors-list)
 
-    (use-package dap-mode
-      :config
-      (dap-mode t))
+    (use-package dap-mode)
+    (use-package dap-python)
 
     (use-package company
       :config
       (setq company-idle-delay 0)
-      (setq company-minimum-prefix-length 2))
+      (setq company-minimum-prefix-length 1))
 
     (use-package company-box
       :hook (company-mode . company-box-mode))
 
     (use-package company-lsp
       :config
-      (push 'company-lsp company-backends))
+      (push 'company-lsp company-backends)
+      (setq company-lsp-cache-candidates 'auto)
+      (setq company-lsp-async t)
+      (setq company-lsp-enable-recompletion t))
 
     (use-package flycheck
       :hook
@@ -208,6 +226,7 @@ emacsWithPackages (epkgs: (
     dap-mode
     dashboard
     direnv
+    docker
     editorconfig
     elfeed
     evil
@@ -227,6 +246,7 @@ emacsWithPackages (epkgs: (
     lsp-ui
     lsp-treemacs
     magit
+    markdown-mode
     nix-mode
     nord-theme
     page-break-lines
@@ -235,6 +255,8 @@ emacsWithPackages (epkgs: (
     transient
     treemacs
     treemacs-evil
+    treemacs-magit
+    treemacs-projectile
     use-package
     yaml-mode
   ]

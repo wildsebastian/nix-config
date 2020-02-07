@@ -10,6 +10,11 @@ fi
 
 cache=".direnv/cache-${version:-unknown}"
 
+if [[ $(find "$filename" -mtime +6 -print) ]]; then
+  echo "Cache is older than 6 days -- rebuild"
+  rm "$cache"
+fi
+
 update_drv=0
 if [[ ! -e "$cache" ]] || \
   [[ "$HOME/.direnvrc" -nt "$cache" ]] || \
