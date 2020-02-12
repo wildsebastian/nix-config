@@ -39,7 +39,6 @@ with pkgs; [
   jq
   minify
   mosh
-  neovim
   openssl_1_1
   wget
 ] ++ server_packages
