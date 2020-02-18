@@ -112,10 +112,10 @@ let
 
     ;; Modes that are loaded under certain circumstances
     (use-package direnv
-      :hook (before-hack-local-variables . #'direnv-update-environment)
+      :init
+      (add-hook 'before-hack-local-variables-hook #'direnv-update-environment)
       :config
-      (add-to-list 'direnv-non-file-modes 'vterm-mode)
-      (direnv-mode))
+      (direnv-mode 1))
 
     (use-package nix-mode
       :mode "\\.nix\\'")
