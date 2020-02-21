@@ -9,8 +9,8 @@ let
     (eval-when-compile
       (require 'use-package))
 
-    (add-to-list 'default-frame-alist '(font . "JetBrains Mono-13"))
-    (set-face-attribute 'default t :font "JetBrains Mono-13")
+    (add-to-list 'default-frame-alist '(font . "mononoki-12"))
+    (set-face-attribute 'default t :font "mononoki-12")
     (prefer-coding-system 'utf-8)
     (menu-bar-mode -1)
     (scroll-bar-mode -1)
@@ -157,6 +157,9 @@ let
       :init
       (setq markdown-command "multimarkdown"))
 
+    (use-package agda2-mode
+      :mode "\\.agda\\'")
+
     (use-package lsp-mode
       :defer 2
       :hook
@@ -220,6 +223,7 @@ emacsWithPackages (epkgs: (
       ''
     )
     all-the-icons
+    pkgs.emacsPackages.agda2-mode
     company
     company-box
     company-lsp
