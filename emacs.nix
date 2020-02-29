@@ -110,6 +110,10 @@ let
       :defer 5
       :bind ("C-c d" . docker))
 
+    (use-package multi-term
+      :config
+      (setq multi-term-program "/run/current-system/sw/bin/zsh"))
+
     ;; Modes that are loaded under certain circumstances
     (use-package direnv
       :init
@@ -156,9 +160,6 @@ let
        ("\\.markdown\\'" . markdown-mode))
       :init
       (setq markdown-command "multimarkdown"))
-
-    (use-package agda2-mode
-      :mode "\\.agda\\'")
 
     (use-package lsp-mode
       :defer 2
@@ -223,7 +224,6 @@ emacsWithPackages (epkgs: (
       ''
     )
     all-the-icons
-    pkgs.emacsPackages.agda2-mode
     company
     company-box
     company-lsp
@@ -251,6 +251,7 @@ emacsWithPackages (epkgs: (
     lsp-treemacs
     magit
     markdown-mode
+    multi-term
     nix-mode
     nord-theme
     page-break-lines

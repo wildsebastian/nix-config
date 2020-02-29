@@ -9,3 +9,5 @@ cd ~
 darwin-rebuild switch
 
 nix-collect-garbage --delete-older-than 7d
+
+/Users/sebastian/.nixpkgs/bin/allow-mosh.sh
