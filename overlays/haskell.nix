@@ -16,18 +16,8 @@ self: pkgs:
           semigroupoids       = dontCheck super.semigroupoids;
           servant             = dontCheck super.servant;
           servant-auth-server = doJailbreak super.servant-auth-server;
+          servant-server      = doJailbreak super.servant-server;
           time-compat         = dontCheck super.time-compat;
-        };
-      };
-
-      ghc881 = pkgs.haskell.packages.ghc881.override {
-        overrides = self: super: with pkgs.haskell.lib; {
-          HaskellNet = self.callCabal2nix "HaskellNet" (pkgs.fetchgit {
-            url = "https://github.com/jtdaugherty/HaskellNet.git";
-            rev = "af38595ec1bd804bdc365d103c9142f595e6295c";
-            sha256 = "15zmbhhh2d8hxcgmz3z1xb19rhbhhfwn8nrpqxqrx9k37zsn6z77";
-          }) {};
-          http-media = doJailbreak super.http-media;
         };
       };
     };
