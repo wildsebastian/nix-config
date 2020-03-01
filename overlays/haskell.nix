@@ -21,6 +21,12 @@ self: pkgs:
           time-compat           = dontCheck super.time-compat;
         };
       };
+
+      ghcjs = pkgs.haskell.packages.ghcjs.override {
+        overrides = self: super: with pkgs.haskell.lib; {
+          haddock-library-ghcjs = dontCheck super.haddock-library-ghcjs;
+        };
+      };
     };
   };
 }
