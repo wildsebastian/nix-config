@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+
+import datetime as dt
+import os
+import os.path
+import sys
+
+if len(sys.argv) < 2:
+  raise Exception("Not enough arguments")
+
+directory = os.getenv("HOME") + "/Documents/zettelkasten/"
+current_time = dt.datetime.now().strftime("%Y%m%d%H%M")
+title = sys.argv[1]
+filename = current_time + "-" + title.lower().replace(" ", "-") + ".md"
+
+if os.path.isfile(filename):
+  raise Exception("File already exists")
+
+with open(directory + filename, "w") as f:
+  f.write("----\n")
+  f.write("id: " + current_time + "\n")
+  f.write("title: " + title + "\n")
+  f.write("tags:\n")
+  f.write("references:\n")
+  f.write("----\n")
+  f.write("\n")
+  f.write("# " + title + "\n")
+
+print directory + filename

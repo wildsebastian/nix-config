@@ -41,17 +41,9 @@ let
        evil-collection-company-use-tng nil)
       (evil-collection-init))
 
-    (use-package elfeed
-      :defer 2
-      :config
-      (setq elfeed-feeds
-        '("https://haskellweekly.news/newsletter.atom"
-          "https://api.quantamagazine.org/feed/"
-          "neilmitchell.blogspot.com/feeds/4325603572653260736/comments/default"
-          "https://weekly.nixos.org/feeds/all.rss.xml"
-          "https://bartoszmilewski.com/feed/")))
-
     (use-package fzf)
+
+    (use-package vterm)
 
     (use-package helm-config
       :config
@@ -77,7 +69,9 @@ let
     (use-package treemacs
       :init
       (with-eval-after-load 'winum
-        (define-key winum-keymap (kbd "M-0") #'treemacs-select-window)))
+        (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+      :config
+      (treemacs-load-theme "Default"))
 
     (use-package treemacs-evil
       :after treemacs)
@@ -116,8 +110,7 @@ let
 
     ;; Modes that are loaded under certain circumstances
     (use-package direnv
-      :init
-      (add-hook 'before-hack-local-variables-hook #'direnv-update-environment)
+      :hook (before-hack-local-variables-hook . #'direnv-update-environment)
       :config
       (direnv-mode 1))
 
@@ -189,8 +182,15 @@ let
       :after lsp-mode
       :commands lsp-treemacs-errors-list)
 
-    (use-package dap-mode)
-    (use-package dap-python)
+    (use-package dap-mode
+      :after lsp-mode
+      :config
+      (dap-mode 1)
+      (use-package dap-ui
+        :config
+        (dap-ui-mode 1)))
+    (use-package dap-python
+      :after dap-mode)
 
     (use-package company
       :config
@@ -232,7 +232,7 @@ emacsWithPackages (epkgs: (
     direnv
     docker
     editorconfig
-    elfeed
+    emacs-libvterm
     evil
     evil-collection
     evil-magit
@@ -254,6 +254,7 @@ emacsWithPackages (epkgs: (
     multi-term
     nix-mode
     nord-theme
+    org
     page-break-lines
     php-mode
     projectile
