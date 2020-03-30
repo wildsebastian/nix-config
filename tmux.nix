@@ -7,7 +7,7 @@
   programs.tmux.enableFzf = true;
   programs.tmux.enableVim = true;
 
-  programs.tmux.tmuxConfig = ''
+  programs.tmux.extraConfig = ''
     set -g prefix C-a
     unbind C-b
 

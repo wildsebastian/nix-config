@@ -110,7 +110,6 @@ let
 
     ;; Modes that are loaded under certain circumstances
     (use-package direnv
-      :hook (before-hack-local-variables-hook . #'direnv-update-environment)
       :config
       (direnv-mode 1))
 
@@ -153,6 +152,11 @@ let
        ("\\.markdown\\'" . markdown-mode))
       :init
       (setq markdown-command "multimarkdown"))
+
+    (use-package proof-general
+      :mode ("\\.v\\'" . coq-mode)
+      :config
+      (setq proof-layout-windows 'hybrid))
 
     (use-package lsp-mode
       :defer 2
@@ -258,6 +262,7 @@ emacsWithPackages (epkgs: (
     page-break-lines
     php-mode
     projectile
+    proof-general
     transient
     treemacs
     treemacs-evil
