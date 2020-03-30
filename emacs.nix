@@ -110,8 +110,10 @@ let
 
     ;; Modes that are loaded under certain circumstances
     (use-package direnv
+      :init
+      (add-hook 'prog-mode-hook #'direnv-update-environment)
       :config
-      (direnv-mode 1))
+      (direnv-mode))
 
     (use-package nix-mode
       :mode "\\.nix\\'")
