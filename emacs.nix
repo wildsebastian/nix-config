@@ -66,6 +66,8 @@ let
       (setq dashboard-items '((projects . 5)
                               (registers . 5))))
 
+    (use-package tramp)
+
     (use-package treemacs
       :init
       (with-eval-after-load 'winum
@@ -145,6 +147,10 @@ let
     (use-package php-mode
       :mode
       ("\\.php" . php-mode))
+
+    (use-package smarty-mode
+      :mode
+      ("\\.tpl" . smarty-mode))
 
     (use-package markdown-mode
       :commands (markdown-mode gfm-mode)
@@ -265,7 +271,9 @@ emacsWithPackages (epkgs: (
     php-mode
     projectile
     proof-general
+    smarty-mode
     transient
+    tramp
     treemacs
     treemacs-evil
     treemacs-magit
