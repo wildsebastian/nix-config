@@ -148,9 +148,13 @@ let
       :mode
       ("\\.php" . php-mode))
 
-    (use-package smarty-mode
+    (use-package web-mode
       :mode
-      ("\\.tpl" . smarty-mode))
+      ("\\.tpl" . web-mode)
+      :config
+      (setq web-mode-markup-indent-offset 2)
+      (setq web-mode-code-indent-offset 2)
+      (setq web-mode-css-indent-offset 2))
 
     (use-package markdown-mode
       :commands (markdown-mode gfm-mode)
@@ -271,7 +275,7 @@ emacsWithPackages (epkgs: (
     php-mode
     projectile
     proof-general
-    smarty-mode
+    web-mode
     transient
     tramp
     treemacs
