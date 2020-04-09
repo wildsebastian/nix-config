@@ -4,7 +4,7 @@ let
   localconfig = import ./local.nix;
   server_packages = with pkgs;
   if localconfig.hostname == "Nixpkgs" then
-    []
+    [netdata]
   else
     [];
 in
