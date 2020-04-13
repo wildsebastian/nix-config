@@ -66,9 +66,13 @@ in
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowBroken = true;
   nixpkgs.config.allowUnsupportedSystem = false;
-  nixpkgs.overlays = [ (import ./overlays/haskell.nix)
-                       (import ./overlays/vim.nix)
-                     ];
+  nixpkgs.overlays = [
+    (import ./overlays/haskell.nix)
+    (import ./overlays/vim.nix)
+    (import (builtins.fetchTarball {
+      url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+    }))
+  ];
 
   nix.nixPath = [
     "darwin-config=$HOME/.nixpkgs/darwin-configuration.nix"
