@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  myEmacs = pkgs.emacsUnstable;
+  myEmacs = pkgs.emacsGit;
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
   myEmacsConfig = pkgs.writeText "default.el" ''
     (require 'package)
