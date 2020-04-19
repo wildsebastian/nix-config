@@ -87,9 +87,15 @@ let
       (haskell-mode . fci-mode)
       (nix-mode . fci-mode)
       (python-mode . fci-mode)
+      (web-mode . fci-mode)
       :config
       (setq fci-rule-width 1)
       (setq fci-rule-color "red"))
+
+    (use-package format-all
+      :hook
+      (haskell-mode . format-all-mode)
+      (python-mode . format-all-mode))
 
     (use-package magit)
 
@@ -150,11 +156,16 @@ let
 
     (use-package web-mode
       :mode
-      ("\\.tpl" . web-mode)
+      ("\\.tpl\\'" . web-mode)
+      ("\\.php\\'" . web-mode)
       :config
       (setq web-mode-markup-indent-offset 2)
       (setq web-mode-code-indent-offset 2)
       (setq web-mode-css-indent-offset 2))
+
+    (use-package scss-mode
+      :mode
+      ("\\.scss\\'" . scss-mode))
 
     (use-package markdown-mode
       :commands (markdown-mode gfm-mode)
@@ -256,6 +267,7 @@ emacsWithPackages (epkgs: (
     flycheck
     flycheck-haskell
     forge
+    format-all
     fzf
     haskell-mode
     helm
@@ -275,7 +287,7 @@ emacsWithPackages (epkgs: (
     php-mode
     projectile
     proof-general
-    web-mode
+    scss-mode
     transient
     tramp
     treemacs
@@ -283,6 +295,7 @@ emacsWithPackages (epkgs: (
     treemacs-magit
     treemacs-projectile
     use-package
+    web-mode
     yaml-mode
   ]
 ))
