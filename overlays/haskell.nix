@@ -22,6 +22,12 @@ self: pkgs:
         };
       };
 
+      ghc833 = pkgs.haskell.packages.ghc833.override {
+        overrides = self: super: with pkgs.haskell.lib; {
+          butcher               = dontCheck butcher;
+        };
+      };
+
       ghcjs = pkgs.haskell.packages.ghcjs.override {
         overrides = self: super: with pkgs.haskell.lib; {
           haddock-library-ghcjs = dontCheck super.haddock-library-ghcjs;
