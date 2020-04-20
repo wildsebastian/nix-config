@@ -10,7 +10,6 @@ self: pkgs:
           Glob                  = dontCheck super.Glob;
           cron                  = dontCheck super.cron;
           comonad               = dontCheck super.comonad;
-          haddock-library-ghcjs = dontCheck super.haddock-library-ghcjs;
           hakyll                = dontCheck (doJailbreak super.hakyll);
           http-types            = dontCheck super.http-types;
           lens                  = dontCheck super.lens;
@@ -22,9 +21,9 @@ self: pkgs:
         };
       };
 
-      ghc833 = pkgs.haskell.packages.ghc833.override {
+      ghc883 = pkgs.haskell.packages.ghc883.override {
         overrides = self: super: with pkgs.haskell.lib; {
-          butcher               = dontCheck butcher;
+          butcher               = doJailbreak super.butcher_1_3_3_1;
         };
       };
 
