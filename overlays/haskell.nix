@@ -17,7 +17,7 @@ self: pkgs:
           semigroupoids         = dontCheck super.semigroupoids;
           servant               = dontCheck super.servant;
           servant-auth-server   = doJailbreak super.servant-auth-server;
-          servant-server        = doJailbreak super.servant-server;
+          servant-server        = dontCheck (doJailbreak super.servant-server);
           time-compat           = dontCheck super.time-compat;
         };
       };
@@ -25,6 +25,7 @@ self: pkgs:
       ghc883 = pkgs.haskell.packages.ghc865.override {
         overrides = self: super: with pkgs.haskell.lib; {
           butcher               = dontCheck super.butcher;
+          servant-server        = dontCheck (doJailbreak super.servant-server);
         };
       };
 
