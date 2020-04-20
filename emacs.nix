@@ -47,7 +47,13 @@ let
 
     (use-package helm-config
       :config
-      (setq-default helm-M-x-fuzzy-match t))
+      (setq-default helm-M-x-fuzzy-match t)
+      (global-set-key "\C-x\C-m" 'helm-M-x)
+      (global-set-key "\C-c\C-m" 'helm-M-x)
+      (define-key evil-ex-map "," 'helm-M-x)
+
+      (define-key evil-ex-map "b " 'helm-mini)
+      (define-key evil-ex-map "e" 'helm-find-files))
 
     (use-package helm-ag
       :after helm)

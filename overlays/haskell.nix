@@ -8,7 +8,6 @@ self: pkgs:
           HaskellNet            = doJailbreak super.HaskellNet;
           QuickCheck            = dontCheck super.QuickCheck;
           Glob                  = dontCheck super.Glob;
-          cabal2nix             = doJailbreak super.cabal2nix;
           cron                  = dontCheck super.cron;
           comonad               = dontCheck super.comonad;
           haddock-library-ghcjs = dontCheck super.haddock-library-ghcjs;
@@ -22,15 +21,6 @@ self: pkgs:
           time-compat           = dontCheck super.time-compat;
         };
       };
-
-      ghc883 = pkgs.haskell.packages.ghc865.override {
-        overrides = self: super: with pkgs.haskell.lib; {
-          butcher               = dontCheck super.butcher;
-          cabal2nix             = doJailbreak super.cabal2nix;
-          servant-server        = dontCheck (doJailbreak super.servant-server);
-        };
-      };
-
 
       ghcjs = pkgs.haskell.packages.ghcjs.override {
         overrides = self: super: with pkgs.haskell.lib; {
