@@ -97,7 +97,6 @@ let
 
     (use-package format-all
       :hook
-      (haskell-mode . format-all-mode)
       (python-mode . format-all-mode))
 
     (use-package magit)
@@ -132,8 +131,6 @@ let
     (use-package python
       :mode ("\\.py" . python-mode))
 
-    (defun haskell-mode-after-save-handler () nil)
-
     (use-package haskell-mode
       :mode
       ("\\.hs" . haskell-mode)
@@ -143,7 +140,23 @@ let
       (("runghc" . haskell-mode)
        ("runhaskell" . haskell-mode))
       :config
+      (require 'haskell-doc)
+      (setq haskell-mode-stylish-haskell-path "stylish-haskell")
       (setq haskell-stylish-on-save t))
+
+    (use-package dante
+      :ensure t
+      :after haskell-mode
+      :commands 'dante-mode
+      :init
+      (add-hook 'haskell-mode-hook 'flycheck-mode)
+      (add-hook 'haskell-mode-hook 'dante-mode)
+      :config
+      (flycheck-add-next-checker 'haskell-dante '(warning . haskell-hlint)))
+
+    (add-hook 'dante-mode-hook
+     '(lambda () (flycheck-add-next-checker 'haskell-dante
+                                       '(warning . haskell-hlint))))
 
     (use-package yaml-mode
       :mode
@@ -257,6 +270,7 @@ emacsWithPackages (epkgs: (
     company
     company-box
     company-lsp
+    dante
     dap-mode
     dashboard
     direnv
