@@ -89,6 +89,7 @@ let
       :hook
       (haskell-mode . fci-mode)
       (nix-mode . fci-mode)
+      (php-mode . fci-mode)
       (python-mode . fci-mode)
       (web-mode . fci-mode)
       :config
@@ -173,7 +174,6 @@ let
     (use-package web-mode
       :mode
       ("\\.tpl\\'" . web-mode)
-      ("\\.php\\'" . web-mode)
       :config
       (setq web-mode-markup-indent-offset 2)
       (setq web-mode-code-indent-offset 2)
@@ -228,12 +228,11 @@ let
     (use-package dap-mode
       :after lsp-mode
       :config
-      (dap-mode 1)
-      (use-package dap-ui
-        :config
-        (dap-ui-mode 1)))
-    (use-package dap-python
-      :after dap-mode)
+      (require 'dap-python)
+      (require 'dap-ui)
+      (dap-mode t)
+      (dap-ui-mode t)
+      (tooltip-mode t))
 
     (use-package company
       :config
