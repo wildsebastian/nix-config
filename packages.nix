@@ -33,6 +33,7 @@ with pkgs; [
   entr
   fswatch
   fzf
+  gnugrep
   gnupg
   htop
   imgcat
@@ -40,5 +41,6 @@ with pkgs; [
   minify
   mosh
   openssl_1_1
+  ripgrep
   wget
 ] ++ server_packages
