@@ -9,8 +9,8 @@ let
     (eval-when-compile
       (require 'use-package))
 
-    (add-to-list 'default-frame-alist '(font . "mononoki-12"))
-    (set-face-attribute 'default t :font "mononoki-12")
+    (add-to-list 'default-frame-alist '(font . "Hack Nerd Font-12"))
+    (set-face-attribute 'default t :font "Hack Nerd Font-12")
     (prefer-coding-system 'utf-8)
     (menu-bar-mode -1)
     (scroll-bar-mode -1)
@@ -242,8 +242,21 @@ let
       (dap-ui-mode t)
       (tooltip-mode t))
 
+    (defvar-local company-fci-mode-on-p nil)
+
+    (defun company-turn-off-fci (&rest ignore)
+      (when (boundp 'fci-mode)
+        (setq company-fci-mode-on-p fci-mode)
+        (when fci-mode (fci-mode -1))))
+
+    (defun company-maybe-turn-on-fci (&rest ignore)
+      (when company-fci-mode-on-p (fci-mode 1)))
+
     (use-package company
       :config
+      (add-hook 'company-completion-started-hook 'company-turn-off-fci)
+      (add-hook 'company-completion-finished-hook 'company-maybe-turn-on-fci)
+      (add-hook 'company-completion-cancelled-hook 'company-maybe-turn-on-fci)
       (setq company-idle-delay 0)
       (setq company-minimum-prefix-length 1))
 
@@ -251,6 +264,7 @@ let
       :hook (company-mode . company-box-mode))
 
     (use-package company-lsp
+      :after (lsp-mode company)
       :config
       (push 'company-lsp company-backends)
       (setq company-lsp-cache-candidates 'auto)
