@@ -118,9 +118,7 @@
     grbm        = "git rebase origin/master";
     gst         = "git status";
 
-    grepy       = "grep --include='*.py' --exclude='.direnv' -r";
-    ed          = "emacs --bg-daemon=main";
-    em          = "emacs --bg-daemon=main && emacsclient -c -s main &";
+    ed          = "nohup emacs --bg-daemon=main >/dev/null";
     ec          = "emacsclient -c -s main &";
   };
 }

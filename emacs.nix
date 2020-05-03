@@ -9,6 +9,9 @@ let
     (eval-when-compile
       (require 'use-package))
 
+    (setq gc-cons-threshold 100000000)
+    (setq read-process-output-max (* 1024 1024)) ;; 1mb
+
     (add-to-list 'default-frame-alist '(font . "Hack Nerd Font-12"))
     (set-face-attribute 'default t :font "Hack Nerd Font-12")
     (prefer-coding-system 'utf-8)
@@ -20,38 +23,30 @@ let
     (setq display-line-numbers-type 'relative)
 
     ;; Modes that are always active
-    (use-package nord-theme
+    (use-package zenburn-theme
       :config
-      (load-theme 'nord t))
+      (load-theme 'zenburn t))
 
     (use-package editorconfig
-      :defer 1
       :config
       (editorconfig-mode 1))
 
     (use-package evil
-      :defer 1
       :init
       (setq evil-want-keybinding nil)
       :config
       (evil-mode))
 
     (use-package evil-collection
-      :defer 2
       :after evil
       :config
       (setq evil-want-integration nil
        evil-collection-company-use-tng nil)
       (evil-collection-init))
 
-    (use-package fzf
-      :defer 5)
-
-    (use-package vterm
-      :defer 2)
+    (use-package fzf)
 
     (use-package helm-config
-      :defer 5
       :config
       (setq-default helm-M-x-fuzzy-match t)
       (global-set-key "\C-x\C-m" 'helm-M-x)
@@ -59,15 +54,12 @@ let
       (define-key evil-normal-state-map (kbd ",") 'helm-M-x))
 
     (use-package helm-ag
-      :defer 5
       :after helm)
 
     (use-package helm-projectile
-      :defer 5
       :after helm)
 
-    (use-package all-the-icons
-      :defer 8)
+    (use-package all-the-icons)
 
     (use-package dashboard
       :config
@@ -78,11 +70,9 @@ let
       (setq dashboard-items '((projects . 5)
                               (registers . 5))))
 
-    (use-package tramp
-      :defer 8)
+    (use-package tramp)
 
     (use-package treemacs
-      :defer 2
       :init
       (with-eval-after-load 'winum
         (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
@@ -90,11 +80,9 @@ let
       (treemacs-load-theme "Default"))
 
     (use-package treemacs-evil
-      :defer 2
       :after treemacs)
 
     (use-package projectile
-      :defer 2
       :config
       (projectile-mode +1))
 
@@ -113,8 +101,7 @@ let
       :hook
       (python-mode . format-all-mode))
 
-    (use-package magit
-      :defer 12)
+    (use-package magit)
 
     (use-package forge
       :after magit)
@@ -126,7 +113,6 @@ let
       :after (evil magit))
 
     (use-package docker
-      :defer 5
       :bind ("C-c d" . docker))
 
     ;; Modes that are loaded under certain circumstances
@@ -153,7 +139,20 @@ let
       :config
       (require 'haskell-doc)
       (setq haskell-mode-stylish-haskell-path "stylish-haskell")
-      (setq haskell-stylish-on-save t))
+      (setq haskell-stylish-on-save t)
+      ;; hoogle setup
+      (setq haskell-hoogle-port-number 8181)
+      (setq haskell-hoogle-server-command (lambda (port) (list
+                                            "hoogle"
+                                            "server"
+                                            "-p" (number-to-string port)
+                                            "--host"
+                                            "127.0.0.1"
+                                            "--local"
+                                            "--haskell"
+                                            "-n")))
+      (setq haskell-hoogle-url "http://127.0.0.1/?hoogle=%s")
+      )
 
     (use-package dante
       :after haskell-mode
@@ -209,38 +208,24 @@ let
     (use-package lsp-mode
       :hook
       (python-mode . lsp-deferred)
-      :commands
-      (lsp lsp-deferred)
+      (lsp-mode . lsp-enable-which-key-integration)
       :config
-      (setq lsp-auto-configure t)
-      (setq lsp-prefer-flymake nil)
-      (setq lsp-enable-snippet nil)
-      (setq lsp-pyls-plugins-pylint-enabled nil)
-      (setq lsp-pyls-configuration-sources ["flake8"])
-      (setq lsp-pyls-plugins-pycodestyle-max-line-length 120))
+      (setq lsp-idle-delay 0.500))
 
-    (use-package lsp-ui
-      :after lsp-mode
-      :commands lsp-ui-mode
-      :hook
-      (python-mode . flycheck-mode)
+    (use-package lsp-ui :commands lsp-ui-mode)
+    (use-package helm-lsp :commands helm-lsp-workspace-symbol)
+    (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+    (use-package dap-mode)
+    (use-package dap-python)
+
+    (use-package which-key
       :config
-      (setq lsp-ui-doc-enable t
-            lsp-ui-sideline-enable t
-            lsp-ui-flycheck-enable t))
-
-    (use-package lsp-treemacs
-      :after lsp-mode
-      :commands lsp-treemacs-errors-list)
-
-    (use-package dap-mode
-      :after lsp-mode
-      :config
-      (require 'dap-python)
-      (require 'dap-ui)
-      (dap-mode t)
-      (dap-ui-mode t)
-      (tooltip-mode t))
+      (setq which-key-show-early-on-C-h t)
+      (setq which-key-idle-delay 10000)
+      (setq which-key-idle-secondary-delay 0.05)
+      (setq which-key-popup-type 'minibuffer)
+      (define-key evil-normal-state-map (kbd "c") 'which-key-C-h-dispatch)
+      (which-key-mode))
 
     (defvar-local company-fci-mode-on-p nil)
 
@@ -257,19 +242,11 @@ let
       (add-hook 'company-completion-started-hook 'company-turn-off-fci)
       (add-hook 'company-completion-finished-hook 'company-maybe-turn-on-fci)
       (add-hook 'company-completion-cancelled-hook 'company-maybe-turn-on-fci)
-      (setq company-idle-delay 0)
+      (setq company-idle-delay 0.0)
       (setq company-minimum-prefix-length 1))
 
     (use-package company-box
       :hook (company-mode . company-box-mode))
-
-    (use-package company-lsp
-      :after (lsp-mode company)
-      :config
-      (push 'company-lsp company-backends)
-      (setq company-lsp-cache-candidates 'auto)
-      (setq company-lsp-async t)
-      (setq company-lsp-enable-recompletion t))
 
     (use-package flycheck
       :hook
@@ -290,14 +267,12 @@ emacsWithPackages (epkgs: (
     all-the-icons
     company
     company-box
-    company-lsp
     dante
     dap-mode
     dashboard
     direnv
     docker
     editorconfig
-    emacs-libvterm
     evil
     evil-collection
     evil-magit
@@ -310,6 +285,7 @@ emacsWithPackages (epkgs: (
     haskell-mode
     helm
     helm-ag
+    helm-lsp
     helm-projectile
     idris-mode
     lsp-mode
@@ -318,7 +294,6 @@ emacsWithPackages (epkgs: (
     magit
     markdown-mode
     nix-mode
-    nord-theme
     org
     page-break-lines
     php-mode
@@ -332,7 +307,9 @@ emacsWithPackages (epkgs: (
     treemacs-magit
     treemacs-projectile
     use-package
+    which-key
     web-mode
     yaml-mode
+    zenburn-theme
   ]
 ))
