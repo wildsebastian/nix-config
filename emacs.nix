@@ -12,8 +12,8 @@ let
     (setq gc-cons-threshold 100000000)
     (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
-    (add-to-list 'default-frame-alist '(font . "Hack Nerd Font-12"))
-    (set-face-attribute 'default t :font "Hack Nerd Font-12")
+    (add-to-list 'default-frame-alist '(font . "JetBrains Mono-12"))
+    (set-face-attribute 'default t :font "JetBrains Mono-12")
     (prefer-coding-system 'utf-8)
     (menu-bar-mode -1)
     (scroll-bar-mode -1)
@@ -255,6 +255,8 @@ let
 
     (use-package flycheck-haskell
       :commands flycheck-haskell-setup)
+
+    (use-package vterm)
   '';
 in
 emacsWithPackages (epkgs: (
@@ -273,6 +275,7 @@ emacsWithPackages (epkgs: (
     direnv
     docker
     editorconfig
+    emacs-libvterm
     evil
     evil-collection
     evil-magit
