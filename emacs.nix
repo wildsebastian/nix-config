@@ -115,8 +115,6 @@ let
     (use-package docker
       :bind ("C-c d" . docker))
 
-    (use-package neuron-mode)
-
     ;; Modes that are loaded under certain circumstances
     (use-package direnv
       :init
@@ -302,7 +300,6 @@ emacsWithPackages (epkgs: (
     lsp-treemacs
     magit
     markdown-mode
-    neuron-mode
     nix-mode
     org
     page-break-lines
