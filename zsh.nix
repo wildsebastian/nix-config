@@ -120,5 +120,6 @@
 
     ed          = "nohup emacs --bg-daemon=main >/dev/null";
     ec          = "emacsclient -c -s main &";
+    ek          = "killall -9 emacs";
   };
 }

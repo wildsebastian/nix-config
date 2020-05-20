@@ -115,6 +115,8 @@ let
     (use-package docker
       :bind ("C-c d" . docker))
 
+    (use-package neuron-mode)
+
     ;; Modes that are loaded under certain circumstances
     (use-package direnv
       :init
@@ -248,6 +250,9 @@ let
     (use-package company-box
       :hook (company-mode . company-box-mode))
 
+    (use-package company-coq
+      :hook (coq-mode . company-coq-mode))
+
     (use-package flycheck
       :hook
       (python-mode . flycheck-mode)
@@ -269,13 +274,14 @@ emacsWithPackages (epkgs: (
     all-the-icons
     company
     company-box
+    company-coq
     dante
     dap-mode
     dashboard
     direnv
     docker
     editorconfig
-    emacs-libvterm
+    vterm
     evil
     evil-collection
     evil-magit
@@ -296,6 +302,7 @@ emacsWithPackages (epkgs: (
     lsp-treemacs
     magit
     markdown-mode
+    neuron-mode
     nix-mode
     org
     page-break-lines

@@ -38,6 +38,7 @@ with pkgs; [
   htop
   imgcat
   jq
+  haskellPackages.neuron
   minify
   mosh
   openssl_1_1
