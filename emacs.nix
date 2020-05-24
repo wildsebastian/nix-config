@@ -27,9 +27,9 @@ let
       :config
       (load-theme 'zenburn t))
 
-    (use-package editorconfig
-      :config
-      (editorconfig-mode 1))
+    ;; (use-package editorconfig
+    ;;   :config
+    ;;   (editorconfig-mode 1))
 
     (use-package evil
       :init
@@ -56,6 +56,11 @@ let
     (use-package helm-ag
       :after helm)
 
+    (use-package helm-bibtex
+      :after helm
+      :config
+      (setq bibtex-completion-bibliography '("~/Documents/bibliography/references.bib")))
+
     (use-package helm-projectile
       :after helm)
 
@@ -69,6 +74,36 @@ let
       (setq dashboard-startup-banner 'logo)
       (setq dashboard-items '((projects . 5)
                               (registers . 5))))
+
+    (use-package org)
+
+    (use-package org-ref
+      :config
+      (setq reftex-default-bibliography '("~/Documents/bibliography/references.bib"))
+      (setq org-ref-default-bibliography '("~/Documents/bibliography/references.bib")))
+
+    (use-package org-roam
+      :hook
+      (after-init . org-roam-mode)
+      :custom
+      (org-roam-directory "~/Documents/zettelkasten/")
+      :bind (:map org-roam-mode-map
+             (("C-c n l" . org-roam)
+             ("C-c n f" . org-roam-find-file)
+             ("C-c n g" . org-roam-show-graph))
+             :map org-mode-map
+             (("C-c n i" . org-roam-insert))))
+
+    (use-package org-roam-bibtex
+      :hook (org-roam-mode . org-roam-bibtex-mode)
+      :bind (:map org-mode-map
+              (("C-c n a" . orb-note-actions))))
+
+    (use-package deft
+      :custom
+        (deft-extensions '("org" "md" "txt"))
+        (deft-directory "~/Documents/zettelkasten")
+        (deft-use-filename-as-title t))
 
     (use-package tramp)
 
@@ -111,9 +146,6 @@ let
 
     (use-package evil-magit
       :after (evil magit))
-
-    (use-package docker
-      :bind ("C-c d" . docker))
 
     ;; Modes that are loaded under certain circumstances
     (use-package direnv
@@ -273,11 +305,12 @@ emacsWithPackages (epkgs: (
     company
     company-box
     company-coq
+    company-org-roam
     dante
     dap-mode
     dashboard
+    deft
     direnv
-    docker
     editorconfig
     vterm
     evil
@@ -292,6 +325,7 @@ emacsWithPackages (epkgs: (
     haskell-mode
     helm
     helm-ag
+    helm-bibtex
     helm-lsp
     helm-projectile
     idris-mode
@@ -302,6 +336,9 @@ emacsWithPackages (epkgs: (
     markdown-mode
     nix-mode
     org
+    org-ref
+    org-roam
+    org-roam-bibtex
     page-break-lines
     php-mode
     projectile
@@ -318,5 +355,6 @@ emacsWithPackages (epkgs: (
     web-mode
     yaml-mode
     zenburn-theme
+    zetteldeft
   ]
 ))
