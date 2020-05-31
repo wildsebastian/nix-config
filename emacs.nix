@@ -46,6 +46,14 @@ let
 
     (use-package fzf)
 
+    (use-package flyspell
+      :hook
+      (python-mode . flyspell-prog-mode)
+      (haskell-mode . flyspell-prog-mode)
+      :config
+      (setq-default ispell-program-name "aspell")
+      (flyspell-mode 1))
+
     (use-package helm-config
       :config
       (setq-default helm-M-x-fuzzy-match t)
