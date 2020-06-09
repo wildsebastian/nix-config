@@ -26,7 +26,7 @@ with pkgs; [
   alacritty
   (aspellWithDicts (d: [d.de
                         d.en
-                        d.en-computers        
+                        d.en-computers
                         d.en-science
                         d.it]))
   autossh

@@ -27,9 +27,9 @@ let
       :config
       (load-theme 'zenburn t))
 
-    ;; (use-package editorconfig
-    ;;   :config
-    ;;   (editorconfig-mode 1))
+    (use-package editorconfig
+      :config
+      (editorconfig-mode 1))
 
     (use-package evil
       :init

@@ -100,6 +100,14 @@
         printf "\e]%s\e\\" "$1"
       fi
     }
+
+    gfcto() {
+      git fetch && git checkout -b $1 origin/$1
+    }
+
+    gfctr() {
+      git fetch && git checkout -b $2 $1/$2
+    }
   '';
 
   environment.etc."zshenv".text = ''
