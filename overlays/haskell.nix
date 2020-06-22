@@ -23,7 +23,6 @@ self: pkgs:
 
       ghc883 = pkgs.haskell.packages.ghc883.override {
         overrides = self: super: with pkgs.haskell.lib; {
-          free-categories   = super.free-categories_0_2_0_0;
           hakyll            = dontCheck (doJailbreak super.hakyll);
           squeal-postgresql = dontCheck super.squeal-postgresql;
         };

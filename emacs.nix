@@ -12,8 +12,8 @@ let
     (setq gc-cons-threshold 100000000)
     (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
-    (add-to-list 'default-frame-alist '(font . "JetBrains Mono-12"))
-    (set-face-attribute 'default t :font "JetBrains Mono-12")
+    (add-to-list 'default-frame-alist '(font . "JetBrains Mono-14"))
+    (set-face-attribute 'default t :font "JetBrains Mono-14")
     (prefer-coding-system 'utf-8)
     (menu-bar-mode -1)
     (scroll-bar-mode -1)
