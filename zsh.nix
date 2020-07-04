@@ -108,6 +108,14 @@
     gfctr() {
       git fetch && git checkout -b $2 $1/$2
     }
+
+    edn() {
+      nohup emacs --bg-daemon=$1 >/dev/null
+    }
+
+    ecn() {
+      emacsclient -c -s $1 &
+    }
   '';
 
   environment.etc."zshenv".text = ''

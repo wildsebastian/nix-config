@@ -1,10 +1,14 @@
 self: super:
-{
-  python = super.python // {
-    packageOverrides = selfP: superP: rec {
-      nose-randomly = superP.nose-randomly.overridePythonAttrs(old: rec {
+rec {
+  # nix-shell -p python.pkgs.my_stuff
+  python37 = super.python37.override {
+    # Careful, we're using a different self and super here!
+    packageOverrides = self: super: {
+      tinycss2 = super.tinycss2.overridePythonAttrs(old: rec {
         doCheck = false;
       });
     };
   };
+  # nix-shell -p pythonPackages.my_stuff
+  python37Packages = python37.pkgs;
 }

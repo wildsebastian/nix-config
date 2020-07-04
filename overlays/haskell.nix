@@ -13,6 +13,7 @@ self: pkgs:
           hakyll                = dontCheck (doJailbreak super.hakyll);
           http-types            = dontCheck super.http-types;
           lens                  = dontCheck super.lens;
+          math-functions        = dontCheck super.math-functions;
           semigroupoids         = dontCheck super.semigroupoids;
           servant               = dontCheck super.servant;
           servant-auth-server   = doJailbreak super.servant-auth-server;
@@ -24,6 +25,7 @@ self: pkgs:
       ghc883 = pkgs.haskell.packages.ghc883.override {
         overrides = self: super: with pkgs.haskell.lib; {
           hakyll            = dontCheck (doJailbreak super.hakyll);
+          math-functions        = dontCheck super.math-functions;
           squeal-postgresql = dontCheck super.squeal-postgresql;
         };
       };
