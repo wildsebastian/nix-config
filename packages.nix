@@ -18,6 +18,7 @@ with pkgs; [
   (gitAndTools.gitFull.override { sendEmailSupport = true; })
   gitAndTools.gitflow
   gitstats
+  nix-prefetch-git
   mercurialFull
   patch
   patchutils

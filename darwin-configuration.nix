@@ -68,9 +68,7 @@ in
   nixpkgs.overlays = [
     (import ./overlays/haskell.nix)
     (import ./overlays/vim.nix)
-    (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
-    }))
+    (import ./overlays/emacs-overlay/default.nix)
   ];
 
   nix.nixPath = [
