@@ -166,6 +166,8 @@ let
       (add-hook 'haskell-mode-hook 'flycheck-mode)
       (add-hook 'haskell-mode-hook 'dante-mode)
       :config
+      (setq-default dante-repl-command-line
+        '("cabal" "new-repl" dante-target "--builddir=dist-newstyle/dante"))
       (flycheck-add-next-checker 'haskell-dante '(warning . haskell-hlint)))
 
     (add-hook 'dante-mode-hook
