@@ -14,6 +14,7 @@ self: pkgs:
           http-types            = dontCheck super.http-types;
           lens                  = dontCheck super.lens;
           math-functions        = dontCheck super.math-functions;
+          rebase                = doJailbreak super.rebase;
           semigroupoids         = dontCheck super.semigroupoids;
           servant               = dontCheck super.servant;
           servant-auth-server   = doJailbreak super.servant-auth-server;
@@ -25,7 +26,18 @@ self: pkgs:
       ghc883 = pkgs.haskell.packages.ghc883.override {
         overrides = self: super: with pkgs.haskell.lib; {
           hakyll            = dontCheck (doJailbreak super.hakyll);
-          math-functions        = dontCheck super.math-functions;
+          math-functions    = dontCheck super.math-functions;
+          rebase            = doJailbreak super.rebase;
+          squeal-postgresql = dontCheck super.squeal-postgresql;
+        };
+      };
+
+      ghc8101 = pkgs.haskell.packages.ghc883.override {
+        overrides = self: super: with pkgs.haskell.lib; {
+          hakyll            = dontCheck (doJailbreak super.hakyll);
+          http-media        = doJailbreak super.http-media;
+          math-functions    = dontCheck super.math-functions;
+          rebase            = doJailbreak super.rebase;
           squeal-postgresql = dontCheck super.squeal-postgresql;
         };
       };
@@ -33,6 +45,7 @@ self: pkgs:
       ghcjs = pkgs.haskell.packages.ghcjs.override {
         overrides = self: super: with pkgs.haskell.lib; {
           haddock-library-ghcjs = dontCheck super.haddock-library-ghcjs;
+          rebase                = doJailbreak super.rebase;
         };
       };
     };

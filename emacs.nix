@@ -280,7 +280,6 @@ emacsWithPackages (epkgs: (
     company
     company-box
     company-coq
-    company-org-roam
     dante
     dap-mode
     dashboard
