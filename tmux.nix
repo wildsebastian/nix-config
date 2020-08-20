@@ -32,7 +32,7 @@
 
     set-option -g allow-rename off
     set-option -g status on
-    set-option -g status-interval 60
+    set-option -g status-interval 300
     set-option -g status-justify centre
     set-option -g status-keys vi
     set-option -g status-left "#[bg=default]#(servicehealth) #[fg=white,bg=default] #(tmux_uptime.sh)#[fg=white,bg=default]"
