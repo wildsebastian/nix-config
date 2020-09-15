@@ -7,6 +7,9 @@ rec {
       tinycss2 = super.tinycss2.overridePythonAttrs(old: rec {
         doCheck = false;
       });
+      python-language-server = super.python-language-server.overridePythonAttrs(old: rec {
+        doCheck = false;
+      });
     };
   };
   # nix-shell -p pythonPackages.my_stuff
