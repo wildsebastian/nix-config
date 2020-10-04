@@ -10,7 +10,6 @@ self: pkgs:
           Glob                  = dontCheck super.Glob;
           cron                  = dontCheck super.cron;
           comonad               = dontCheck super.comonad;
-          hakyll                = dontCheck (doJailbreak super.hakyll);
           http-types            = dontCheck super.http-types;
           lens                  = dontCheck super.lens;
           math-functions        = dontCheck super.math-functions;
@@ -23,9 +22,9 @@ self: pkgs:
         };
       };
 
-      ghc883 = pkgs.haskell.packages.ghc883.override {
+      ghc884 = pkgs.haskell.packages.ghc884.override {
         overrides = self: super: with pkgs.haskell.lib; {
-          hakyll            = dontCheck (doJailbreak super.hakyll);
+          hakyll = self.callPackage ~/.nixpkgs/haskell-packages/hakyll-4.13.4.1.nix {};
           math-functions    = dontCheck super.math-functions;
           rebase            = doJailbreak super.rebase;
           squeal-postgresql = dontCheck super.squeal-postgresql;
@@ -34,7 +33,6 @@ self: pkgs:
 
       ghc8101 = pkgs.haskell.packages.ghc883.override {
         overrides = self: super: with pkgs.haskell.lib; {
-          hakyll            = dontCheck (doJailbreak super.hakyll);
           http-media        = doJailbreak super.http-media;
           math-functions    = dontCheck super.math-functions;
           rebase            = doJailbreak super.rebase;

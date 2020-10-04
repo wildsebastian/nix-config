@@ -12,6 +12,15 @@ rec {
       });
     };
   };
+  python38 = super.python38.override {
+    # Careful, we're using a different self and super here!
+    packageOverrides = self: super: {
+      python-language-server = super.python-language-server.overridePythonAttrs(old: rec {
+        doCheck = false;
+      });
+    };
+  };
   # nix-shell -p pythonPackages.my_stuff
   python37Packages = python37.pkgs;
+  python38Packages = python38.pkgs;
 }

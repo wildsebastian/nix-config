@@ -159,21 +159,6 @@ let
       (setq haskell-hoogle-url "http://127.0.0.1/?hoogle=%s")
       )
 
-    (use-package dante
-      :after haskell-mode
-      :commands 'dante-mode
-      :init
-      (add-hook 'haskell-mode-hook 'flycheck-mode)
-      (add-hook 'haskell-mode-hook 'dante-mode)
-      :config
-      (setq-default dante-repl-command-line
-        '("cabal" "new-repl" dante-target "--builddir=dist-newstyle/dante"))
-      (flycheck-add-next-checker 'haskell-dante '(warning . haskell-hlint)))
-
-    (add-hook 'dante-mode-hook
-     '(lambda () (flycheck-add-next-checker 'haskell-dante
-                                       '(warning . haskell-hlint))))
-
     (use-package yaml-mode
       :mode
       ("\\.yml\\'" . yaml-mode))
@@ -216,10 +201,20 @@ let
       :hook
       (python-mode . lsp-deferred)
       (lsp-mode . lsp-enable-which-key-integration)
+      (haskell-mode . lsp-deferred)
       :config
+      (setq lsp-enable-file-watchers nil)
+      (setq lsp-completion-provider :capf)
       (setq lsp-idle-delay 0.500))
 
-    (use-package lsp-ui :commands lsp-ui-mode)
+    (use-package lsp-haskell
+      :config
+      (setq lsp-haskell-formatting-provider "stylish-haskell"))
+    (use-package lsp-ui
+      :commands lsp-ui-mode
+      :config
+      (setq lsp-ui-doc-position 'at-point)
+      (setq lsp-ui-doc-use-webkit t))
     (use-package helm-lsp :commands helm-lsp-workspace-symbol)
     (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
     (use-package dap-mode)
@@ -280,7 +275,6 @@ emacsWithPackages (epkgs: (
     company
     company-box
     company-coq
-    dante
     dap-mode
     dashboard
     deft
@@ -302,6 +296,7 @@ emacsWithPackages (epkgs: (
     helm-lsp
     helm-projectile
     idris-mode
+    lsp-haskell
     lsp-mode
     lsp-ui
     lsp-treemacs
