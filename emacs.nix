@@ -210,6 +210,9 @@ let
     (use-package lsp-haskell
       :config
       (setq lsp-haskell-formatting-provider "stylish-haskell"))
+
+    (use-package lsp-pyright)
+
     (use-package lsp-ui
       :commands lsp-ui-mode
       :config
@@ -298,6 +301,7 @@ emacsWithPackages (epkgs: (
     idris-mode
     lsp-haskell
     lsp-mode
+    lsp-pyright
     lsp-ui
     lsp-treemacs
     magit

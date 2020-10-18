@@ -8,6 +8,4 @@ git push origin master
 cd ~
 darwin-rebuild switch
 
-nix-collect-garbage --delete-older-than 2d
-
-/Users/sebastian/.nixpkgs/bin/allow-mosh.sh
+nix-collect-garbage --delete-old

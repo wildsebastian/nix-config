@@ -28,11 +28,6 @@ with pkgs; [
 
   ag
   alacritty
-  (aspellWithDicts (d: [d.de
-                        d.en
-                        d.en-computers
-                        d.en-science
-                        d.it]))
   autossh
   cabal2nix
   curl
