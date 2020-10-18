@@ -39,7 +39,6 @@ with pkgs; [
   fzf
   gnugrep
   gnupg
-  graphviz
   htop
   imgcat
   jq
