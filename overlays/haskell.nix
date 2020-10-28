@@ -24,25 +24,13 @@ self: pkgs:
 
       ghc884 = pkgs.haskell.packages.ghc884.override {
         overrides = self: super: with pkgs.haskell.lib; {
-          hakyll = self.callPackage ~/.nixpkgs/haskell-packages/hakyll-4.13.4.1.nix {};
+          pandoc            = dontCheck (doJailbreak (self.callPackage ~/.nixpkgs/haskell-packages/pandoc-2.10.1.nix {}));
+          hakyll            = dontCheck (doJailbreak (doDistribute super.hakyll_4_13_4_1));
           squeal-postgresql = self.callPackage ~/.nixpkgs/haskell-packages/squeal-0.6.0.2.nix {};
           math-functions    = dontCheck super.math-functions;
           rebase            = doJailbreak super.rebase;
         };
       };
-
-      ghc884_prof = pkgs.haskell.packages.ghc884.override {
-        overrides = self: super: with pkgs.haskell.lib; {
-          hakyll = self.callPackage ~/.nixpkgs/haskell-packages/hakyll-4.13.4.1.nix {};
-          squeal-postgresql = self.callPackage ~/.nixpkgs/haskell-packages/squeal-0.6.0.2.nix {};
-          math-functions    = dontCheck super.math-functions;
-          rebase            = doJailbreak super.rebase;
-          mkDerivation = args: super.mkDerivation (args // {
-            enableLibraryProfiling = true;
-          });
-        };
-      };
-
 
       ghc8101 = pkgs.haskell.packages.ghc883.override {
         overrides = self: super: with pkgs.haskell.lib; {
