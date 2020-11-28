@@ -1,4 +1,4 @@
-{ pkgs, config }:
+{ pkgs ? import <nixpkgs> {} }:
 
 let
   localconfig = import ./local.nix;

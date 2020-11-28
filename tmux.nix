@@ -35,7 +35,7 @@
     set-option -g status-interval 300
     set-option -g status-justify centre
     set-option -g status-keys vi
-    set-option -g status-left "#[bg=default]#(servicehealth) #[fg=white,bg=default] #(tmux_uptime.sh)#[fg=white,bg=default]"
+    set-option -g status-left "#[fg=white,bg=default] #(tmux_uptime.sh)#[fg=white,bg=default]"
     set-option -g status-left-length 60
     set-option -g status-left-style default
     set-option -g status-position bottom

@@ -37,7 +37,7 @@ in
 
   system.keyboard.enableKeyMapping = true;
 
-  environment.systemPackages = import ./packages.nix { inherit pkgs; inherit config; };
+  environment.systemPackages = import ./packages.nix { inherit pkgs; };
 
   nix.package = pkgs.nix;
 
