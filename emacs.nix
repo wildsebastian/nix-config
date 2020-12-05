@@ -183,6 +183,10 @@ let
       :mode
       ("\\.scss\\'" . scss-mode))
 
+    (use-package typescript-mode
+      :mode
+      ("\\.ts\\'" . typescript-mode))
+
     (use-package markdown-mode
       :commands (markdown-mode gfm-mode)
       :mode
@@ -318,6 +322,7 @@ emacsWithPackages (epkgs: (
     treemacs-evil
     treemacs-magit
     treemacs-projectile
+    typescript-mode
     use-package
     which-key
     web-mode

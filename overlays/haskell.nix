@@ -32,10 +32,13 @@ self: pkgs:
         };
       };
 
-      ghc8101 = pkgs.haskell.packages.ghc883.override {
+      ghc8102 = pkgs.haskell.packages.ghc883.override {
         overrides = self: super: with pkgs.haskell.lib; {
+          haskeline         = dontCheck (self.callPackage ~/.nixpkgs/haskell-packages/haskeline-0.8.1.0.nix {});
+          file-embed        = dontCheck (self.callPackage ~/.nixpkgs/haskell-packages/file-embed-0.0.11.2.nix {});
           http-media        = doJailbreak super.http-media;
           math-functions    = dontCheck super.math-functions;
+          pandoc            = dontCheck (doJailbreak (self.callPackage ~/.nixpkgs/haskell-packages/pandoc-2.10.1.nix {}));
           rebase            = doJailbreak super.rebase;
           squeal-postgresql = dontCheck super.squeal-postgresql;
         };
