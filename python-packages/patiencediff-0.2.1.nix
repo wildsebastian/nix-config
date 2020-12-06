@@ -6,7 +6,7 @@ buildPythonPackage rec {
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "";
+    sha256 = "0nm2242xgg59l06m54rzxp41aly3lxjh0a1s7h6dk7ryxjh002lv";
   };
 
   # too complicated to setup
@@ -15,6 +15,5 @@ buildPythonPackage rec {
   meta = with stdenv.lib; {
     description = "This package contains the implementation of the patiencediff algorithm";
     homepage = "https://www.breezy-vcs.org/";
-    license = licenses.gplv2;
   };
 }
