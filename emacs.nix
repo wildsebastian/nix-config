@@ -35,7 +35,11 @@ let
       :init
       (setq evil-want-keybinding nil)
       :config
-      (evil-mode))
+      (evil-mode)
+      ;; set leader key in all states
+      (evil-set-leader nil (kbd "C-SPC"))
+      ;; set leader key in normal state
+      (evil-set-leader 'normal (kbd "SPC")))
 
     (use-package evil-collection
       :after evil
@@ -44,7 +48,52 @@ let
        evil-collection-company-use-tng nil)
       (evil-collection-init))
 
-    (use-package fzf)
+    (use-package counsel)
+    (use-package swiper)
+    (use-package ivy
+      :config
+      (setq ivy-use-virtual-buffers t)
+      (setq ivy-count-format "%d/%d ")
+      (evil-define-key 'normal 'global (kbd "<leader>x") 'counsel-M-x)
+      (ivy-mode)
+    )
+
+    (use-package fzf
+      :config
+      (evil-define-key 'normal 'global (kbd "<leader>sf") 'fzf))
+
+    (use-package rg
+      :config
+
+      (rg-define-search rg-haskell
+        "Search through all haskell files in a project"
+        :dir project
+        :format literal
+        :flags '("--vimgrep")
+        :files "*.{hs,lhs}"
+        :menu ("Custom" "h" "haskell"))
+
+      (rg-define-search rg-python
+        "Search through all python files in a project"
+        :dir project
+        :format literal
+        :flags '("--vimgrep")
+        :files "*.{py}"
+        :menu ("Custom" "p" "python"))
+
+      (rg-define-search rg-web
+        "Search through all web files in a project"
+        :dir project
+        :format literal
+        :flags '("--vimgrep")
+        :files "*.{html,js,ts,scss,css}"
+        :menu ("Custom" "w" "web"))
+
+      (evil-define-key 'normal 'global (kbd "<leader>sc") 'rg)
+      (evil-define-key 'normal 'global (kbd "<leader>shp") 'rg-haskell)
+      (evil-define-key 'normal 'global (kbd "<leader>spp") 'rg-python)
+      (evil-define-key 'normal 'global (kbd "<leader>swp") 'rg-web)
+    )
 
     (use-package flyspell
       :hook
@@ -53,19 +102,6 @@ let
       :config
       (setq-default ispell-program-name "aspell")
       (flyspell-mode 1))
-
-    (use-package helm-config
-      :config
-      (setq-default helm-M-x-fuzzy-match t)
-      (global-set-key "\C-x\C-m" 'helm-M-x)
-      (global-set-key "\C-c\C-m" 'helm-M-x)
-      (define-key evil-normal-state-map (kbd ",") 'helm-M-x))
-
-    (use-package helm-ag
-      :after helm)
-
-    (use-package helm-projectile
-      :after helm)
 
     (use-package all-the-icons)
 
@@ -109,7 +145,9 @@ let
       :hook
       (python-mode . format-all-mode))
 
-    (use-package magit)
+    (use-package magit
+      :config
+      (evil-define-key 'normal 'global (kbd "<leader>m") 'magit))
 
     (use-package forge
       :after magit)
@@ -222,18 +260,14 @@ let
       :config
       (setq lsp-ui-doc-position 'at-point)
       (setq lsp-ui-doc-use-webkit t))
-    (use-package helm-lsp :commands helm-lsp-workspace-symbol)
     (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
     (use-package dap-mode)
     (use-package dap-python)
 
     (use-package which-key
       :config
-      (setq which-key-show-early-on-C-h t)
-      (setq which-key-idle-delay 10000)
-      (setq which-key-idle-secondary-delay 0.05)
       (setq which-key-popup-type 'minibuffer)
-      (define-key evil-normal-state-map (kbd "c") 'which-key-C-h-dispatch)
+      (which-key-setup-side-window-bottom)
       (which-key-mode))
 
     (defvar-local company-fci-mode-on-p nil)
@@ -282,6 +316,7 @@ emacsWithPackages (epkgs: (
     company
     company-box
     company-coq
+    counsel
     dap-mode
     dashboard
     deft
@@ -298,10 +333,6 @@ emacsWithPackages (epkgs: (
     format-all
     fzf
     haskell-mode
-    helm
-    helm-ag
-    helm-lsp
-    helm-projectile
     idris-mode
     lsp-haskell
     lsp-mode
@@ -315,7 +346,9 @@ emacsWithPackages (epkgs: (
     php-mode
     projectile
     proof-general
+    rg
     scss-mode
+    swiper
     transient
     tramp
     treemacs
