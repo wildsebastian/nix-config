@@ -21,6 +21,7 @@ rec {
       python-language-server = super.python-language-server.overridePythonAttrs(old: rec {
         doCheck = false;
       });
+      patiencediff = self.callPackage ~/.nixpkgs/python-packages/patiencediff-0.2.1.nix {};
     };
   };
   # nix-shell -p pythonPackages.my_stuff
