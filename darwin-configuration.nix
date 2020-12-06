@@ -78,8 +78,8 @@ in
   ];
 
   # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = false;
+  services.nix-daemon.enable = if localconfig.hostname == "Nixpkgs" then true else false;
 
-  services.emacs.enable = false;
+  services.emacs.enable = true;
   services.emacs.package = (import ./emacs.nix { inherit pkgs; });
 }
