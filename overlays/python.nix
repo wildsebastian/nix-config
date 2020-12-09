@@ -21,8 +21,6 @@ rec {
       python-language-server = super.python-language-server.overridePythonAttrs(old: rec {
         doCheck = false;
       });
-      breezy = self.callPackage ~/.nixpkgs/python-packages/breezy-3.1.0.nix {};
-      patiencediff = self.callPackage ~/.nixpkgs/python-packages/patiencediff-0.2.1.nix {};
     };
   };
   # nix-shell -p pythonPackages.my_stuff
