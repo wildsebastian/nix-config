@@ -3,25 +3,6 @@ self: pkgs:
 {
   haskell = pkgs.haskell // {
     packages = pkgs.haskell.packages // {
-      ghc865 = pkgs.haskell.packages.ghc865.override {
-        overrides = self: super: with pkgs.haskell.lib; {
-          HaskellNet            = doJailbreak super.HaskellNet;
-          QuickCheck            = dontCheck super.QuickCheck;
-          Glob                  = dontCheck super.Glob;
-          cron                  = dontCheck super.cron;
-          comonad               = dontCheck super.comonad;
-          http-types            = dontCheck super.http-types;
-          lens                  = dontCheck super.lens;
-          math-functions        = dontCheck super.math-functions;
-          rebase                = doJailbreak super.rebase;
-          semigroupoids         = dontCheck super.semigroupoids;
-          servant               = dontCheck super.servant;
-          servant-auth-server   = doJailbreak super.servant-auth-server;
-          servant-server        = dontCheck (doJailbreak super.servant-server);
-          time-compat           = dontCheck super.time-compat;
-        };
-      };
-
       ghc884 = pkgs.haskell.packages.ghc884.override {
         overrides = self: super: with pkgs.haskell.lib; {
           pandoc            = dontCheck (doJailbreak (self.callPackage ~/.nixpkgs/haskell-packages/pandoc-2.10.1.nix {}));
@@ -32,7 +13,7 @@ self: pkgs:
         };
       };
 
-      ghc8102 = pkgs.haskell.packages.ghc883.override {
+      ghc8102 = pkgs.haskell.packages.ghc8102.override {
         overrides = self: super: with pkgs.haskell.lib; {
           haskeline         = dontCheck (self.callPackage ~/.nixpkgs/haskell-packages/haskeline-0.8.1.0.nix {});
           file-embed        = dontCheck (self.callPackage ~/.nixpkgs/haskell-packages/file-embed-0.0.11.2.nix {});
