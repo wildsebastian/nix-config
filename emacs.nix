@@ -1,32 +1,65 @@
 { pkgs ? import <nixpkgs> {} }:
 
-pkgs.emacsWithPackagesFromUsePackage {
-  # Your Emacs config file. Org mode babel files are also
-  # supported.
-  # NB: Config files cannot contain unicode characters, since
-  #     they're being parsed in nix, which lacks unicode
-  #     support.
-  # config = ./emacs.org;
-  config = /Users/sebastian/.emacs.d/init.el;
-
-  # Package is optional, defaults to pkgs.emacs
-  package = pkgs.emacs;
-
-  # By default emacsWithPackagesFromUsePackage will only pull in
-  # packages with `:ensure`, `:ensure t` or `:ensure <package name>`.
-  # Setting `alwaysEnsure` to `true` emulates `use-package-always-ensure`
-  # and pulls in all use-package references not explicitly disabled via
-  # `:ensure nil` or `:disabled`.
-  # Note that this is NOT recommended unless you've actually set
-  # `use-package-always-ensure` to `t` in your config.
-  alwaysEnsure = true;
-
-  # For Org mode babel files, by default only code blocks with
-  # `:tangle yes` are considered. Setting `alwaysTangle` to `true`
-  # will include all code blocks missing the `:tangle` argument,
-  # defaulting it to `yes`.
-  # Note that this is NOT recommended unless you have something like
-  # `#+PROPERTY: header-args:emacs-lisp :tangle yes` in your config,
-  # which defaults `:tangle` to `yes`.
-  alwaysTangle = true;
-}
+let
+  myEmacs = pkgs.emacsUnstable;
+  emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
+  myEmacsConfig = pkgs.writeText "default.el" (builtins.readFile ./emacs.el);
+in
+emacsWithPackages (epkgs: (
+  with epkgs.melpaPackages; with epkgs.elpaPackages; [
+    (pkgs.runCommand "default.el" {} ''
+      mkdir -p $out/share/emacs/site-lisp
+      cp ${myEmacsConfig} $out/share/emacs/site-lisp/default.el
+      ''
+    )
+    all-the-icons
+    company
+    company-box
+    company-coq
+    counsel
+    dap-mode
+    dashboard
+    deft
+    direnv
+    editorconfig
+    vterm
+    evil
+    evil-collection
+    evil-magit
+    fill-column-indicator
+    flycheck
+    flycheck-haskell
+    forge
+    format-all
+    fzf
+    haskell-mode
+    idris-mode
+    lsp-haskell
+    lsp-mode
+    lsp-pyright
+    lsp-ui
+    lsp-treemacs
+    magit
+    markdown-mode
+    nix-mode
+    page-break-lines
+    php-mode
+    projectile
+    proof-general
+    rg
+    scss-mode
+    swiper
+    transient
+    tramp
+    treemacs
+    treemacs-evil
+    treemacs-magit
+    treemacs-projectile
+    typescript-mode
+    use-package
+    which-key
+    web-mode
+    yaml-mode
+    zenburn-theme
+  ]
+))

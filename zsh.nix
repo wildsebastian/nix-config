@@ -109,12 +109,16 @@
       git fetch && git checkout -b $2 $1/$2
     }
 
-    edn() {
-      nohup emacs --bg-daemon=$1 >/dev/null
+    nixhs() {
+      nix-env -f '<nixpkgs>' -qaP -A haskell.packages.$1 | rg $2;
     }
 
-    ecn() {
-      emacsclient -c -s $1 &
+    nixpy() {
+      nix-env -f '<nixpkgs>' -qaP -A python$1Packages | rg $2;
+    }
+
+    nixel() {
+      nix-env -f '<nixpkgs>' -qaP -A emacsPackages | rg $1;
     }
   '';
 
@@ -126,16 +130,12 @@
 
   environment.shellAliases = {
     nixs        = "nix-env -f '<nixpkgs>' -qaP | grep";
-    nixhs       = "nix-env -f '<nixpkgs>' -qaP -A haskellPackages | grep";
     drs         = "darwin-rebuild switch";
+    ec          = "emacsclient -c &";
     gf          = "git fetch";
     gg          = "git log --color --graph";
     gl          = "git log --color -32";
     grbm        = "git rebase origin/master";
     gst         = "git status";
-
-    ed          = "nohup emacs --bg-daemon=main >/dev/null";
-    ec          = "emacsclient -c -s main &";
-    ek          = "killall -9 emacs";
   };
 }
