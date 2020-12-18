@@ -249,6 +249,9 @@
   :config
   (setq proof-layout-windows 'hybrid))
 
+(use-package terraform-mode
+  :mode ("\\.tf\\'" . terraform-mode))
+
 (use-package lsp-mode
   :hook
   (python-mode . lsp-deferred)

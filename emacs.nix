@@ -49,6 +49,7 @@ emacsWithPackages (epkgs: (
     rg
     scss-mode
     swiper
+    terraform-mode
     transient
     tramp
     treemacs
