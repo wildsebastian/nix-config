@@ -12,7 +12,7 @@ mkDerivation {
   pname = "hakyll";
   version = "4.13.4.1";
   src = fetchgit {
-    url = "git://github.com/jaspervdj/hakyll.git";
+    url = "https://github.com/jaspervdj/hakyll.git";
     sha256 = "1662dc9ajr9d9llm1ykrcz3jg6pkh8rbhkjqpvpiyg5j46spjrxd";
     rev = "e9a8139152b166eae75083259fc3e824675de6fb";
     fetchSubmodules = true;

@@ -7,7 +7,7 @@ mkDerivation {
   pname = "pandoc-types";
   version = "1.20";
   src = fetchgit {
-    url = "git@github.com:jgm/pandoc-types.git";
+    url = "https://github.com/jgm/pandoc-types.git";
     sha256 = "0yd4g5kj4dpxhqgc8lgwyhxvdd7jnzzmmwfsvvdbjkmhdzi0zvbx";
     rev = "6817d99d5ce151a6c4a7a4d69215bdd929aacaa0";
     fetchSubmodules = true;

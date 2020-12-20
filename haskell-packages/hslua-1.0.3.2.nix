@@ -7,7 +7,7 @@ mkDerivation {
   pname = "hslua";
   version = "1.0.3.2";
   src = fetchgit {
-    url = "git@github.com:hslua/hslua.git";
+    url = "https://github.com/hslua/hslua.git";
     sha256 = "1i4xdwj3qkmc0z47pna4dqz5jspi2504hd44qnzasxjlfqy2gc83";
     rev = "118a8be57a3d7cb64ecf7cbf0196be27774cce9f";
     fetchSubmodules = true;

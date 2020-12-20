@@ -9,7 +9,7 @@ mkDerivation {
   pname = "skylighting-core";
   version = "0.8.5";
   src = fetchgit {
-    url = "git@github.com:jgm/skylighting.git";
+    url = "https://github.com/jgm/skylighting.git";
     sha256 = "1nnqa7w4fvwydlyjlls38gvv2lz2cm0qm9f980dnfhf2jq26m5jl";
     rev = "ca52065a3992103ae97fa264f7efcc63d9450b0c";
     fetchSubmodules = true;

@@ -11,7 +11,7 @@ mkDerivation {
   pname = "squeal-postgresql";
   version = "0.6.0.2";
   src = fetchgit {
-    url = "git@github.com:morphismtech/squeal.git";
+    url = "https://github.com/morphismtech/squeal.git";
     sha256 = "1abahfyfhf2q456246xw76j6kfphyfby877acjd2zp20xqfa6i0l";
     rev = "7557c2ddd32430ed82937a7864e5879b1ac77513";
     fetchSubmodules = true;

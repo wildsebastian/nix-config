@@ -18,7 +18,7 @@ mkDerivation {
   pname = "pandoc";
   version = "2.10.1";
   src = fetchgit {
-    url = "git@github.com:jgm/pandoc.git";
+    url = "https://github.com/jgm/pandoc.git";
     sha256 = "1rz4d4ci9y6a902lmr1a45gwm6hc0ra9gyfzwqmwyhby0ciml08m";
     rev = "4e88ce682dbca5ae540163ff66e603947e161503";
     fetchSubmodules = true;
