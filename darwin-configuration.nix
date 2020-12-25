@@ -8,8 +8,6 @@ in
     ./vim.nix
     ./zsh.nix
   ] ++ (if localconfig.hostname == "Nixpkgs" then [
-    ./postgres.nix
-    ./redis.nix
   ] else []);
 
   system.defaults.NSGlobalDomain.AppleShowScrollBars = "WhenScrolling";
@@ -78,7 +76,7 @@ in
   ];
 
   # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = if localconfig.hostname == "Nixpkgs" then true else false;
+  services.nix-daemon.enable = false;
 
   services.emacs.enable = true;
   services.emacs.package = (import ./emacs.nix { inherit pkgs; });

@@ -5,8 +5,7 @@ let
   server_packages = with pkgs;
   if localconfig.hostname == "Nixpkgs" then
   [
-    filebeat7
-    telegraf
+    jenkins
   ]
   else
     [];
