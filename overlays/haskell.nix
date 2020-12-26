@@ -18,7 +18,6 @@ self: pkgs:
           haskeline         = dontCheck (self.callPackage ~/.nixpkgs/haskell-packages/haskeline-0.8.1.0.nix {});
           file-embed        = dontCheck (self.callPackage ~/.nixpkgs/haskell-packages/file-embed-0.0.11.2.nix {});
           http-media        = doJailbreak super.http-media;
-          ListLike          = dontCheck (self.callPackage ~/.nixpkgs/haskell-packages/listlike-head.nix {});
           math-functions    = dontCheck super.math-functions;
           pandoc            = dontCheck (doJailbreak (self.callPackage ~/.nixpkgs/haskell-packages/pandoc-2.10.1.nix {}));
           rebase            = doJailbreak super.rebase;
