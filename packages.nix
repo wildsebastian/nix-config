@@ -5,6 +5,7 @@ let
   server_packages = with pkgs;
   if localconfig.hostname == "Nixpkgs" then
   [
+    adoptopenjdk-jre-openj9-bin-11
     jenkins
   ]
   else
