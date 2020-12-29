@@ -191,8 +191,6 @@
     ("runhaskell" . haskell-mode))
   :config
   (require 'haskell-doc)
-  (setq haskell-mode-stylish-haskell-path "stylish-haskell")
-  (setq haskell-stylish-on-save t)
   ;; hoogle setup
   (setq haskell-hoogle-port-number 8181)
   (setq haskell-hoogle-server-command (lambda (port) (list
@@ -206,6 +204,10 @@
                                         "-n")))
   (setq haskell-hoogle-url "http://127.0.0.1/?hoogle=%s")
   )
+
+(use-package purescript-mode
+  :mode
+  ("\\.purs" . purescript-mode))
 
 (use-package yaml-mode
   :mode
@@ -264,7 +266,7 @@
 
 (use-package lsp-haskell
   :config
-  (setq lsp-haskell-formatting-provider "stylish-haskell"))
+  (setq lsp-haskell-formatting-provider "fourmolu"))
 
 (use-package lsp-pyright)
 

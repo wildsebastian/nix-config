@@ -46,6 +46,7 @@ emacsWithPackages (epkgs: (
     php-mode
     projectile
     proof-general
+    purescript-mode
     rg
     scss-mode
     swiper
