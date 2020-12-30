@@ -46,6 +46,7 @@ emacsWithPackages (epkgs: (
     php-mode
     projectile
     proof-general
+    psc-ide
     purescript-mode
     rg
     scss-mode
