@@ -145,6 +145,7 @@
   (haskell-mode . fci-mode)
   (nix-mode . fci-mode)
   (php-mode . fci-mode)
+  (purescript-mode . fci-mode)
   (python-mode . fci-mode)
   (web-mode . fci-mode)
   :config
