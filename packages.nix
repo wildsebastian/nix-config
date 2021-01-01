@@ -12,7 +12,7 @@ let
     [];
 in
 with pkgs; [
-  (import ./emacs.nix { inherit pkgs; })
+  # (import ./emacs.nix { inherit pkgs; })
   (import ./emacs_gcc.nix { inherit pkgs; })
 
   diffstat
