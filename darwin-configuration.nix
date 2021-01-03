@@ -79,5 +79,5 @@ in
   services.nix-daemon.enable = false;
 
   services.emacs.enable = true;
-  services.emacs.package = (import ./emacs_gcc.nix { inherit pkgs; });
+  services.emacs.package = (import ./emacs.nix { inherit pkgs; });
 }
