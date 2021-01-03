@@ -15,14 +15,15 @@ self: pkgs:
 
       ghc8103 = pkgs.haskell.packages.ghc8103.override {
         overrides = self: super: with pkgs.haskell.lib; {
-          haskeline         = dontCheck (self.callPackage ~/.nixpkgs/haskell-packages/haskeline-0.8.1.0.nix {});
-          file-embed        = dontCheck (self.callPackage ~/.nixpkgs/haskell-packages/file-embed-0.0.11.2.nix {});
-          http-media        = doJailbreak super.http-media;
-          math-functions    = dontCheck super.math-functions;
-          pandoc            = dontCheck (doJailbreak (self.callPackage ~/.nixpkgs/haskell-packages/pandoc-2.10.1.nix {}));
-          rebase            = doJailbreak super.rebase;
+          haskeline           = dontCheck (self.callPackage ~/.nixpkgs/haskell-packages/haskeline-0.8.1.0.nix {});
+          file-embed          = dontCheck (self.callPackage ~/.nixpkgs/haskell-packages/file-embed-0.0.11.2.nix {});
+          http-media          = doJailbreak super.http-media;
+          math-functions      = dontCheck super.math-functions;
+          pandoc              = dontCheck (doJailbreak (self.callPackage ~/.nixpkgs/haskell-packages/pandoc-2.10.1.nix {}));
+          rebase              = doJailbreak super.rebase;
           servant-client-core = dontCheck (doJailbreak super.servant-client-core);
-          squeal-postgresql = dontCheck super.squeal-postgresql;
+          servant-client      = dontCheck (doJailbreak super.servant-client-core);
+          squeal-postgresql   = dontCheck super.squeal-postgresql;
         };
       };
 
