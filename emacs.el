@@ -29,8 +29,30 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (flymake-mode -1)
+(tab-bar-mode -1)
+(global-hl-line-mode t)
+(toggle-frame-fullscreen)
 (global-display-line-numbers-mode 1)
 (setq display-line-numbers-type 'relative)
+(fset 'yes-or-no-p 'y-or-n-p)
+(show-paren-mode t)
+(setq electric-pair-pairs
+      '((?\" . ?\")
+        (?\( . ?\))
+        (?\< . ?\>)
+        (?\{ . ?\})))
+(setq-default tab-width 2)
+(setq-default indent-tabs-mode nil)
+(save-place-mode t)
+(setq ring-bell-function 'ignore blink-cursor-mode nil)
+(setq scroll-step 2
+      scroll-margin 2
+      hscroll-step 2
+      hscroll-margin 2
+      scroll-conservatively 101
+      scroll-up-aggressively 0.01
+      scroll-down-aggressively 0.01
+      scroll-preserve-screen-position 'always)
 
 ;; Modes that are always active
 (use-package zenburn-theme
@@ -272,7 +294,8 @@
   :config
   (setq lsp-enable-file-watchers nil)
   (setq lsp-completion-provider :capf)
-  (setq lsp-idle-delay 0.500))
+  (setq lsp-idle-delay 0.500)
+  (setq lsp-log-io nil))
 
 (use-package lsp-haskell
   :config

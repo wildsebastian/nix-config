@@ -132,6 +132,7 @@
     nixs        = "nix-env -f '<nixpkgs>' -qaP | grep";
     drs         = "darwin-rebuild switch";
     ec          = "emacsclient -c &";
+    ecnw        = "emacsclient -c -nw";
     gf          = "git fetch";
     gg          = "git log --color --graph";
     gl          = "git log --color -32";
