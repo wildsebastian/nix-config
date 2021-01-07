@@ -50,6 +50,5 @@ with pkgs; [
   haskell.packages.ghc8103.pandoc-citeproc
   ripgrep
   texlive.combined.scheme-basic
-  texlive.combined.scheme-tetex
   wget
 ] ++ server_packages
