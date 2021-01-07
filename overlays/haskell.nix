@@ -22,7 +22,7 @@ self: pkgs:
           pandoc              = dontCheck (doJailbreak (self.callPackage ~/.nixpkgs/haskell-packages/pandoc-2.10.1.nix {}));
           rebase              = doJailbreak super.rebase;
           servant-client-core = dontCheck (doJailbreak super.servant-client-core);
-          servant-client      = dontCheck (doJailbreak super.servant-client-core);
+          servant-client      = dontCheck (doJailbreak super.servant-client);
           squeal-postgresql   = dontCheck super.squeal-postgresql;
         };
       };
