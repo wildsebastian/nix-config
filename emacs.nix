@@ -42,6 +42,7 @@ emacsWithPackages (epkgs: (
     magit
     markdown-mode
     nix-mode
+    (pkgs.callPackage ~/.nixpkgs/emacs-packages/nord-theme.nix {})
     page-break-lines
     php-mode
     projectile

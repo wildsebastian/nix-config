@@ -55,9 +55,9 @@
       scroll-preserve-screen-position 'always)
 
 ;; Modes that are always active
-(use-package zenburn-theme
+(use-package nord-theme
   :config
-  (load-theme 'zenburn t))
+  (load-theme 'nord t))
 
 (use-package editorconfig
   :config
@@ -306,8 +306,14 @@
 (use-package lsp-ui
   :commands lsp-ui-mode
   :config
-  (setq lsp-ui-doc-position 'at-point)
+  (setq lsp-ui-sideline-diagnostic-max-lines 10)
+  (setq lsp-ui-doc-enable t)
+  (setq lsp-ui-doc-header t)
+  (setq lsp-ui-doc-include-signature t)
+  (setq lsp-ui-doc-position 'top)
+  (setq lsp-ui-doc-alignment 'window)
   (setq lsp-ui-doc-use-webkit t))
+
 (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 (use-package dap-mode)
 (use-package dap-python)

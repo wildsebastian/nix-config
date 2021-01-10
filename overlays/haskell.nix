@@ -15,6 +15,7 @@ self: pkgs:
 
       ghc8103 = pkgs.haskell.packages.ghc8103.override {
         overrides = self: super: with pkgs.haskell.lib; {
+          chronos             = dontCheck super.chronos;
           haskeline           = dontCheck (self.callPackage ~/.nixpkgs/haskell-packages/haskeline-0.8.1.0.nix {});
           file-embed          = dontCheck (self.callPackage ~/.nixpkgs/haskell-packages/file-embed-0.0.11.2.nix {});
           http-media          = doJailbreak super.http-media;
