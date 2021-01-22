@@ -13,6 +13,10 @@ rec {
       pylint-django = super.pylint-django.overridePythonAttrs(old: rec {
         doCheck = false;
       });
+      pyheif = self.callPackage ~/.nixpkgs/python-packages/pyheif.nix {};
+      websockets = super.websockets.overridePythonAttrs(old: rec {
+        doCheck = false;
+      });
     };
   };
   python38 = super.python38.override {

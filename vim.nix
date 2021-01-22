@@ -45,17 +45,8 @@
       colorscheme nord
       syntax enable
 
+      let g:nord_cursor_line_number_background = 1
       set laststatus=2
-      let g:lightline = {
-        \ 'colorscheme': 'solarized',
-        \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ],
-        \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-        \ },
-        \ 'component_function': {
-        \   'gitbranch': 'gitbranch#name'
-        \ },
-      \ }
     '';
   };
 }

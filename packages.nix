@@ -49,6 +49,7 @@ with pkgs; [
   pandoc
   haskell.packages.ghc8103.pandoc-citeproc
   ripgrep
+  starship
   texlive.combined.scheme-basic
   wget
 ] ++ server_packages

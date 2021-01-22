@@ -12,69 +12,7 @@
   programs.zsh.variables.nixpkgs = "$HOME/.nix-defexpr/nixpkgs";
 
   programs.zsh.promptInit = ''
-    autoload -U promptinit && promptinit
-    setopt PROMPTSUBST
-
-    LAMBDA=$'\u03BB'
-    ARROW=$'\uF105'
-    GITLAB=$'\uF296'
-    GITHUB=$'\uF09B'
-    GIT=$'\uF7A1'
-    GITBRANCH=$'\uF418'
-    CHECK=$'\uF058'
-    CROSS=$'\uF06A'
-    LINEUP=$'\e[1A'
-    LINEDOWN=$'\e[1B'
-
-    gitstatus() {
-      if git rev-parse --git-dir > /dev/null 2>&1; then
-        setopt promptsubst
-        autoload -Uz vcs_info
-
-        zstyle ':vcs_info:*' enable git
-        zstyle ':vcs_info:*' get-revision true
-        zstyle ':vcs_info:*' check-for-changes true
-        zstyle ':vcs_info:*' stagedstr '\u271A'
-        zstyle ':vcs_info:*' unstagedstr '\u272A'
-        zstyle ':vcs_info:*' formats ' %b \uF418 %u%c '
-        zstyle ':vcs_info:*' actionformats ' %b \uF418 %u%c '
-        vcs_info
-        if [ -z "$(git status -s)" ]; then
-          echo -n "%F{green}$vcs_info_msg_0_%f"
-        else
-          echo -n "%F{yellow}$vcs_info_msg_0_%f"
-        fi
-      else
-        echo -n ""
-      fi;
-    }
-
-    arrow() {
-      echo -n "%{%F{green}%}$ARROW%{%f%}"
-    }
-
-    prompt_date() {
-      echo -n "%{%F{white}%} %D{%a %d.%m.%Y %H:%M:%S}%{%f%}"
-    }
-
-    lambda() {
-      echo -n "%{%F{green}%}$LAMBDA%{%f%}"
-    }
-
-    path() {
-      echo -n "%{%F{blue}%}%2~%{%f%}"
-    }
-
-    exitcode() {
-      echo -n "%(?.%{%F{green}%} %? $CHECK %{%f%}.%{%F{red}%} %? $CROSS %{%f%})"
-    }
-
-    RPROMPT_PREFIX='%{'$LINEUP'%}' # one line up
-    RPROMPT_SUFFIX='%{'$LINEDOWN'%}' # one line down
-
-    PROMPT='$(path) $(gitstatus)
-    $(lambda) %m $(arrow) '
-    RPROMPT=$RPROMPT_PREFIX'$(prompt_date) $(exitcode)'$RPROMPT_SUFFIX
+    eval "$(starship init zsh)"
   '';
 
   programs.zsh.loginShellInit = ''
@@ -140,5 +78,6 @@
     gst         = "git status";
     tf          = "cd ~/src/thefoodteller";
     tc          = "cd ~/src/teleclinic";
+    tcc         = "cd ~/src/teleclinic/teleclinic_core";
   };
 }
