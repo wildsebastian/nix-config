@@ -25,7 +25,6 @@ emacsWithPackages (epkgs: (
     vterm
     evil
     evil-collection
-    evil-magit
     fill-column-indicator
     flycheck
     flycheck-haskell

@@ -188,9 +188,6 @@
 (use-package transient
   :after magit)
 
-(use-package evil-magit
-  :after (evil magit))
-
 ;; Modes that are loaded under certain circumstances
 (use-package direnv
   :init
