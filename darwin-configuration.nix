@@ -79,6 +79,7 @@ in
   services.nix-daemon.enable = true;
   nix.binaryCachePublicKeys = [ "nix-cache:voABK2fsjF4bXgwIt2+iFymykxhT0Gk60XWAs7uoP+Y=" ];
   nix.trustedBinaryCaches = [ s3://nix-cache?profile=nix-cache&scheme=https&endpoint=fra1.digitaloceanspaces.com ];
+  nix.trustedUsers = [ "@admin" "@sebastian" ];
 
   services.emacs.enable = true;
   services.emacs.package = (import ./emacs.nix { inherit pkgs; });
