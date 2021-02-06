@@ -46,10 +46,7 @@ with pkgs; [
   minify
   mosh
   openssl_1_1
-  pandoc
-  haskell.packages.ghc8103.pandoc-citeproc
   ripgrep
   starship
-  texlive.combined.scheme-basic
   wget
 ] ++ server_packages
