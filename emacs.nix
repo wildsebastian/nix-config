@@ -13,6 +13,7 @@ emacsWithPackages (epkgs: (
       ''
     )
     all-the-icons
+    base16-theme
     company
     company-box
     company-coq
@@ -41,7 +42,6 @@ emacsWithPackages (epkgs: (
     magit
     markdown-mode
     nix-mode
-    (pkgs.callPackage ~/.nixpkgs/emacs-packages/nord-theme.nix {})
     page-break-lines
     php-mode
     projectile

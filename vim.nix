@@ -7,7 +7,7 @@
     plugins = [
       { names = [
           "ale"
-          "nord-vim"
+          "base16-vim"
           "editorconfig-vim"
           "fzfWrapper"
           "lightline-vim"
@@ -42,10 +42,9 @@
       set cursorline
       set showmatch
       set colorcolumn=80
-      colorscheme nord
+      colorscheme base16-classic-dark
       syntax enable
 
-      let g:nord_cursor_line_number_background = 1
       set laststatus=2
     '';
   };

@@ -1,7 +1,7 @@
 { stdenv, fetchurl, emacs }:
 
 stdenv.mkDerivation {
-  name = "nord-theme-202102102023";
+  name = "nord-theme-20210213";
 
   dontUnpack = true;
 

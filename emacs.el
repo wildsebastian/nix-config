@@ -22,8 +22,8 @@
 
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
-(add-to-list 'default-frame-alist '(font . "JetBrains Mono-14"))
-(set-face-attribute 'default t :font "JetBrains Mono-14")
+(add-to-list 'default-frame-alist '(font . "Source Code Pro-12"))
+(set-face-attribute 'default t :font "Source Code Pro-12")
 (prefer-coding-system 'utf-8)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -55,9 +55,9 @@
       scroll-preserve-screen-position 'always)
 
 ;; Modes that are always active
-(use-package nord-theme
+(use-package base16-theme
   :config
-  (load-theme 'nord t))
+  (load-theme 'base16-classic-dark t))
 
 (use-package editorconfig
   :config
