@@ -14,6 +14,7 @@ emacsWithPackages (epkgs: (
     )
     all-the-icons
     base16-theme
+    centaur-tabs
     company
     company-box
     company-coq

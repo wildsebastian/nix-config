@@ -90,6 +90,22 @@
   (ivy-mode)
 )
 
+(use-package centaur-tabs
+  :demand
+  :config
+  (setq centaur-tabs-style "bar"
+        centaur-tabs-height 32
+        centaur-tabs-set-icons t
+        centaur-tabs-set-modified-marker t
+        centaur-tabs-show-navigation-buttons t
+        centaur-tabs-set-bar 'under x-underline-at-descent-line t)
+  (centaur-tabs-headline-match)
+  (centaur-tabs-mode t)
+  :bind
+  (:map evil-normal-state-map
+    ("g t" . centaur-tabs-forward)
+    ("g T" . centaur-tabs-backward)))
+
 (use-package fzf
   :config
   (evil-define-key 'normal 'global (kbd "<leader>sf") 'fzf))
@@ -353,4 +369,8 @@
 (use-package flycheck-haskell
   :commands flycheck-haskell-setup)
 
-(use-package vterm)
+(use-package vterm
+  :commands vterm
+  :config
+  (setq vterm-shell "/run/current-system/sw/bin/zsh")
+  (setq vterm-max-scrollback 10000))
