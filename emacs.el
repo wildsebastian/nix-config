@@ -20,8 +20,9 @@
   )
 )
 
-(setq gc-cons-threshold 100000000)
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setq-default bidi-paragraph-direction 'left-to-right)
+(setq-default gc-cons-threshold 100000000)
+(setq-default read-process-output-max (* 1024 1024)) ;; 1mb
 (add-to-list 'default-frame-alist '(font . "Source Code Pro-12"))
 (set-face-attribute 'default t :font "Source Code Pro-12")
 (prefer-coding-system 'utf-8)
@@ -178,18 +179,6 @@
   :config
   (projectile-mode +1))
 
-(use-package fill-column-indicator
-  :hook
-  (haskell-mode . fci-mode)
-  (nix-mode . fci-mode)
-  (php-mode . fci-mode)
-  (purescript-mode . fci-mode)
-  (python-mode . fci-mode)
-  (web-mode . fci-mode)
-  :config
-  (setq fci-rule-width 1)
-  (setq fci-rule-color "red"))
-
 (use-package format-all
   :hook
   (python-mode . format-all-mode))
@@ -320,10 +309,11 @@
   :commands lsp-ui-mode
   :config
   (setq lsp-ui-sideline-diagnostic-max-lines 10)
-  (setq lsp-ui-doc-enable t)
+  (setq lsp-ui-doc-enable nil)
   (setq lsp-ui-doc-header t)
   (setq lsp-ui-doc-include-signature t)
-  (setq lsp-ui-doc-position 'top)
+  (setq lsp-ui-doc-position 'bottom)
+  (setq lsp-ui-doc-delay 2)
   (setq lsp-ui-doc-alignment 'window)
   (setq lsp-ui-doc-use-webkit t))
 

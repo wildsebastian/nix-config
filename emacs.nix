@@ -27,7 +27,6 @@ emacsWithPackages (epkgs: (
     vterm
     evil
     evil-collection
-    fill-column-indicator
     flycheck
     flycheck-haskell
     forge
