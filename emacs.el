@@ -294,10 +294,16 @@
   (lsp-mode . lsp-enable-which-key-integration)
   (haskell-mode . lsp-deferred)
   :config
-  (setq lsp-enable-file-watchers nil)
+  (setq lsp-log-io nil)
+  (setq lsp-enable-folding nil)
+  (setq lsp-diagnostic-package :none)
   (setq lsp-completion-provider :capf)
-  (setq lsp-idle-delay 0.500)
-  (setq lsp-log-io nil))
+  (setq lsp-enable-snippet nil)
+  (setq lsp-enable-symbol-highlighting nil)
+  (setq lsp-enable-links nil)
+  (setq lsp-restart 'auto-restart)
+  (setq lsp-enable-file-watchers nil)
+  (setq lsp-idle-delay 0.500))
 
 (use-package lsp-haskell
   :config
@@ -308,11 +314,14 @@
 (use-package lsp-ui
   :commands lsp-ui-mode
   :config
-  (setq lsp-ui-sideline-diagnostic-max-lines 10)
-  (setq lsp-ui-doc-enable nil)
+  (setq lsp-ui-sideline-show-diagnostics nil)
+  (setq lsp-ui-sideline-show-hover nil)
+  (setq lsp-ui-sideline-show-code-actions nil)
+  (setq lsp-ui-peek nil)
+  (setq lsp-ui-doc-enable t)
   (setq lsp-ui-doc-header t)
   (setq lsp-ui-doc-include-signature t)
-  (setq lsp-ui-doc-position 'bottom)
+  (setq lsp-ui-doc-position 'at-point)
   (setq lsp-ui-doc-delay 2)
   (setq lsp-ui-doc-alignment 'window)
   (setq lsp-ui-doc-use-webkit t))
@@ -327,23 +336,10 @@
   (which-key-setup-side-window-bottom)
   (which-key-mode))
 
-(defvar-local company-fci-mode-on-p nil)
-
-(defun company-turn-off-fci (&rest ignore)
-  (when (boundp 'fci-mode)
-    (setq company-fci-mode-on-p fci-mode)
-    (when fci-mode (fci-mode -1))))
-
-(defun company-maybe-turn-on-fci (&rest ignore)
-  (when company-fci-mode-on-p (fci-mode 1)))
-
 (use-package company
   :config
-  (add-hook 'company-completion-started-hook 'company-turn-off-fci)
-  (add-hook 'company-completion-finished-hook 'company-maybe-turn-on-fci)
-  (add-hook 'company-completion-cancelled-hook 'company-maybe-turn-on-fci)
-  (setq company-idle-delay 0.0)
-  (setq company-minimum-prefix-length 1))
+  (setq company-minimum-prefix-length 1
+        company-idle-delay 0.0))
 
 (use-package company-box
   :hook (company-mode . company-box-mode))
