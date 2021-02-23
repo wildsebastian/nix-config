@@ -23,6 +23,7 @@ emacsWithPackages (epkgs: (
     dashboard
     deft
     direnv
+    doom-modeline
     editorconfig
     vterm
     evil
@@ -59,6 +60,7 @@ emacsWithPackages (epkgs: (
     treemacs-magit
     treemacs-projectile
     typescript-mode
+    undo-tree
     use-package
     which-key
     web-mode

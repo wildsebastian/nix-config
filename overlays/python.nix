@@ -25,6 +25,10 @@ rec {
       python-language-server = super.python-language-server.overridePythonAttrs(old: rec {
         doCheck = false;
       });
+      pylint-django = super.pylint-django.overridePythonAttrs(old: rec {
+        doCheck = false;
+      });
+
     };
   };
   # nix-shell -p pythonPackages.my_stuff

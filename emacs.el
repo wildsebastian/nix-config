@@ -12,8 +12,7 @@
     ":"
     "nixpkgs="
     (getenv "HOME")
-    "/.nix-defexpr/nixpkgs"
-    ":"
+    "/.nix-defexpr/nixpkgs" ":"
     "darwin="
     (getenv "HOME")
     "/.nix-defexpr/darwin"
@@ -64,6 +63,10 @@
   :config
   (editorconfig-mode 1))
 
+(use-package undo-tree
+  :init
+  (global-undo-tree-mode 1))
+
 (use-package evil
   :init
   (setq evil-want-keybinding nil)
@@ -72,7 +75,8 @@
   ;; set leader key in all states
   (evil-set-leader nil (kbd "C-SPC"))
   ;; set leader key in normal state
-  (evil-set-leader 'normal (kbd "SPC")))
+  (evil-set-leader 'normal (kbd "SPC"))
+  (setq evil-undo-system 'undo-tree))
 
 (use-package evil-collection
   :after evil
@@ -80,6 +84,22 @@
   (setq evil-want-integration nil
     evil-collection-company-use-tng nil)
   (evil-collection-init))
+
+;; http://sodaware.sdf.org/notes/emacs-daemon-doom-modeline-icons/
+(defun enable-doom-modeline-icons (_frame)
+  (setq doom-modeline-icon t))
+
+(add-hook 'after-make-frame-functions #'enable-doom-modeline-icons)
+
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :config
+  (setq doom-modeline-icon (display-graphic-p))
+  (setq doom-modeline-major-mode-icon t)
+  (setq doom-modeline-major-mode-color-icon t)
+  (setq doom-modeline-buffer-state-icon t)
+  (setq doom-modeline-minor-modes nil)
+  (setq doom-modeline-env-version t))
 
 (use-package counsel)
 (use-package swiper)
@@ -177,7 +197,14 @@
 
 (use-package projectile
   :config
-  (projectile-mode +1))
+  (projectile-mode)
+  :custom
+  (setq projectile-completion-system 'ivy)
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  (when (file-directory-p "~/src")
+    (setq projectile-project-search-path '("~/src"))))
 
 (use-package format-all
   :hook
@@ -194,6 +221,9 @@
   :after magit)
 
 ;; Modes that are loaded under certain circumstances
+(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+(set-face-foreground 'fill-column-indicator "red")
+
 (use-package direnv
   :init
   (add-hook 'prog-mode-hook #'direnv-update-environment)
@@ -203,8 +233,10 @@
 (use-package nix-mode
   :mode "\\.nix\\'")
 
-(use-package python
-  :mode ("\\.py" . python-mode))
+(use-package python-mode
+  :mode ("\\.py" . python-mode)
+  :custom
+  (python-shell-interpreter "python3"))
 
 (use-package haskell-mode
   :mode
