@@ -202,7 +202,13 @@
   (treemacs-load-theme "Default"))
 
 (use-package treemacs-evil
-  :after treemacs)
+  :after (treemacs evil))
+
+(use-package treemacs-magit
+  :after (treemacs magit))
+
+(use-package treemacs-projectile
+  :after (treemacs projectile))
 
 (use-package projectile
   :config
