@@ -13,6 +13,8 @@ emacsWithPackages (epkgs: (
       ''
     )
     all-the-icons
+    base16-theme
+    centaur-tabs
     company
     company-box
     company-coq
@@ -21,19 +23,22 @@ emacsWithPackages (epkgs: (
     dashboard
     deft
     direnv
+    docker
+    doom-modeline
     editorconfig
     vterm
     evil
     evil-collection
-    evil-magit
-    fill-column-indicator
     flycheck
     flycheck-haskell
     forge
     format-all
     fzf
+    ghub
     haskell-mode
     idris-mode
+    ivy
+    ivy-yasnippet
     lsp-haskell
     lsp-mode
     lsp-pyright
@@ -59,10 +64,13 @@ emacsWithPackages (epkgs: (
     treemacs-magit
     treemacs-projectile
     typescript-mode
+    undo-tree
     use-package
     which-key
     web-mode
     yaml-mode
+    yasnippet
+    yasnippet-snippets
     zenburn-theme
   ]
 ))
