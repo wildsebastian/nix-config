@@ -22,8 +22,8 @@
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq-default gc-cons-threshold 100000000)
 (setq-default read-process-output-max (* 1024 1024)) ;; 1mb
-(add-to-list 'default-frame-alist '(font . "Source Code Pro-12"))
-(set-face-attribute 'default t :font "Source Code Pro-12")
+(add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font 12"))
+(set-face-attribute 'default t :font "Iosevka Nerd Font 12")
 (prefer-coding-system 'utf-8)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -36,11 +36,7 @@
 (setq display-line-numbers-type 'relative)
 (fset 'yes-or-no-p 'y-or-n-p)
 (show-paren-mode t)
-(setq electric-pair-pairs
-      '((?\" . ?\")
-        (?\( . ?\))
-        (?\< . ?\>)
-        (?\{ . ?\})))
+
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
 (save-place-mode t)
@@ -117,6 +113,7 @@
   (setq ivy-use-virtual-buffers t)
   (setq ivy-count-format "%d/%d ")
   (evil-define-key 'normal 'global (kbd "<leader>x") 'counsel-M-x)
+  (evil-define-key 'normal 'global (kbd "<leader>si") 'counsel-rg)
   (ivy-mode)
 )
 
@@ -131,6 +128,8 @@
         centaur-tabs-set-bar 'under x-underline-at-descent-line t)
   (centaur-tabs-headline-match)
   (centaur-tabs-mode t)
+  (evil-define-key 'normal 'global (kbd "<leader>cs") 'centaur-tabs-counsel-switch-group)
+  (evil-define-key 'normal 'global (kbd "<leader>cg") 'centaur-tabs-group-by-projectile-project)
   :bind
   (:map evil-normal-state-map
     ("g t" . centaur-tabs-forward)
@@ -235,6 +234,26 @@
 (use-package transient
   :after magit)
 
+(use-package yasnippet-snippets)
+
+(use-package yasnippet
+  :init
+  (yas-global-mode 1))
+
+(use-package auto-yasnippet)
+
+(defun company-yasnippet-or-completion ()
+  (interactive)
+  (let ((yas-fallback-behavior nil))
+    (unless (yas-expand)
+    (call-interactively #'company-complete-common))))
+
+(add-hook 'company-mode-hook
+  (lambda () (substitute-key-definition
+    'company-complete-common
+    'company-yasnippet-or-completion
+    company-active-map)))
+
 ;; Modes that are loaded under certain circumstances
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 (set-face-foreground 'fill-column-indicator "red")
@@ -337,9 +356,13 @@
 
 (use-package lsp-mode
   :hook
-  (python-mode . lsp-deferred)
+  ((python-mode haskell-mode) . lsp-deferred)
   (lsp-mode . lsp-enable-which-key-integration)
-  (haskell-mode . lsp-deferred)
+  (before-save . lsp-format-buffer)
+  :custom
+  (lsp-diagnostic-package :flycheck)
+  (lsp-prefer-capf t)
+  (read-process-output-max (* 1024 1024))
   :config
   (setq lsp-log-io nil)
   (setq lsp-enable-folding nil)
@@ -361,6 +384,7 @@
 (use-package lsp-ui
   :commands lsp-ui-mode
   :config
+  (setq lsp-ui-doc-max-width 80)
   (setq lsp-ui-sideline-show-diagnostics nil)
   (setq lsp-ui-sideline-show-hover nil)
   (setq lsp-ui-sideline-show-code-actions nil)
@@ -370,7 +394,7 @@
   (setq lsp-ui-doc-include-signature t)
   (setq lsp-ui-doc-position 'at-point)
   (setq lsp-ui-doc-delay 2)
-  (setq lsp-ui-doc-alignment 'window)
+  (setq lsp-ui-doc-alignment 'at-point)
   (setq lsp-ui-doc-use-webkit t))
 
 (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
@@ -401,6 +425,10 @@
 
 (use-package flycheck-haskell
   :commands flycheck-haskell-setup)
+
+(use-package docker
+  :config
+  (evil-define-key 'normal 'global (kbd "<leader>d") 'docker))
 
 (use-package vterm
   :commands vterm

@@ -23,6 +23,7 @@ emacsWithPackages (epkgs: (
     dashboard
     deft
     direnv
+    docker
     doom-modeline
     editorconfig
     vterm
@@ -33,8 +34,11 @@ emacsWithPackages (epkgs: (
     forge
     format-all
     fzf
+    ghub
     haskell-mode
     idris-mode
+    ivy
+    ivy-yasnippet
     lsp-haskell
     lsp-mode
     lsp-pyright
@@ -65,6 +69,8 @@ emacsWithPackages (epkgs: (
     which-key
     web-mode
     yaml-mode
+    yasnippet
+    yasnippet-snippets
     zenburn-theme
   ]
 ))
