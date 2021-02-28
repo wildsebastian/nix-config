@@ -31,6 +31,7 @@ emacsWithPackages (epkgs: (
     evil-collection
     flycheck
     flycheck-haskell
+    flyspell
     forge
     format-all
     fzf
@@ -48,6 +49,7 @@ emacsWithPackages (epkgs: (
     markdown-mode
     nix-mode
     page-break-lines
+    perspective
     php-mode
     projectile
     proof-general
@@ -71,6 +73,5 @@ emacsWithPackages (epkgs: (
     yaml-mode
     yasnippet
     yasnippet-snippets
-    zenburn-theme
   ]
 ))

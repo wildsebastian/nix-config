@@ -12,7 +12,7 @@ let
     [];
 in
 with pkgs; [
-  (import ./emacs.nix { inherit pkgs; })
+  # (import ./emacs.nix { inherit pkgs; })
   (import ./emacs_gcc.nix { inherit pkgs; })
 
   diffstat
@@ -30,6 +30,7 @@ with pkgs; [
   ag
   alacritty
   autossh
+  (aspellWithDicts (d: [d.de d.en d.it])
   cabal2nix
   curl
   ctags

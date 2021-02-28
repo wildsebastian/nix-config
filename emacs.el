@@ -117,6 +117,18 @@
   (ivy-mode)
 )
 
+(use-package perspective
+  :after counsel
+  :custom
+  (persp-initial-frame-name "Main")
+  :config
+  (evil-define-key 'normal 'global (kbd "<leader>psb") 'persp-counsel-switch-buffer)
+  (evil-define-key 'normal 'global (kbd "<leader>ps") 'persp-switch)
+  (evil-define-key 'normal 'global (kbd "<leader>pn") 'persp-next)
+  (evil-define-key 'normal 'global (kbd "<leader>pkb") 'persp-kill-buffer)
+  (unless persp-mode
+    (persp-mode 1)))
+
 (use-package centaur-tabs
   :demand
   :config
