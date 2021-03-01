@@ -31,7 +31,6 @@ emacsWithPackages (epkgs: (
     evil-collection
     flycheck
     flycheck-haskell
-    flyspell
     forge
     format-all
     fzf
