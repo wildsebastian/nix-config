@@ -30,7 +30,7 @@ with pkgs; [
   ag
   alacritty
   autossh
-  (aspellWithDicts (d: [d.de d.en d.it])
+  (aspellWithDicts (d: [d.de d.en d.it]))
   cabal2nix
   curl
   ctags
