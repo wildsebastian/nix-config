@@ -126,6 +126,7 @@
   (evil-define-key 'normal 'global (kbd "<leader>ps") 'persp-switch)
   (evil-define-key 'normal 'global (kbd "<leader>pn") 'persp-next)
   (evil-define-key 'normal 'global (kbd "<leader>pkb") 'persp-kill-buffer)
+  (evil-define-key 'normal 'global (kbd "<leader>pb") 'persp-ibuffer)
   (unless persp-mode
     (persp-mode 1)))
 

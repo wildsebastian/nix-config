@@ -13,6 +13,7 @@ emacsWithPackages (epkgs: (
       ''
     )
     all-the-icons
+    auto-yasnippet
     base16-theme
     centaur-tabs
     company
