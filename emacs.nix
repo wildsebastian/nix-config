@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  myEmacs = pkgs.emacsGit;
+  myEmacs = pkgs.emacsMacport;
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
   myEmacsConfig = pkgs.writeText "default.el" (builtins.readFile ./emacs.el);
 in
