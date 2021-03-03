@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  myEmacs = pkgs.emacsMacport;
+  myEmacs = pkgs.emacs;
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
   myEmacsConfig = pkgs.writeText "default.el" (builtins.readFile ./emacs.el);
 in
@@ -41,6 +41,7 @@ emacsWithPackages (epkgs: (
     ivy
     ivy-yasnippet
     lsp-haskell
+    lsp-ivy
     lsp-mode
     lsp-pyright
     lsp-ui

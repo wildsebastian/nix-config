@@ -93,6 +93,7 @@
   (mode-line ((t (:height 0.85))))
   (mode-line-inactive ((t (:height 0.85))))
   :custom
+  (doom-modeline-unicode-fallback t)
   (doom-modeline-height 15)
   (doom-modeline-bar-width 6)
   (doom-modeline-lsp t)
@@ -122,11 +123,12 @@
   :custom
   (persp-initial-frame-name "Main")
   :config
-  (evil-define-key 'normal 'global (kbd "<leader>psb") 'persp-counsel-switch-buffer)
-  (evil-define-key 'normal 'global (kbd "<leader>ps") 'persp-switch)
-  (evil-define-key 'normal 'global (kbd "<leader>pn") 'persp-next)
-  (evil-define-key 'normal 'global (kbd "<leader>pkb") 'persp-kill-buffer)
-  (evil-define-key 'normal 'global (kbd "<leader>pb") 'persp-ibuffer)
+  (evil-define-key 'normal 'global (kbd "<leader>wsb") 'persp-counsel-switch-buffer)
+  (evil-define-key 'normal 'global (kbd "<leader>ws") 'persp-switch)
+  (evil-define-key 'normal 'global (kbd "<leader>wn") 'persp-next)
+  (evil-define-key 'normal 'global (kbd "<leader>wkb") 'persp-kill-buffer)
+  (evil-define-key 'normal 'global (kbd "<leader>wkw") 'persp-kill)
+  (evil-define-key 'normal 'global (kbd "<leader>wb") 'persp-ibuffer)
   (unless persp-mode
     (persp-mode 1)))
 
@@ -211,6 +213,9 @@
   (with-eval-after-load 'winum
     (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
   :config
+  (evil-define-key 'normal 'global (kbd "<leader>to") 'treemacs)
+  (evil-define-key 'normal 'global (kbd "<leader>ts") 'treemacs-switch-workspace)
+  (evil-define-key 'normal 'global (kbd "<leader>tp") 'treemacs-projectile)
   (treemacs-load-theme "Default"))
 
 (use-package treemacs-evil
@@ -231,7 +236,11 @@
   ("C-c p" . projectile-command-map)
   :init
   (when (file-directory-p "~/src")
-    (setq projectile-project-search-path '("~/src"))))
+    (setq projectile-project-search-path '("~/src")))
+  :config
+  (evil-define-key 'normal 'global (kbd "<leader>pt") 'projectile-test-project)
+  (evil-define-key 'normal 'global (kbd "<leader>pr") 'projectile-run-project)
+  )
 
 (use-package format-all
   :hook
@@ -306,7 +315,7 @@
                                         "--local"
                                         "--haskell"
                                         "-n")))
-  (setq haskell-hoogle-url "http://127.0.0.1/?hoogle=%s")
+  (setq haskell-hoogle-url "http://127.0.0.1:8181/?hoogle=%s")
   )
 
 (use-package purescript-mode
@@ -394,23 +403,25 @@
 
 (use-package lsp-pyright)
 
+(use-package lsp-ivy
+  :commands lsp-ivy-workspace-symbol)
+
 (use-package lsp-ui
   :commands lsp-ui-mode
   :config
-  (setq lsp-ui-doc-max-width 80)
   (setq lsp-ui-sideline-show-diagnostics nil)
   (setq lsp-ui-sideline-show-hover nil)
   (setq lsp-ui-sideline-show-code-actions nil)
   (setq lsp-ui-peek nil)
   (setq lsp-ui-doc-enable t)
-  (setq lsp-ui-doc-header t)
-  (setq lsp-ui-doc-include-signature t)
   (setq lsp-ui-doc-position 'at-point)
-  (setq lsp-ui-doc-delay 2)
-  (setq lsp-ui-doc-alignment 'at-point)
-  (setq lsp-ui-doc-use-webkit t))
+  (setq lsp-ui-doc-delay 3)
+  (setq lsp-ui-doc-show-with-cursor t)
+  (setq lsp-ui-doc-show-with-mouse t))
 
-(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+(use-package lsp-treemacs
+  :commands lsp-treemacs-errors-list)
+
 (use-package dap-mode)
 (use-package dap-python)
 
@@ -447,4 +458,5 @@
   :commands vterm
   :config
   (setq vterm-shell "/run/current-system/sw/bin/zsh")
-  (setq vterm-max-scrollback 10000))
+  (setq vterm-max-scrollback 10000)
+  (evil-define-key 'normal 'global (kbd "<leader>v") 'vterm-other-window))
