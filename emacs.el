@@ -81,20 +81,14 @@
     evil-collection-company-use-tng nil)
   (evil-collection-init))
 
-;; http://sodaware.sdf.org/notes/emacs-daemon-doom-modeline-icons/
-(defun enable-doom-modeline-icons (_frame)
-  (setq doom-modeline-icon t))
-
-(add-hook 'after-make-frame-functions #'enable-doom-modeline-icons)
-
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
   :custom-face
-  (mode-line ((t (:height 0.85))))
-  (mode-line-inactive ((t (:height 0.85))))
+  (mode-line ((t (:height 1.0))))
+  (mode-line-inactive ((t (:height 1.0))))
   :custom
   (doom-modeline-unicode-fallback t)
-  (doom-modeline-height 15)
+  (doom-modeline-height 30)
   (doom-modeline-bar-width 6)
   (doom-modeline-lsp t)
   (doom-modeline-github nil)
@@ -103,6 +97,7 @@
   (doom-modeline-minor-modes nil)
   (doom-modeline-persp-name nil)
   (doom-modeline-buffer-file-name-style 'truncate-except-project)
+  (doom-modeline-icon t)
   (doom-modeline-major-mode-icon t)
   (doom-modeline-major-mode-color-icon t)
   (doom-modeline-buffer-state-icon t))
@@ -248,7 +243,8 @@
 
 (use-package magit
   :config
-  (evil-define-key 'normal 'global (kbd "<leader>m") 'magit))
+  (evil-define-key 'normal 'global (kbd "<leader>ms") 'magit)
+  )
 
 (use-package forge
   :after magit)
@@ -406,19 +402,6 @@
 (use-package lsp-ivy
   :commands lsp-ivy-workspace-symbol)
 
-(use-package lsp-ui
-  :commands lsp-ui-mode
-  :config
-  (setq lsp-ui-sideline-show-diagnostics nil)
-  (setq lsp-ui-sideline-show-hover nil)
-  (setq lsp-ui-sideline-show-code-actions nil)
-  (setq lsp-ui-peek nil)
-  (setq lsp-ui-doc-enable t)
-  (setq lsp-ui-doc-position 'at-point)
-  (setq lsp-ui-doc-delay 3)
-  (setq lsp-ui-doc-show-with-cursor t)
-  (setq lsp-ui-doc-show-with-mouse t))
-
 (use-package lsp-treemacs
   :commands lsp-treemacs-errors-list)
 
@@ -459,4 +442,4 @@
   :config
   (setq vterm-shell "/run/current-system/sw/bin/zsh")
   (setq vterm-max-scrollback 10000)
-  (evil-define-key 'normal 'global (kbd "<leader>v") 'vterm-other-window))
+  (setq evil-define-key 'normal 'global (kbd "<leader>v") 'vterm-other-window))

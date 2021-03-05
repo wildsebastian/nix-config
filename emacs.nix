@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  myEmacs = pkgs.emacs;
+  myEmacs = pkgs.emacsGcc;
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
   myEmacsConfig = pkgs.writeText "default.el" (builtins.readFile ./emacs.el);
 in
@@ -27,7 +27,6 @@ emacsWithPackages (epkgs: (
     docker
     doom-modeline
     editorconfig
-    vterm
     evil
     evil-collection
     flycheck
@@ -44,7 +43,6 @@ emacsWithPackages (epkgs: (
     lsp-ivy
     lsp-mode
     lsp-pyright
-    lsp-ui
     lsp-treemacs
     magit
     markdown-mode
@@ -69,6 +67,7 @@ emacsWithPackages (epkgs: (
     typescript-mode
     undo-tree
     use-package
+    vterm
     which-key
     web-mode
     yaml-mode
