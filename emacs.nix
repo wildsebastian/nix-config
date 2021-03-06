@@ -27,6 +27,8 @@ emacsWithPackages (epkgs: (
     docker
     doom-modeline
     editorconfig
+    elfeed
+    elfeed-dashboard
     evil
     evil-collection
     flycheck
@@ -35,6 +37,8 @@ emacsWithPackages (epkgs: (
     format-all
     fzf
     ghub
+    git-gutter
+    git-gutter-fringe
     haskell-mode
     idris-mode
     ivy
@@ -54,6 +58,7 @@ emacsWithPackages (epkgs: (
     proof-general
     psc-ide
     purescript-mode
+    restclient
     rg
     scss-mode
     swiper

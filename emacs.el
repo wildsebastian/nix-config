@@ -19,11 +19,12 @@
   )
 )
 
+(setq comp-deferred-compilation t)
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq-default gc-cons-threshold 100000000)
 (setq-default read-process-output-max (* 1024 1024)) ;; 1mb
-(add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font 12"))
-(set-face-attribute 'default t :font "Iosevka Nerd Font 12")
+(add-to-list 'default-frame-alist '(font . "Iosevka Extended 14"))
+(set-face-attribute 'default t :font "Iosevka Extended 14")
 (prefer-coding-system 'utf-8)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -89,7 +90,7 @@
   :custom
   (doom-modeline-unicode-fallback t)
   (doom-modeline-height 30)
-  (doom-modeline-bar-width 6)
+  (doom-modeline-bar-width 1)
   (doom-modeline-lsp t)
   (doom-modeline-github nil)
   (doom-modeline-mu4e nil)
@@ -243,7 +244,8 @@
 
 (use-package magit
   :config
-  (evil-define-key 'normal 'global (kbd "<leader>ms") 'magit)
+  (evil-define-key 'normal 'global (kbd "<leader>gs") 'magit)
+  (evil-define-key 'normal 'global (kbd "<leader>gfa") 'magit-fetch-all)
   )
 
 (use-package forge
@@ -251,6 +253,12 @@
 
 (use-package transient
   :after magit)
+
+(use-package git-gutter
+  :config
+  (global-git-gutter-mode))
+
+(use-package git-gutter-fringe)
 
 (use-package yasnippet-snippets)
 
@@ -275,6 +283,7 @@
 ;; Modes that are loaded under certain circumstances
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 (set-face-foreground 'fill-column-indicator "red")
+(add-hook 'prog-mode-hook #'company-mode)
 
 (use-package direnv
   :init
@@ -378,20 +387,22 @@
   (lsp-mode . lsp-enable-which-key-integration)
   (before-save . lsp-format-buffer)
   :custom
-  (lsp-diagnostic-package :flycheck)
   (lsp-prefer-capf t)
   (read-process-output-max (* 1024 1024))
-  :config
-  (setq lsp-log-io nil)
-  (setq lsp-enable-folding nil)
-  (setq lsp-diagnostic-package :none)
-  (setq lsp-completion-provider :capf)
-  (setq lsp-enable-snippet nil)
-  (setq lsp-enable-symbol-highlighting nil)
-  (setq lsp-enable-links nil)
-  (setq lsp-restart 'auto-restart)
-  (setq lsp-enable-file-watchers nil)
-  (setq lsp-idle-delay 0.500))
+  (lsp-modeline-diagnostics-enable nil)
+  (lsp-log-io nil)
+  (lsp-enable-folding nil)
+  (lsp-diagnostic-package :flycheck)
+  (lsp-completion-provider :capf)
+  (lsp-enable-snippet nil)
+  (lsp-enable-symbol-highlighting nil)
+  (lsp-lens-enable nil)
+  (lsp-enable-links nil)
+  (lsp-restart 'auto-restart)
+  (lsp-enable-file-watchers nil)
+  (lsp-idle-delay 0.500)
+  (lsp-headerline-breadcrumb-enable nil)
+  (lsp-modeline-code-actions-enable nil))
 
 (use-package lsp-haskell
   :config
@@ -437,9 +448,23 @@
   :config
   (evil-define-key 'normal 'global (kbd "<leader>d") 'docker))
 
+(use-package restclient)
+
 (use-package vterm
   :commands vterm
   :config
   (setq vterm-shell "/run/current-system/sw/bin/zsh")
   (setq vterm-max-scrollback 10000)
-  (setq evil-define-key 'normal 'global (kbd "<leader>v") 'vterm-other-window))
+  (evil-define-key 'normal 'global (kbd "<leader>v") 'vterm-other-window))
+
+(use-package elfeed
+  :config
+  (evil-define-key 'normal 'global (kbd "<leader>fo") 'elfeed)
+  (setq elfeed-feeds
+        '( "https://api.quantamagazine.org/feed/" )))
+
+(use-package elfeed-dashboard
+  :config
+  (setq elfeed-dashboard-file "~/elfeed-dashboard.org")
+  (advice-add 'elfeed-search-quit-window :after #'elfeed-dashboard-update-links)
+  (evil-define-key 'normal 'global (kbd "<leader>fd") 'elfeed-dashboard))
