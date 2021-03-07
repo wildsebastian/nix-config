@@ -28,7 +28,6 @@ emacsWithPackages (epkgs: (
     doom-modeline
     editorconfig
     elfeed
-    elfeed-dashboard
     evil
     evil-collection
     flycheck
@@ -51,6 +50,7 @@ emacsWithPackages (epkgs: (
     magit
     markdown-mode
     nix-mode
+    org
     page-break-lines
     perspective
     php-mode
@@ -63,8 +63,8 @@ emacsWithPackages (epkgs: (
     scss-mode
     swiper
     terraform-mode
-    transient
     tramp
+    transient
     treemacs
     treemacs-evil
     treemacs-magit
@@ -73,8 +73,8 @@ emacsWithPackages (epkgs: (
     undo-tree
     use-package
     vterm
-    which-key
     web-mode
+    which-key
     yaml-mode
     yasnippet
     yasnippet-snippets

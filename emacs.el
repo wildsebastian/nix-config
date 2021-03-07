@@ -20,12 +20,13 @@
 )
 
 (setq comp-deferred-compilation t)
+(setq comp-async-report-warnings-errors nil)
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq-default gc-cons-threshold 100000000)
 (setq-default read-process-output-max (* 1024 1024)) ;; 1mb
 (add-to-list 'default-frame-alist '(font . "Iosevka Extended 14"))
 (set-face-attribute 'default t :font "Iosevka Extended 14")
-(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -56,6 +57,9 @@
   :config
   (load-theme 'base16-classic-dark t))
 
+(set-face-foreground 'font-lock-comment-face "#b8b8b8")
+(set-face-foreground 'font-lock-comment-delimiter-face "#b8b8b8")
+
 (use-package editorconfig
   :config
   (editorconfig-mode 1))
@@ -63,6 +67,8 @@
 (use-package undo-tree
   :init
   (global-undo-tree-mode 1))
+
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 (use-package evil
   :init
@@ -77,10 +83,18 @@
 
 (use-package evil-collection
   :after evil
+  :custom
+  (evil-want-integration nil)
+  (evil-collection-company-use-tng nil)
   :config
-  (setq evil-want-integration nil
-    evil-collection-company-use-tng nil)
   (evil-collection-init))
+
+(setq evil-emacs-state-cursor   '(box "#7cafc2"))
+(setq evil-insert-state-cursor  '(bar "#7cafc2"))
+(setq evil-motion-state-cursor  '(box "#ba8baf"))
+(setq evil-normal-state-cursor  '(box "#a1b56c"))
+(setq evil-replace-state-cursor '(bar "#ab4642"))
+(setq evil-visual-state-cursor  '(box "#dc9656"))
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
@@ -106,49 +120,53 @@
 (use-package counsel)
 (use-package swiper)
 (use-package ivy
+  :bind (:map evil-normal-state-map
+    ("<leader>x" . counsel-M-x)
+    ("<leader>si" . counsel-rg))
+  :custom
+  (ivy-use-virtual-buffers t)
+  (ivy-count-format "%d/%d ")
   :config
-  (setq ivy-use-virtual-buffers t)
-  (setq ivy-count-format "%d/%d ")
-  (evil-define-key 'normal 'global (kbd "<leader>x") 'counsel-M-x)
-  (evil-define-key 'normal 'global (kbd "<leader>si") 'counsel-rg)
   (ivy-mode)
 )
 
 (use-package perspective
   :after counsel
+  :bind (:map evil-normal-state-map
+    ("<leader>wsb" . persp-counsel-switch-buffer)
+    ("<leader>ws" . persp-switch)
+    ("<leader>wn" . persp-next)
+    ("<leader>wkb" . persp-kill-buffer)
+    ("<leader>wkw" . persp-kill)
+    ("<leader>wb" . persp-ibuffer))
   :custom
   (persp-initial-frame-name "Main")
   :config
-  (evil-define-key 'normal 'global (kbd "<leader>wsb") 'persp-counsel-switch-buffer)
-  (evil-define-key 'normal 'global (kbd "<leader>ws") 'persp-switch)
-  (evil-define-key 'normal 'global (kbd "<leader>wn") 'persp-next)
-  (evil-define-key 'normal 'global (kbd "<leader>wkb") 'persp-kill-buffer)
-  (evil-define-key 'normal 'global (kbd "<leader>wkw") 'persp-kill)
-  (evil-define-key 'normal 'global (kbd "<leader>wb") 'persp-ibuffer)
   (unless persp-mode
     (persp-mode 1)))
 
 (use-package centaur-tabs
   :demand
-  :config
-  (setq centaur-tabs-style "bar"
-        centaur-tabs-height 32
-        centaur-tabs-set-icons t
-        centaur-tabs-set-modified-marker t
-        centaur-tabs-show-navigation-buttons t
-        centaur-tabs-set-bar 'under x-underline-at-descent-line t)
+  :custom
+  (centaur-tabs-style "bar")
+  (centaur-tabs-height 32)
+  (centaur-tabs-set-icons t)
+  (centaur-tabs-set-modified-marker t)
+  (centaur-tabs-show-navigation-buttons t)
+  (centaur-tabs-set-bar 'under x-underline-at-descent-line t)
   (centaur-tabs-headline-match)
   (centaur-tabs-mode t)
-  (evil-define-key 'normal 'global (kbd "<leader>cs") 'centaur-tabs-counsel-switch-group)
-  (evil-define-key 'normal 'global (kbd "<leader>cg") 'centaur-tabs-group-by-projectile-project)
   :bind
   (:map evil-normal-state-map
-    ("g t" . centaur-tabs-forward)
-    ("g T" . centaur-tabs-backward)))
+    ("t n" . centaur-tabs-forward)
+    ("t p" . centaur-tabs-backward)
+    ("t s" . centaur-tabs-counsel-switch-group)
+    ("t g" . centaur-tabs-group-by-projectile-project)))
 
 (use-package fzf
-  :config
-  (evil-define-key 'normal 'global (kbd "<leader>sf") 'fzf))
+  :bind
+  (:map evil-normal-state-map
+    ("<leader>sf" . fzf)))
 
 (use-package rg
   :config
@@ -177,11 +195,12 @@
     :files "*.{html,js,ts,scss,css}"
     :menu ("Custom" "w" "web"))
 
-  (evil-define-key 'normal 'global (kbd "<leader>sc") 'rg)
-  (evil-define-key 'normal 'global (kbd "<leader>shp") 'rg-haskell)
-  (evil-define-key 'normal 'global (kbd "<leader>spp") 'rg-python)
-  (evil-define-key 'normal 'global (kbd "<leader>swp") 'rg-web)
-)
+  :bind
+  (:map evil-normal-state-map
+    ("<leader>sc" . rg)
+    ("<leader>shp" . rg-haskell)
+    ("<leader>spp" . rg-python)
+    ("<leader>swp" .rg-web)))
 
 (use-package flyspell
   :hook
@@ -199,7 +218,12 @@
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
   (setq dashboard-banner-logo-title "Welcome Sebastian")
   (setq dashboard-startup-banner 'logo)
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t)
   (setq dashboard-items '((projects . 5)
+                          (recents . 5)
+                          (agenda . 5)
+                          (bookmarks . 5)
                           (registers . 5))))
 
 (use-package tramp)
@@ -209,10 +233,12 @@
   (with-eval-after-load 'winum
     (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
   :config
-  (evil-define-key 'normal 'global (kbd "<leader>to") 'treemacs)
-  (evil-define-key 'normal 'global (kbd "<leader>ts") 'treemacs-switch-workspace)
-  (evil-define-key 'normal 'global (kbd "<leader>tp") 'treemacs-projectile)
-  (treemacs-load-theme "Default"))
+  (treemacs-load-theme "Default")
+  :bind
+  (:map evil-normal-state-map
+    ("<leader>to" . treemacs)
+    ("<leader>ts" . treemacs-switch-workspace)
+    ("<leader>tp" . treemacs-projectile)))
 
 (use-package treemacs-evil
   :after (treemacs evil))
@@ -233,20 +259,20 @@
   :init
   (when (file-directory-p "~/src")
     (setq projectile-project-search-path '("~/src")))
-  :config
-  (evil-define-key 'normal 'global (kbd "<leader>pt") 'projectile-test-project)
-  (evil-define-key 'normal 'global (kbd "<leader>pr") 'projectile-run-project)
-  )
+  :bind
+  (:map evil-normal-state-map
+    ("<leader>pt" . projectile-test-project)
+    ("<leader>pr" . projectile-run-project)))
 
 (use-package format-all
   :hook
   (python-mode . format-all-mode))
 
 (use-package magit
-  :config
-  (evil-define-key 'normal 'global (kbd "<leader>gs") 'magit)
-  (evil-define-key 'normal 'global (kbd "<leader>gfa") 'magit-fetch-all)
-  )
+  :bind
+  (:map evil-normal-state-map
+    ("<leader>gs" . magit)
+    ("<leader>gfa" . magit-fetch-all)))
 
 (use-package forge
   :after magit)
@@ -260,13 +286,10 @@
 
 (use-package git-gutter-fringe)
 
-(use-package yasnippet-snippets)
-
 (use-package yasnippet
-  :init
-  (yas-global-mode 1))
-
-(use-package auto-yasnippet)
+  :config
+  (yas-global-mode 1)
+  (setq yas-snippet-dirs '( "~/.yasnippets" )))
 
 (defun company-yasnippet-or-completion ()
   (interactive)
@@ -279,6 +302,8 @@
     'company-complete-common
     'company-yasnippet-or-completion
     company-active-map)))
+
+(use-package org)
 
 ;; Modes that are loaded under certain circumstances
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
@@ -445,26 +470,37 @@
   :commands flycheck-haskell-setup)
 
 (use-package docker
-  :config
-  (evil-define-key 'normal 'global (kbd "<leader>d") 'docker))
+  :bind
+  (:map evil-normal-state-map
+    ("<leader>d" . docker)))
 
 (use-package restclient)
 
 (use-package vterm
   :commands vterm
-  :config
-  (setq vterm-shell "/run/current-system/sw/bin/zsh")
-  (setq vterm-max-scrollback 10000)
-  (evil-define-key 'normal 'global (kbd "<leader>v") 'vterm-other-window))
+  :custom
+  (vterm-shell "/run/current-system/sw/bin/zsh")
+  (vterm-max-scrollback 10000)
+  :bind
+  (:map evil-normal-state-map
+    ("<leader>v" . vterm-other-window)))
 
 (use-package elfeed
-  :config
-  (evil-define-key 'normal 'global (kbd "<leader>fo") 'elfeed)
-  (setq elfeed-feeds
-        '( "https://api.quantamagazine.org/feed/" )))
+  :custom
+  (elfeed-feeds
+    '(
+       ; Mathematics
+       ("https://api.quantamagazine.org/feed/" mathematics physics computer-science)
 
-(use-package elfeed-dashboard
-  :config
-  (setq elfeed-dashboard-file "~/elfeed-dashboard.org")
-  (advice-add 'elfeed-search-quit-window :after #'elfeed-dashboard-update-links)
-  (evil-define-key 'normal 'global (kbd "<leader>fd") 'elfeed-dashboard))
+       ; News
+       ; zeit.de
+       ("http://newsfeed.zeit.de/politik/index" zeit politics)
+       ("http://newsfeed.zeit.de/wirtschaft/index" zeit economics)
+       ("http://newsfeed.zeit.de/wissen/index" zeit science)
+       ("http://newsfeed.zeit.de/digital/index" zeit digital)
+       ("http://newsfeed.zeit.de/arbeit/index" zeit work)
+       ("http://newsfeed.zeit.de/zeit-magazin/index" zeit magazine)
+       ))
+  :bind
+  (:map evil-normal-state-map
+    ("<leader>fo" . elfeed)))
