@@ -209,7 +209,6 @@
   (evil-define-key 'normal 'global (kbd "<leader>swp") 'rg-web))
 
 (use-package flyspell
-  :ensure t
   :hook
   (python-mode . flyspell-prog-mode)
   (haskell-mode . flyspell-prog-mode)
