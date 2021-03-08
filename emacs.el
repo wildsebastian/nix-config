@@ -478,8 +478,7 @@
 
 (use-package dap-mode
   :ensure t)
-(use-package dap-python
-  :ensure t)
+(use-package dap-python)
 
 (use-package which-key
   :ensure t
