@@ -33,7 +33,6 @@
 (flymake-mode -1)
 (tab-bar-mode -1)
 (global-hl-line-mode t)
-(toggle-frame-fullscreen)
 (global-display-line-numbers-mode 1)
 (setq display-line-numbers-type 'relative)
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -54,6 +53,7 @@
 
 ;; Modes that are always active
 (use-package base16-theme
+  :ensure t
   :config
   (load-theme 'base16-classic-dark t))
 
@@ -61,16 +61,19 @@
 (set-face-foreground 'font-lock-comment-delimiter-face "#b8b8b8")
 
 (use-package editorconfig
+  :ensure t
   :config
   (editorconfig-mode 1))
 
 (use-package undo-tree
+  :ensure t
   :init
   (global-undo-tree-mode 1))
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 (use-package evil
+  :ensure t
   :init
   (setq evil-want-keybinding nil)
   :config
@@ -82,6 +85,7 @@
   (setq evil-undo-system 'undo-tree))
 
 (use-package evil-collection
+  :ensure t
   :after evil
   :custom
   (evil-want-integration nil)
@@ -97,6 +101,7 @@
 (setq evil-visual-state-cursor  '(box "#dc9656"))
 
 (use-package doom-modeline
+  :ensure t
   :init (doom-modeline-mode 1)
   :custom-face
   (mode-line ((t (:height 1.0))))
@@ -117,9 +122,12 @@
   (doom-modeline-major-mode-color-icon t)
   (doom-modeline-buffer-state-icon t))
 
-(use-package counsel)
-(use-package swiper)
+(use-package counsel
+  :ensure t)
+(use-package swiper
+  :ensure t)
 (use-package ivy
+  :ensure t
   :bind (:map evil-normal-state-map
     ("<leader>x" . counsel-M-x)
     ("<leader>si" . counsel-rg))
@@ -131,6 +139,7 @@
 )
 
 (use-package perspective
+  :ensure t
   :after counsel
   :bind (:map evil-normal-state-map
     ("<leader>wsb" . persp-counsel-switch-buffer)
@@ -146,6 +155,7 @@
     (persp-mode 1)))
 
 (use-package centaur-tabs
+  :ensure t
   :demand
   :custom
   (centaur-tabs-style "bar")
@@ -164,13 +174,14 @@
     ("t g" . centaur-tabs-group-by-projectile-project)))
 
 (use-package fzf
+  :ensure t
   :bind
   (:map evil-normal-state-map
     ("<leader>sf" . fzf)))
 
 (use-package rg
+  :ensure t
   :config
-
   (rg-define-search rg-haskell
     "Search through all haskell files in a project"
     :dir project
@@ -178,7 +189,6 @@
     :flags '("--vimgrep")
     :files "*.{hs,lhs}"
     :menu ("Custom" "h" "haskell"))
-
   (rg-define-search rg-python
     "Search through all python files in a project"
     :dir project
@@ -186,7 +196,6 @@
     :flags '("--vimgrep")
     :files "*.{py}"
     :menu ("Custom" "p" "python"))
-
   (rg-define-search rg-web
     "Search through all web files in a project"
     :dir project
@@ -194,15 +203,13 @@
     :flags '("--vimgrep")
     :files "*.{html,js,ts,scss,css}"
     :menu ("Custom" "w" "web"))
-
-  :bind
-  (:map evil-normal-state-map
-    ("<leader>sc" . rg)
-    ("<leader>shp" . rg-haskell)
-    ("<leader>spp" . rg-python)
-    ("<leader>swp" .rg-web)))
+  (evil-define-key 'normal 'global (kbd "<leader>sc") 'rg)
+  (evil-define-key 'normal 'global (kbd "<leader>shp") 'rg-haskell)
+  (evil-define-key 'normal 'global (kbd "<leader>spp") 'rg-python)
+  (evil-define-key 'normal 'global (kbd "<leader>swp") 'rg-web))
 
 (use-package flyspell
+  :ensure t
   :hook
   (python-mode . flyspell-prog-mode)
   (haskell-mode . flyspell-prog-mode)
@@ -210,9 +217,11 @@
   (setq-default ispell-program-name "aspell")
   (flyspell-mode 1))
 
-(use-package all-the-icons)
+(use-package all-the-icons
+  :ensure t)
 
 (use-package dashboard
+  :ensure t
   :config
   (dashboard-setup-startup-hook)
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
@@ -221,14 +230,13 @@
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
   (setq dashboard-items '((projects . 5)
-                          (recents . 5)
-                          (agenda . 5)
-                          (bookmarks . 5)
-                          (registers . 5))))
+                          (recents . 5))))
 
-(use-package tramp)
+(use-package tramp
+  :ensure t)
 
 (use-package treemacs
+  :ensure t
   :init
   (with-eval-after-load 'winum
     (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
@@ -241,15 +249,19 @@
     ("<leader>tp" . treemacs-projectile)))
 
 (use-package treemacs-evil
+  :ensure t
   :after (treemacs evil))
 
 (use-package treemacs-magit
+  :ensure t
   :after (treemacs magit))
 
 (use-package treemacs-projectile
+  :ensure t
   :after (treemacs projectile))
 
 (use-package projectile
+  :ensure t
   :config
   (projectile-mode)
   :custom
@@ -265,28 +277,35 @@
     ("<leader>pr" . projectile-run-project)))
 
 (use-package format-all
+  :ensure t
   :hook
   (python-mode . format-all-mode))
 
 (use-package magit
+  :ensure t
   :bind
   (:map evil-normal-state-map
     ("<leader>gs" . magit)
     ("<leader>gfa" . magit-fetch-all)))
 
 (use-package forge
+  :ensure t
   :after magit)
 
 (use-package transient
+  :ensure t
   :after magit)
 
 (use-package git-gutter
+  :ensure t
   :config
   (global-git-gutter-mode))
 
-(use-package git-gutter-fringe)
+(use-package git-gutter-fringe
+  :ensure t)
 
 (use-package yasnippet
+  :ensure t
   :config
   (yas-global-mode 1)
   (setq yas-snippet-dirs '( "~/.yasnippets" )))
@@ -303,20 +322,20 @@
     'company-yasnippet-or-completion
     company-active-map)))
 
-(use-package org)
-
 ;; Modes that are loaded under certain circumstances
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 (set-face-foreground 'fill-column-indicator "red")
 (add-hook 'prog-mode-hook #'company-mode)
 
 (use-package direnv
+  :ensure t
   :init
   (add-hook 'prog-mode-hook #'direnv-update-environment)
   :config
   (direnv-mode))
 
 (use-package nix-mode
+  :ensure t
   :mode "\\.nix\\'")
 
 (use-package python-mode
@@ -325,6 +344,7 @@
   (python-shell-interpreter "python3"))
 
 (use-package haskell-mode
+  :ensure t
   :mode
   ("\\.hs" . haskell-mode)
   ("\\.ghci$" . ghci-script-mode)
@@ -349,10 +369,12 @@
   )
 
 (use-package purescript-mode
+  :ensure t
   :mode
   ("\\.purs" . purescript-mode))
 
 (use-package psc-ide
+  :ensure t
   :init
   (add-hook 'purescript-mode-hook (
     lambda ()
@@ -362,18 +384,22 @@
       (turn-on-purescript-indentation))))
 
 (use-package yaml-mode
+  :ensure t
   :mode
   ("\\.yml\\'" . yaml-mode))
 
 (use-package idris-mode
+  :ensure t
   :mode
   ("\\.idr" . idris-mode))
 
 (use-package php-mode
+  :ensure t
   :mode
   ("\\.php" . php-mode))
 
 (use-package web-mode
+  :ensure t
   :mode
   ("\\.tpl\\'" . web-mode)
   :config
@@ -382,14 +408,17 @@
   (setq web-mode-css-indent-offset 2))
 
 (use-package scss-mode
+  :ensure t
   :mode
   ("\\.scss\\'" . scss-mode))
 
 (use-package typescript-mode
+  :ensure t
   :mode
   ("\\.ts\\'" . typescript-mode))
 
 (use-package markdown-mode
+  :ensure t
   :commands (markdown-mode gfm-mode)
   :mode
   (("README\\.md\\'" . gfm-mode)
@@ -399,14 +428,17 @@
   (setq markdown-command "multimarkdown"))
 
 (use-package proof-general
+  :ensure t
   :mode ("\\.v\\'" . coq-mode)
   :config
   (setq proof-layout-windows 'hybrid))
 
 (use-package terraform-mode
+  :ensure t
   :mode ("\\.tf\\'" . terraform-mode))
 
 (use-package lsp-mode
+  :ensure t
   :hook
   ((python-mode haskell-mode) . lsp-deferred)
   (lsp-mode . lsp-enable-which-key-integration)
@@ -430,53 +462,68 @@
   (lsp-modeline-code-actions-enable nil))
 
 (use-package lsp-haskell
+  :ensure t
   :config
   (setq lsp-haskell-formatting-provider "fourmolu"))
 
-(use-package lsp-pyright)
+(use-package lsp-pyright
+  :ensure t)
 
 (use-package lsp-ivy
+  :ensure t
   :commands lsp-ivy-workspace-symbol)
 
 (use-package lsp-treemacs
+  :ensure t
   :commands lsp-treemacs-errors-list)
 
-(use-package dap-mode)
-(use-package dap-python)
+(use-package dap-mode
+  :ensure t)
+(use-package dap-python
+  :ensure t)
 
 (use-package which-key
+  :ensure t
   :config
   (setq which-key-popup-type 'minibuffer)
   (which-key-setup-side-window-bottom)
   (which-key-mode))
 
 (use-package company
+  :ensure t
   :config
   (setq company-minimum-prefix-length 1
         company-idle-delay 0.0))
 
 (use-package company-box
+  :ensure t
   :hook (company-mode . company-box-mode))
 
 (use-package company-coq
+  :ensure t
   :hook (coq-mode . company-coq-mode))
 
 (use-package flycheck
+  :ensure t
   :hook
   (python-mode . flycheck-mode)
   (haskell-mode . flycheck-mode))
 
 (use-package flycheck-haskell
+  :ensure t
   :commands flycheck-haskell-setup)
 
 (use-package docker
+  :ensure t
   :bind
   (:map evil-normal-state-map
     ("<leader>d" . docker)))
 
-(use-package restclient)
+(use-package restclient
+  :ensure t)
 
 (use-package vterm
+  :ensure t
   :commands vterm
   :custom
   (vterm-shell "/run/current-system/sw/bin/zsh")
@@ -486,6 +533,7 @@
     ("<leader>v" . vterm-other-window)))
 
 (use-package elfeed
+  :ensure t
   :custom
   (elfeed-feeds
     '(
