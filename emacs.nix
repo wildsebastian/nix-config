@@ -1,6 +1,6 @@
 { pkgs ? import <nixpkgs> {} }:
 
-emacsWithPackagesFromUsePackage {
+pkgs.emacsWithPackagesFromUsePackage {
   config = ./emacs.el;
   package = pkgs.emacsGcc;
   alwaysEnsure = false;
