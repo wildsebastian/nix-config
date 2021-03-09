@@ -31,10 +31,13 @@ with pkgs; [
   alacritty
   autossh
   (aspellWithDicts (d: [d.de d.en d.it]))
+  bat
+  bottom
   cabal2nix
   curl
   ctags
   direnv
+  dust
   editorconfig-core-c
   entr
   fswatch
@@ -48,6 +51,8 @@ with pkgs; [
   mosh
   openssl_1_1
   ripgrep
+  sd
   starship
+  tokei
   wget
 ] ++ server_packages
