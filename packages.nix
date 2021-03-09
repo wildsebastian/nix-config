@@ -39,8 +39,8 @@ with pkgs; [
   direnv
   dust
   editorconfig-core-c
-  entr
-  fswatch
+  exa
+  fd
   fzf
   gnugrep
   gnupg
@@ -50,6 +50,7 @@ with pkgs; [
   minify
   mosh
   openssl_1_1
+  procs
   ripgrep
   sd
   starship
