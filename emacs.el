@@ -102,7 +102,7 @@
 
 (use-package doom-modeline
   :ensure t
-  :init (doom-modeline-mode 1)
+  :hook (after-init . doom-modeline-mode)
   :custom-face
   (mode-line ((t (:height 1.0))))
   (mode-line-inactive ((t (:height 1.0))))
@@ -550,6 +550,10 @@
   :bind
   (:map evil-normal-state-map
     ("<leader>fo" . elfeed)))
+
+(use-package elfeed-web
+  :ensure t)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

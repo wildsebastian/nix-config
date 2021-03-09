@@ -37,7 +37,7 @@ with pkgs; [
   curl
   ctags
   direnv
-  dust
+  du-dust
   editorconfig-core-c
   exa
   fd
