@@ -55,5 +55,5 @@ with pkgs; [
   sd
   starship
   tokei
-  wget
+  wget2
 ] ++ server_packages
