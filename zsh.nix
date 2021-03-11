@@ -76,8 +76,6 @@
     gl          = "git log --color -32";
     grbm        = "git rebase origin/master";
     gst         = "git status";
-    tf          = "cd ~/src/thefoodteller";
-    tc          = "cd ~/src/teleclinic";
-    tcc         = "cd ~/src/teleclinic/teleclinic_core";
+    wget        = "wget2";
   };
 }
