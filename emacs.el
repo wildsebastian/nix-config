@@ -321,6 +321,21 @@
     'company-yasnippet-or-completion
     company-active-map)))
 
+(use-package org
+  :config
+  (org-babel-do-load-languages
+    'org-babel-load-languages
+    '((coq . t)
+      (emacs-lisp . t)
+      (gnuplot . t)
+      (haskell . t)
+      (ocaml . t)
+      (python . t)
+      ;; (scala . t)
+      (sql . t)
+      (ocaml . t)))
+  )
+
 ;; Modes that are loaded under certain circumstances
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 (set-face-foreground 'fill-column-indicator "red")
