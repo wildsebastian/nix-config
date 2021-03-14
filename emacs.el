@@ -6,6 +6,9 @@
     ("org" . "https://orgmode.org/elpa/")
     ("elpa" . "https://elpa.gnu.org/packages/")))
 
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
+
 ;;(package-initialize 'noactivate)
 (eval-when-compile
   (require 'use-package))
@@ -57,6 +60,12 @@
       scroll-up-aggressively 0.01
       scroll-down-aggressively 0.01
       scroll-preserve-screen-position 'always)
+
+(use-package quelpa
+  :ensure t)
+
+(use-package quelpa-use-package
+  :ensure t)
 
 ;; Modes that are always active
 (use-package base16-theme
@@ -149,7 +158,6 @@
   :ensure t
   :after counsel
   :bind (:map evil-normal-state-map
-    ("<leader>wsb" . persp-counsel-switch-buffer)
     ("<leader>ws" . persp-switch)
     ("<leader>wn" . persp-next)
     ("<leader>wkb" . persp-kill-buffer)
@@ -179,12 +187,6 @@
     ("t p" . centaur-tabs-backward)
     ("t s" . centaur-tabs-counsel-switch-group)
     ("t g" . centaur-tabs-group-by-projectile-project)))
-
-(use-package fzf
-  :ensure t
-  :bind
-  (:map evil-normal-state-map
-    ("<leader>sf" . fzf)))
 
 (use-package rg
   :ensure t
@@ -279,6 +281,8 @@
     (setq projectile-project-search-path '("~/src")))
   :bind
   (:map evil-normal-state-map
+    ("<leader>pff" . projectile--find-file)
+    ("<leader>pfw" . projectile-find-file-other-window)
     ("<leader>pt" . projectile-test-project)
     ("<leader>pr" . projectile-run-project)))
 
@@ -328,11 +332,22 @@
     'company-yasnippet-or-completion
     company-active-map)))
 
+(defun ws/org-mode-setup ()
+  (org-indent-mode)
+  (variable-pitch-mode 1)
+  (auto-fill-mode 0)
+  (visual-line-mode 1)
+  (setq evil-auto-indent nil)
+  (diminish org-indent-mode))
+
 (use-package org
+  :hook (org-mode . ws/org-mode-setup)
+  :mode ("\\.org\\'" . org-mode)
   :config
   (org-babel-do-load-languages
     'org-babel-load-languages
     '((coq . t)
+      (ein . t)
       (emacs-lisp . t)
       (gnuplot . t)
       (haskell . t)
@@ -341,7 +356,73 @@
       ;; (scala . t)
       (sql . t)
       (ocaml . t)))
+  (setq org-ellipsis " ▾"
+    org-hide-emphasis-markers t org-src-fontify-natively t
+    org-src-tab-acts-natively t
+    org-edit-src-content-indentation 2
+    org-hide-block-startup nil
+    org-src-preserve-indentation nil
+    org-startup-folded 'content
+    org-cycle-separator-lines 2
+    org-default-notes-file "~/notes/inbox.org"
+    org-agenda-files (directory-files-recursively "~/notes/" "\\.org$")
+    org-modules (quote (org-habit))
+    org-treat-insert-todo-heading-as-state-change t
+    org-log-into-drawer t
   )
+  (use-package org-superstar
+    :ensure t
+    :after org
+    :hook (org-mode . org-superstar-mode)
+    :config (org-superstar-configure-like-org-bullets))
+
+  (set-face-attribute 'org-document-title nil :font "Iosevka Aile" :weight 'bold :height 1.3)
+  (dolist (face '((org-level-1 . 1.2)
+                  (org-level-2 . 1.1)
+                  (org-level-3 . 1.05)
+                  (org-level-4 . 1.0)
+                  (org-level-5 . 1.1)
+                  (org-level-6 . 1.1)
+                  (org-level-7 . 1.1)
+                  (org-level-8 . 1.1)))
+    (set-face-attribute (car face) nil :font "Iosevka Aile" :weight 'medium :height (cdr face)))
+    (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+    (set-face-attribute 'org-table nil  :inherit 'fixed-pitch)
+    (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
+    (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+    (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+    (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+    (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+    (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
+    (set-face-attribute 'org-column nil :background nil)
+    (set-face-attribute 'org-column-title nil :background nil))
+
+(use-package evil-org
+  :ensure t
+  :after org
+  :hook (org-mode . (lambda () evil-org-mode))
+  :config
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
+
+(use-package org-journal
+  :ensure t
+  :after org
+  :config
+  (setq org-journal-dir "~/notes/journal/")
+  (setq org-journal-enable-agenda-integration t)
+  (setq org-journal-date-format "%A, %d %B %Y")
+  :bind
+  (:map evil-normal-state-map
+    ("<leader>ja" . org-journal-new-entry)))
+
+(use-package org-pandoc-import
+  :after org
+  :ensure nil
+  :quelpa (org-pandoc-import
+            :fetcher github
+            :repo "tecosaur/org-pandoc-import"
+            :files ("*.el" "filters" "preprocessors")))
 
 ;; Modes that are loaded under certain circumstances
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
@@ -552,6 +633,9 @@
   (:map evil-normal-state-map
     ("<leader>v" . vterm-other-window)))
 
+(use-package ein
+  :ensure t)
+
 (use-package elfeed
   :ensure t
   :custom
@@ -575,19 +659,3 @@
 
 (use-package elfeed-web
   :ensure t)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(safe-local-variable-values
-   '((projectile-project-test-cmd . "cabal new-test")
-     (projectile-project-test-cmd . "pytest -p no:sugar --ds=teleclinic_core.settings_test"))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(mode-line ((t (:height 1.0))))
- '(mode-line-inactive ((t (:height 1.0)))))

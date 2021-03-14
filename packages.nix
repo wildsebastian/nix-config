@@ -13,7 +13,6 @@ let
 in
 with pkgs; [
   (import ./emacs.nix { inherit pkgs; })
-  # (import ./emacs_gcc.nix { inherit pkgs; })
 
   diffstat
   diffutils
@@ -50,6 +49,7 @@ with pkgs; [
   minify
   mosh
   openssl_1_1
+  pandoc
   procs
   ripgrep
   sd
