@@ -29,6 +29,14 @@
   )
 )
 
+(setq
+  backup-directory-alist '(("." . "~/.emacs_backups"))
+  backup-by-copying t
+  version-control t
+  delete-old-versions t
+  kept-new-versions 6
+  kept-old-versions 2)
+
 (setq comp-deferred-compilation t)
 (setq comp-async-report-warnings-errors nil)
 (setq-default bidi-paragraph-direction 'left-to-right)
