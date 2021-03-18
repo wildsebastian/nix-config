@@ -50,6 +50,7 @@
 (tool-bar-mode -1)
 (flymake-mode -1)
 (tab-bar-mode -1)
+(display-battery-mode t)
 (global-hl-line-mode t)
 (global-display-line-numbers-mode 1)
 (setq display-line-numbers-type 'relative)
@@ -162,6 +163,9 @@
   (ivy-mode)
 )
 
+(use-package all-the-icons
+  :ensure t)
+
 (use-package perspective
   :ensure t
   :after counsel
@@ -177,24 +181,24 @@
   (unless persp-mode
     (persp-mode 1)))
 
-(use-package centaur-tabs
-  :ensure t
-  :demand
-  :custom
-  (centaur-tabs-style "bar")
-  (centaur-tabs-height 32)
-  (centaur-tabs-set-icons t)
-  (centaur-tabs-set-modified-marker t)
-  (centaur-tabs-show-navigation-buttons t)
-  (centaur-tabs-set-bar 'under x-underline-at-descent-line t)
-  (centaur-tabs-headline-match)
-  (centaur-tabs-mode t)
-  :bind
-  (:map evil-normal-state-map
-    ("t n" . centaur-tabs-forward)
-    ("t p" . centaur-tabs-backward)
-    ("t s" . centaur-tabs-counsel-switch-group)
-    ("t g" . centaur-tabs-group-by-projectile-project)))
+;; (use-package centaur-tabs
+;;   :ensure t
+;;   :after all-the-icons
+;;   :custom
+;;   (centaur-tabs-style "bar")
+;;   (centaur-tabs-height 36)
+;;   (centaur-tabs-set-icons t)
+;;   (centaur-tabs-set-modified-marker "o")
+;;   (centaur-tabs-close-button "×")
+;;   (centaur-tabs-set-bar 'above)
+;;   (centaur-tabs-headline-match)
+;;   (centaur-tabs-mode -1)
+;;   :bind
+;;   (:map evil-normal-state-map
+;;     ("t n" . centaur-tabs-forward)
+;;     ("t p" . centaur-tabs-backward)
+;;     ("t s" . centaur-tabs-counsel-switch-group)
+;;     ("t g" . centaur-tabs-group-by-projectile-project)))
 
 (use-package rg
   :ensure t
@@ -232,9 +236,6 @@
   :config
   (setq-default ispell-program-name "aspell")
   (flyspell-mode 1))
-
-(use-package all-the-icons
-  :ensure t)
 
 (use-package dashboard
   :ensure t
@@ -350,7 +351,6 @@
 
 (use-package org
   :hook (org-mode . ws/org-mode-setup)
-  :mode ("\\.org\\'" . org-mode)
   :config
   (org-babel-do-load-languages
     'org-babel-load-languages
@@ -376,8 +376,8 @@
     org-agenda-files (directory-files-recursively "~/notes/" "\\.org$")
     org-modules (quote (org-habit))
     org-treat-insert-todo-heading-as-state-change t
-    org-log-into-drawer t
-  )
+    org-log-into-drawer t)
+
   (use-package org-superstar
     :ensure t
     :after org
@@ -403,34 +403,34 @@
     (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
     (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
     (set-face-attribute 'org-column nil :background nil)
-    (set-face-attribute 'org-column-title nil :background nil))
+    (set-face-attribute 'org-column-title nil :background nil)
 
-(use-package evil-org
-  :ensure t
-  :after org
-  :hook (org-mode . (lambda () evil-org-mode))
-  :config
-  (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys))
+  (use-package evil-org
+    :ensure t
+    :after org
+    :hook (org-mode . (lambda () evil-org-mode))
+    :config
+    (require 'evil-org-agenda)
+    (evil-org-agenda-set-keys))
 
-(use-package org-journal
-  :ensure t
-  :after org
-  :config
-  (setq org-journal-dir "~/notes/journal/")
-  (setq org-journal-enable-agenda-integration t)
-  (setq org-journal-date-format "%A, %d %B %Y")
-  :bind
-  (:map evil-normal-state-map
-    ("<leader>ja" . org-journal-new-entry)))
+  (use-package org-journal
+    :ensure t
+    :after org
+    :config
+    (setq org-journal-dir "~/notes/journal/")
+    (setq org-journal-enable-agenda-integration t)
+    (setq org-journal-date-format "%A, %d %B %Y")
+    :bind
+    (:map evil-normal-state-map
+      ("<leader>ja" . org-journal-new-entry)))
 
-(use-package org-pandoc-import
-  :after org
-  :ensure nil
-  :quelpa (org-pandoc-import
-            :fetcher github
-            :repo "tecosaur/org-pandoc-import"
-            :files ("*.el" "filters" "preprocessors")))
+  (use-package org-pandoc-import
+    :after org
+    :ensure nil
+    :quelpa (org-pandoc-import
+              :fetcher github
+              :repo "tecosaur/org-pandoc-import"
+              :files ("*.el" "filters" "preprocessors"))))
 
 ;; Modes that are loaded under certain circumstances
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
