@@ -346,11 +346,13 @@
   (variable-pitch-mode 1)
   (auto-fill-mode 0)
   (visual-line-mode 1)
-  (setq evil-auto-indent nil)
-  (diminish org-indent-mode))
+  (setq evil-auto-indent nil))
 
 (use-package org
   :hook (org-mode . ws/org-mode-setup)
+  :bind
+  (:map evil-normal-state-map
+    ("<leader>oc" . org-capture))
   :config
   (org-babel-do-load-languages
     'org-babel-load-languages
@@ -376,7 +378,18 @@
     org-agenda-files (directory-files-recursively "~/notes/" "\\.org$")
     org-modules (quote (org-habit))
     org-treat-insert-todo-heading-as-state-change t
-    org-log-into-drawer t)
+    org-log-into-drawer t
+    org-capture-templates
+    '(
+       ("a" "Article idea" entry (file "~/notes/projects/website/ideas.org")
+        "* %?\n")
+       ("i" "Idea" entry (file "~/notes/projects/ideas.org")
+        "* %?\n")
+       ("t" "Task" entry (file "~/notes/inbox.org")
+        "* TODO %?\n")
+       ("n" "Note" entry (file "~/notes/inbox.org")
+        "* %?\n")
+    ))
 
   (use-package org-superstar
     :ensure t
@@ -422,7 +435,7 @@
     (setq org-journal-date-format "%A, %d %B %Y")
     :bind
     (:map evil-normal-state-map
-      ("<leader>ja" . org-journal-new-entry)))
+      ("<leader>oj" . org-journal-new-entry)))
 
   (use-package org-pandoc-import
     :after org
