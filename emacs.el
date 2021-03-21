@@ -247,7 +247,8 @@
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
   (setq dashboard-items '((projects . 5)
-                          (recents . 5))))
+                          (recents . 5)
+                          (agenda . 5))))
 
 (use-package tramp
   :ensure t)
@@ -341,6 +342,101 @@
     'company-yasnippet-or-completion
     company-active-map)))
 
+;;
+;; org-babel coq definitions
+;; Taken from http://alan.petitepomme.net/tips/executing_coq.html
+;;
+
+(defvar coq-program-name "coqtop")
+
+(defvar coq-buffer)
+
+(define-derived-mode inferior-coq-mode comint-mode "Run Coq"
+  ""
+  (setq comint-prompt-regexp "^[^<]* < *"))
+
+(defun coq-args-to-list (string)
+  (let ((where (string-match "[ \t]" string)))
+    (cond ((null where) (list string))
+    ((not (= where 0))
+     (cons (substring string 0 where)
+     (coq-args-to-list (substring string (+ 1 where)
+             (length string)))))
+    (t (let ((pos (string-match "[^ \t]" string)))
+         (if (null pos)
+       nil
+     (coq-args-to-list (substring string pos
+             (length string)))))))))
+
+(defun run-coq (cmd)
+  (interactive (list (if current-prefix-arg
+       (read-string "Run Coq: " coq-program-name)
+       coq-program-name)))
+  (if (not (comint-check-proc "*coq*"))
+      (let ((cmdlist (coq-args-to-list cmd)))
+  (set-buffer (apply 'make-comint "coq" (car cmdlist)
+         nil (cdr cmdlist)))
+  (inferior-coq-mode)))
+  (setq coq-program-name cmd)
+  (setq coq-buffer "*coq*")
+  (switch-to-buffer "*coq*"))
+
+(defun coq-proc ()
+  "Return the current coq process.  See variable `coq-buffer'."
+  (let ((proc (get-buffer-process (if (eq major-mode 'inferior-coq-mode)
+              (current-buffer)
+              coq-buffer))))
+    (or proc
+  (error "No current process.  See variable `coq-buffer'"))))
+
+(defun org-babel-coq-split-phrases (body)
+  (split-string body "\\.[ \t\n\r]+"))
+
+(defun org-babel-coq-run-one-phrase (phrase session)
+  (let ((pt (lambda ()
+        (marker-position
+         (process-mark (get-buffer-process (current-buffer)))))))
+    (org-babel-coq-clean-prompt
+     (org-babel-comint-in-buffer session
+       (let ((start (funcall pt)))
+   (with-temp-buffer
+     (insert phrase)
+     (comint-send-region (coq-proc) (point-min) (point-max))
+     (comint-send-string (coq-proc)
+      (if (string= (buffer-substring (- (point-max) 1) (point-max)) ".")
+    "\n"
+        ".\n")))
+   (while (equal start (funcall pt)) (sleep-for 0.1))
+   (buffer-substring start (funcall pt)))))))
+
+(defun org-babel-execute:coq (body param)
+  (let ((full-body (org-babel-expand-body:generic body param))
+        (session (org-babel-coq-initiate-session)))
+    (let ((phrases (org-babel-coq-split-phrases full-body))
+          results)
+      (while phrases
+        (unless (string-match "^\s*\\'" (car phrases))
+          (setq results
+                (cons (org-babel-coq-run-one-phrase (car phrases) session) results)))
+        (setq phrases (cdr phrases)))
+      (apply #'concat (reverse results)))))
+
+(defun org-babel-coq-initiate-session ()
+  "Initiate a coq session.
+If there is not a current inferior-process-buffer in SESSION then
+create one.  Return the initialized session."
+  (unless (fboundp 'run-coq)
+    (error "`run-coq' not defined, load coq-inferior.el"))
+  (save-window-excursion (run-coq coq-program-name))
+  (sit-for 0.1)
+  (get-buffer org-babel-coq-buffer))
+
+(setq coq-program-name "coqtop -quiet")
+
+;;
+;; end org-babel coq definitions
+;;
+
 (defun ws/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
@@ -367,7 +463,8 @@
       (sql . t)
       (ocaml . t)))
   (setq org-ellipsis " ▾"
-    org-hide-emphasis-markers t org-src-fontify-natively t
+    org-hide-emphasis-markers t
+    org-src-fontify-natively t
     org-src-tab-acts-natively t
     org-edit-src-content-indentation 2
     org-hide-block-startup nil
@@ -378,16 +475,31 @@
     org-agenda-files (directory-files-recursively "~/notes/" "\\.org$")
     org-modules (quote (org-habit))
     org-treat-insert-todo-heading-as-state-change t
+    org-log-done 'note
     org-log-into-drawer t
+    org-habit-show-all-today t
+    org-todo-keywords
+      '((sequence "TODO(t)" "WIP(w)" "|" "DONE(d)"))
+    org-todo-keyword-faces
+      '(("TODO" . org-warning) ("WIP" . "yellow") ("DONE" . "green"))
     org-capture-templates
-    '(
-       ("a" "Article idea" entry (file "~/notes/projects/website/ideas.org")
-        "* %?\n")
-       ("i" "Idea" entry (file "~/notes/projects/ideas.org")
+    `(
+       ("n" "Note" entry (file "~/notes/inbox.org")
         "* %?\n")
        ("t" "Task" entry (file "~/notes/inbox.org")
         "* TODO %?\n")
-       ("n" "Note" entry (file "~/notes/inbox.org")
+       ("j" "Journal" entry (
+                              file+headline
+                              ,(concat
+                                 "~/journal/"
+                                 (format-time-string "%Y%m%d.org")
+                                 )
+                              ,(format-time-string "%A, %d %B %Y"))
+        "** %<%H:%M> \n %?")
+       ;; -----
+       ("a" "Article idea" entry (file "~/notes/projects/website/ideas.org")
+        "* %?\n")
+       ("i" "Idea" entry (file "~/notes/projects/ideas.org")
         "* %?\n")
     ))
 
@@ -425,17 +537,6 @@
     :config
     (require 'evil-org-agenda)
     (evil-org-agenda-set-keys))
-
-  (use-package org-journal
-    :ensure t
-    :after org
-    :config
-    (setq org-journal-dir "~/notes/journal/")
-    (setq org-journal-enable-agenda-integration t)
-    (setq org-journal-date-format "%A, %d %B %Y")
-    :bind
-    (:map evil-normal-state-map
-      ("<leader>oj" . org-journal-new-entry)))
 
   (use-package org-pandoc-import
     :after org
@@ -553,8 +654,10 @@
 (use-package proof-general
   :ensure t
   :mode ("\\.v\\'" . coq-mode)
-  :config
-  (setq proof-layout-windows 'hybrid))
+  :custom
+  (proof-layout-windows 'hybrid)
+  (proof-splash-enable nil)
+  )
 
 (use-package terraform-mode
   :ensure t
