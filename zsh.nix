@@ -67,15 +67,20 @@
   '';
 
   environment.shellAliases = {
-    nixs        = "nix-env -f '<nixpkgs>' -qaP | grep";
+    cat         = "bat";
     drs         = "darwin-rebuild switch";
+    du          = "dust";
     ec          = "emacsclient -c &";
     ecnw        = "emacsclient -c -nw";
+    find        = "fd";
     gf          = "git fetch";
     gg          = "git log --color --graph";
     gl          = "git log --color -32";
     grbm        = "git rebase origin/master";
     gst         = "git status";
+    ls          = "exa";
+    nixs        = "nix-env -f '<nixpkgs>' -qaP | grep";
+    ps          = "procs";
     wget        = "wget2";
   };
 }
