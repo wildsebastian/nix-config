@@ -62,7 +62,7 @@ in
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowBroken = true;
-  nixpkgs.config.allowUnsupportedSystem = false;
+  nixpkgs.config.allowUnsupportedSystem = true;
   nixpkgs.overlays = [
     (import ./overlays/haskell.nix)
     (import ./overlays/vim.nix)
