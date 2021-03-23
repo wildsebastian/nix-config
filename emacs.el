@@ -102,12 +102,12 @@
   :init
   (setq evil-want-keybinding nil)
   :config
+  (setq evil-undo-system 'undo-tree)
   (evil-mode)
   ;; set leader key in all states
   (evil-set-leader nil (kbd "C-SPC"))
   ;; set leader key in normal state
-  (evil-set-leader 'normal (kbd "SPC"))
-  (setq evil-undo-system 'undo-tree))
+  (evil-set-leader 'normal (kbd "SPC")))
 
 (use-package evil-collection
   :ensure t
@@ -160,8 +160,18 @@
   (ivy-use-virtual-buffers t)
   (ivy-count-format "%d/%d ")
   :config
-  (ivy-mode)
-)
+  (ivy-mode))
+
+(use-package ivy-posframe
+  :ensure t
+  :custom
+  (ivy-posframe-display-functions-alist
+    '((swiper          . ivy-posframe-display-at-point)
+      (complete-symbol . ivy-posframe-display-at-point)
+      (counsel-M-x     . ivy-posframe-display-at-window-center)
+      (t               . ivy-posframe-display-at-window-center)))
+  :config
+  (ivy-posframe-mode 1))
 
 (use-package all-the-icons
   :ensure t)
@@ -306,7 +316,13 @@
   :bind
   (:map evil-normal-state-map
     ("<leader>gs" . magit)
-    ("<leader>gfa" . magit-fetch-all)))
+    ;; fetch
+    ("<leader>gfa" . magit-fetch-all))
+    ;; rebase
+    ;;("<leader>")
+    ;; checkout
+    ;;("<leader>")
+  )
 
 (use-package forge
   :ensure t
@@ -728,6 +744,11 @@ create one.  Return the initialized session."
   :ensure t
   :hook (coq-mode . company-coq-mode))
 
+(use-package company-posframe
+  :ensure t
+  :config
+  (company-posframe-mode 1))
+
 (use-package flycheck
   :ensure t
   :hook
@@ -737,6 +758,11 @@ create one.  Return the initialized session."
 (use-package flycheck-haskell
   :ensure t
   :commands flycheck-haskell-setup)
+
+(use-package flycheck-posframe
+  :ensure t
+  :after flycheck
+  :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 
 (use-package docker
   :ensure t
