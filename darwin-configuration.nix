@@ -67,6 +67,7 @@ in
     (import ./overlays/haskell.nix)
     (import ./overlays/vim.nix)
     (import ./overlays/emacs-overlay/default.nix)
+    (import ./overlays/packages.nix)
   ];
 
   nix.nixPath = [

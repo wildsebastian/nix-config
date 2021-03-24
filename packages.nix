@@ -50,7 +50,7 @@ with pkgs; [
   mosh
   openssl_1_1
   pandoc
-  # procs
+  procs
   ripgrep
   sd
   starship
