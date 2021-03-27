@@ -10,6 +10,13 @@ let
   ]
   else
     [];
+  pi4_packages = with pkgs;
+  if localconfig.system == "pi" then
+  [
+    libraspberrypi
+  ]
+  else
+    [];
 in
 with pkgs; [
   (import ./emacs.nix { inherit pkgs; })
@@ -48,6 +55,7 @@ with pkgs; [
   jq
   minify
   mosh
+  neovim
   openssl_1_1
   pandoc
   procs
@@ -56,4 +64,4 @@ with pkgs; [
   starship
   tokei
   wget2
-] ++ server_packages
+] ++ server_packages ++ pi4_packages

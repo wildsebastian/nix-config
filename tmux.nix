@@ -2,10 +2,6 @@
 
 {
   programs.tmux.enable = true;
-  programs.tmux.enableSensible = false;
-  programs.tmux.enableMouse = true;
-  programs.tmux.enableFzf = true;
-  programs.tmux.enableVim = true;
 
   programs.tmux.extraConfig = ''
     set -g prefix C-a

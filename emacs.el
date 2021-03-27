@@ -18,8 +18,9 @@
   (concat
     "darwin-config="
     (getenv "HOME")
-    "/.nixpkgs/darwin-configuration.nix"
+    "/.nixpkgs/configuration.nix"
     ":"
+    "nixos-config=/etc/nixos/configuration.nix"
     "nixpkgs="
     (getenv "HOME")
     "/.nix-defexpr/nixpkgs" ":"
@@ -315,14 +316,19 @@
   :ensure t
   :bind
   (:map evil-normal-state-map
-    ("<leader>gs" . magit)
+    ("<leader>gm" . magit)
     ;; fetch
     ("<leader>gfa" . magit-fetch-all))
     ;; rebase
-    ;;("<leader>")
+    ("<leader>grs" . magit-rebase)
+    ("<leader>gri" . magit-rebase-interactive)
+    ("<leader>gra" . magit-rebase-abort)
+    ("<leader>grc" . magit-rebase-continue)
     ;; checkout
-    ;;("<leader>")
-  )
+    ("<leader>gbc" . magit-branch-checkout)
+    ;; stash
+    ("<leader>gss" . magit-stash)
+    ("<leader>gsp" . magit-stash-pop))
 
 (use-package forge
   :ensure t

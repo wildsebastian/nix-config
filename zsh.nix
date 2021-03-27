@@ -3,16 +3,14 @@
 {
   programs.zsh.enable = true;
   programs.zsh.enableBashCompletion = true;
-  programs.zsh.enableFzfCompletion = true;
-  programs.zsh.enableFzfGit = true;
-  programs.zsh.enableFzfHistory = true;
   programs.zsh.enableSyntaxHighlighting = true;
-  programs.zsh.variables.cfg = "$HOME/.nixpkgs/darwin-configuration.nix";
-  programs.zsh.variables.darwin = "$HOME/.nix-defexpr/darwin";
-  programs.zsh.variables.nixpkgs = "$HOME/.nix-defexpr/nixpkgs";
-
   programs.zsh.promptInit = ''
     eval "$(starship init zsh)"
+
+    if [ -n "$\{commands[fzf-share]\}" ]; then
+      source "$(fzf-share)/key-bindings.zsh"
+      source "$(fzf-share)/completion.zsh"
+    fi
   '';
 
   programs.zsh.loginShellInit = ''
