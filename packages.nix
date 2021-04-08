@@ -24,6 +24,7 @@ with pkgs; [
   diffstat
   diffutils
   gitRepo
+  gitAndTools.delta
   gitAndTools.git-imerge
   (gitAndTools.gitFull.override { sendEmailSupport = true; })
   gitAndTools.gitflow

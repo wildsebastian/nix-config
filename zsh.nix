@@ -68,7 +68,7 @@
     cat         = "bat";
     drs         = "darwin-rebuild switch";
     du          = "dust";
-    ec          = "emacsclient -c &";
+    ec          = "nohup emacsclient -c & disown";
     ecnw        = "emacsclient -c -nw";
     find        = "fd";
     gf          = "git fetch";

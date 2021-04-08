@@ -330,6 +330,16 @@
     ("<leader>gss" . magit-stash)
     ("<leader>gsp" . magit-stash-pop))
 
+(use-package magit-delta
+  :ensure t
+  :hook
+  (magit-mode . magit-delta-mode)
+  :custom
+  (magit-delta-delta-args
+    '("--24-bit-color" "always"
+      "--features" "magit-delta"
+      "--color-only")))
+
 (use-package forge
   :ensure t
   :after magit)
@@ -481,6 +491,7 @@ create one.  Return the initialized session."
       (haskell . t)
       (ocaml . t)
       (python . t)
+      (restclient . t)
       ;; (scala . t)
       (sql . t)
       (ocaml . t)))
@@ -489,9 +500,9 @@ create one.  Return the initialized session."
     org-src-fontify-natively t
     org-src-tab-acts-natively t
     org-edit-src-content-indentation 2
-    org-hide-block-startup nil
+    org-hide-block-startup t
     org-src-preserve-indentation nil
-    org-startup-folded 'content
+    org-startup-folded t
     org-cycle-separator-lines 2
     org-default-notes-file "~/notes/inbox.org"
     org-agenda-files (directory-files-recursively "~/notes/" "\\.org$")
@@ -523,7 +534,9 @@ create one.  Return the initialized session."
         "* %?\n")
        ("i" "Idea" entry (file "~/notes/projects/ideas.org")
         "* %?\n")
-    ))
+       )
+    org-archive-location "~/notes/archive.org::* From %s"
+    )
 
   (use-package org-superstar
     :ensure t
@@ -685,6 +698,11 @@ create one.  Return the initialized session."
   :ensure t
   :mode ("\\.tf\\'" . terraform-mode))
 
+(use-package rustic
+  :ensure t
+  :custom
+  (rustic-format-on-save t))
+
 (use-package lsp-mode
   :ensure t
   :hook
@@ -777,6 +795,9 @@ create one.  Return the initialized session."
     ("<leader>d" . docker)))
 
 (use-package restclient
+  :ensure t)
+
+(use-package ob-restclient
   :ensure t)
 
 (use-package vterm
