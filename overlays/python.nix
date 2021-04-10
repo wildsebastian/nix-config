@@ -28,7 +28,9 @@ rec {
       pylint-django = super.pylint-django.overridePythonAttrs(old: rec {
         doCheck = false;
       });
-
+      httplib2 = super.pylint-django.overridePythonAttrs(old: rec {
+        doCheck = false;
+      });
     };
   };
   # nix-shell -p pythonPackages.my_stuff
