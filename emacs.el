@@ -694,6 +694,24 @@ create one.  Return the initialized session."
   (proof-splash-enable nil)
   )
 
+(use-package scala-mode
+  :ensure t
+  :interpreter ("scala" . scala-mode))
+
+(use-package sbt-mode
+  :ensure t
+  :commands sbt-start sbt-command
+  :config
+  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+  ;; allows using SPACE when in the minibuffer
+  (substitute-key-definition
+   'minibuffer-complete-word
+   'self-insert-command
+   minibuffer-local-completion-map)
+   ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+   (setq sbt:program-options '("-Dsbt.supershell=false"))
+)
+
 (use-package terraform-mode
   :ensure t
   :mode ("\\.tf\\'" . terraform-mode))
@@ -706,7 +724,7 @@ create one.  Return the initialized session."
 (use-package lsp-mode
   :ensure t
   :hook
-  ((python-mode haskell-mode) . lsp-deferred)
+  ((python-mode haskell-mode scala-mode) . lsp-deferred)
   (lsp-mode . lsp-enable-which-key-integration)
   (before-save . lsp-format-buffer)
   :custom
@@ -725,7 +743,8 @@ create one.  Return the initialized session."
   (lsp-enable-file-watchers nil)
   (lsp-idle-delay 0.500)
   (lsp-headerline-breadcrumb-enable nil)
-  (lsp-modeline-code-actions-enable nil))
+  (lsp-modeline-code-actions-enable nil)
+  (lsp-prefer-flymake nil))
 
 (use-package lsp-haskell
   :ensure t
@@ -734,6 +753,10 @@ create one.  Return the initialized session."
 
 (use-package lsp-pyright
   :ensure t)
+
+(use-package lsp-metals
+  :ensure t
+  :config (setq lsp-metals-treeview-show-when-views-received t))
 
 (use-package lsp-ivy
   :ensure t
@@ -756,9 +779,10 @@ create one.  Return the initialized session."
 
 (use-package company
   :ensure t
-  :config
-  (setq company-minimum-prefix-length 1
-        company-idle-delay 0.0))
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.0)
+  (lsp-completion-provider :capf))
 
 (use-package company-box
   :ensure t
