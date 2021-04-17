@@ -2,7 +2,7 @@
 
 pkgs.emacsWithPackagesFromUsePackage {
   config = ./emacs.el;
-  package = pkgs.emacsGcc;
+  package = pkgs.emacsGit;
   alwaysEnsure = false;
   alwaysTangle = false;
 }
