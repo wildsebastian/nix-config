@@ -192,24 +192,24 @@
   (unless persp-mode
     (persp-mode 1)))
 
-;; (use-package centaur-tabs
-;;   :ensure t
-;;   :after all-the-icons
-;;   :custom
-;;   (centaur-tabs-style "bar")
-;;   (centaur-tabs-height 36)
-;;   (centaur-tabs-set-icons t)
-;;   (centaur-tabs-set-modified-marker "o")
-;;   (centaur-tabs-close-button "×")
-;;   (centaur-tabs-set-bar 'above)
-;;   (centaur-tabs-headline-match)
-;;   (centaur-tabs-mode -1)
-;;   :bind
-;;   (:map evil-normal-state-map
-;;     ("t n" . centaur-tabs-forward)
-;;     ("t p" . centaur-tabs-backward)
-;;     ("t s" . centaur-tabs-counsel-switch-group)
-;;     ("t g" . centaur-tabs-group-by-projectile-project)))
+(use-package centaur-tabs
+  :ensure t
+  :after all-the-icons
+  :custom
+  (centaur-tabs-style "bar")
+  (centaur-tabs-height 36)
+  (centaur-tabs-set-icons t)
+  (centaur-tabs-set-modified-marker "o")
+  (centaur-tabs-close-button "×")
+  (centaur-tabs-set-bar 'above)
+  (centaur-tabs-headline-match)
+  (centaur-tabs-mode -1)
+  :bind
+  (:map evil-normal-state-map
+    ("t n" . centaur-tabs-forward)
+    ("t p" . centaur-tabs-backward)
+    ("t s" . centaur-tabs-counsel-switch-group)
+    ("t g" . centaur-tabs-group-by-projectile-project)))
 
 (use-package rg
   :ensure t
@@ -475,6 +475,10 @@ create one.  Return the initialized session."
   (auto-fill-mode 0)
   (visual-line-mode 1)
   (setq evil-auto-indent nil))
+
+(use-package sql)
+
+(use-package ob-sql)
 
 (use-package org
   :hook (org-mode . ws/org-mode-setup)
@@ -817,6 +821,10 @@ create one.  Return the initialized session."
   :bind
   (:map evil-normal-state-map
     ("<leader>d" . docker)))
+
+(use-package dockerfile-mode
+  :ensure t
+  :mode ("Dockerfile\\'" . dockerfile-mode))
 
 (use-package restclient
   :ensure t)
