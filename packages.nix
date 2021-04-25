@@ -60,6 +60,7 @@ with pkgs; [
   openssl_1_1
   pandoc
   procs
+  python39
   ripgrep
   sd
   starship

@@ -128,11 +128,11 @@
 
 (use-package doom-modeline
   :ensure t
-  :hook (after-init . doom-modeline-mode)
   :custom-face
   (mode-line ((t (:height 1.0))))
   (mode-line-inactive ((t (:height 1.0))))
   :custom
+  (doom-modeline-mode t)
   (doom-modeline-unicode-fallback t)
   (doom-modeline-height 30)
   (doom-modeline-bar-width 1)
@@ -196,14 +196,13 @@
   :ensure t
   :after all-the-icons
   :custom
-  (centaur-tabs-style "bar")
+  (centaur-tabs-style "wave")
   (centaur-tabs-height 36)
   (centaur-tabs-set-icons t)
   (centaur-tabs-set-modified-marker "o")
   (centaur-tabs-close-button "×")
-  (centaur-tabs-set-bar 'above)
-  (centaur-tabs-headline-match)
-  (centaur-tabs-mode -1)
+  (centaur-tabs-set-bar 'over)
+  (centaur-tabs-mode t)
   :bind
   (:map evil-normal-state-map
     ("t n" . centaur-tabs-forward)
@@ -358,9 +357,15 @@
 
 (use-package yasnippet
   :ensure t
-  :config
-  (yas-global-mode 1)
-  (setq yas-snippet-dirs '( "~/.yasnippets" )))
+  :custom
+  (yas-snippet-dirs '( "~/.yasnippets" ))
+  (yas-global-mode t))
+
+(use-package yasnippet-snippets
+  :ensure t)
+
+(use-package ivy-yasnippet
+  :ensure t)
 
 (defun company-yasnippet-or-completion ()
   (interactive)
@@ -783,10 +788,28 @@ create one.  Return the initialized session."
 
 (use-package company
   :ensure t
+  :preface
+  (defvar company-enable-yas t
+    "Enable yasnippet for all backends")
   :custom
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.0)
-  (lsp-completion-provider :capf))
+  (lsp-completion-provider :capf)
+  (global-company-mode t))
+
+;; Synchronize company with pcomplete for org mode
+;; https://marcohassan.github.io/bits-of-experience/pages/emacs/
+(defun trigger-org-company-complete ()
+  "Begins company-complete in org-mode buffer after pressing #+ chars."
+  (interactive)
+  (if (string-equal "#" (string (preceding-char)))
+    (progn
+      (insert "+")
+      (company-complete))
+    (insert "+")))
+
+(eval-after-load 'org '(define-key org-mode-map
+	       (kbd "+") 'trigger-org-company-complete))
 
 (use-package company-box
   :ensure t
