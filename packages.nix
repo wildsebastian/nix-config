@@ -58,7 +58,6 @@ with pkgs; [
   mosh
   neovim
   openssl_1_1
-  pandoc
   procs
   python39
   ripgrep
