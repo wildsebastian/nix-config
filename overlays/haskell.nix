@@ -19,6 +19,7 @@ self: pkgs:
           hakyll              = dontCheck (doJailbreak super.hakyll);
           http-media          = doJailbreak super.http-media;
           math-functions      = dontCheck super.math-functions;
+          pandoc              = dontCheck (doJailbreak (self.callPackage ~/.nixpkgs/haskell-packages/pandoc-2.11.4.nix {}));
           rebase              = doJailbreak super.rebase;
           servant-client-core = dontCheck (doJailbreak super.servant-client-core);
           servant-client      = dontCheck (doJailbreak super.servant-client);
