@@ -514,7 +514,13 @@ create one.  Return the initialized session."
     org-startup-folded t
     org-cycle-separator-lines 2
     org-default-notes-file "~/notes/inbox.org"
-    org-agenda-files (directory-files-recursively "~/notes/" "\\.org$")
+    org-agenda-files (list
+                       "~/notes/habit.org"
+                       "~/notes/inbox.org"
+                       "~/notes/open_questions.org"
+                       "~/notes/reading.org"
+                       "~/notes/tasks.org"
+                       "~/notes/projects")
     org-modules (quote (org-habit))
     org-treat-insert-todo-heading-as-state-change t
     org-log-done 'note
@@ -581,6 +587,9 @@ create one.  Return the initialized session."
     :config
     (require 'evil-org-agenda)
     (evil-org-agenda-set-keys))
+
+  (use-package org-present
+    :ensure t)
 
   (use-package org-pandoc-import
     :after org
