@@ -13,7 +13,7 @@ self: pkgs:
         };
       };
 
-      ghc8103 = pkgs.haskell.packages.ghc8103.override {
+      ghc8104 = pkgs.haskell.packages.ghc8104.override {
         overrides = self: super: with pkgs.haskell.lib; {
           chronos             = dontCheck super.chronos;
           haskeline           = dontCheck (self.callPackage ~/.nixpkgs/haskell-packages/haskeline-0.8.1.0.nix {});
