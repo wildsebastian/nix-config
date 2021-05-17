@@ -501,13 +501,14 @@ create one.  Return the initialized session."
       (ocaml . t)
       (python . t)
       (restclient . t)
-      ;; (scala . t)
+      (shell . t)
       (sql . t)
       (ocaml . t)))
   (setq org-ellipsis " ▾"
     org-hide-emphasis-markers t
     org-src-fontify-natively t
     org-src-tab-acts-natively t
+    org-confirm-babel-evaluate nil
     org-edit-src-content-indentation 2
     org-hide-block-startup t
     org-src-preserve-indentation nil
@@ -551,6 +552,11 @@ create one.  Return the initialized session."
         "* %?\n")
        )
     org-archive-location "~/notes/archive.org::* From %s"
+    org-latex-listings 'minted
+    org-latex-packages-alist '(("" "minted"))
+    org-latex-pdf-process
+      '("pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
+        "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f")
     )
 
   (use-package org-superstar
@@ -569,7 +575,8 @@ create one.  Return the initialized session."
                   (org-level-7 . 1.1)
                   (org-level-8 . 1.1)))
     (set-face-attribute (car face) nil :font "Iosevka Aile" :weight 'medium :height (cdr face)))
-    (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+    (set-face-attribute 'org-block nil :background "#000000" :foreground nil :inherit 'fixed-pitch)
+    (set-face-attribute 'org-drawer nil :background "#000000")
     (set-face-attribute 'org-table nil  :inherit 'fixed-pitch)
     (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
     (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
@@ -587,9 +594,6 @@ create one.  Return the initialized session."
     :config
     (require 'evil-org-agenda)
     (evil-org-agenda-set-keys))
-
-  (use-package org-present
-    :ensure t)
 
   (use-package org-pandoc-import
     :after org
@@ -714,6 +718,7 @@ create one.  Return the initialized session."
 
 (use-package scala-mode
   :ensure t
+  :mode "\\.s\\(cala\\|bt\\)$"
   :interpreter ("scala" . scala-mode))
 
 (use-package sbt-mode
@@ -863,16 +868,6 @@ create one.  Return the initialized session."
 
 (use-package ob-restclient
   :ensure t)
-
-(use-package vterm
-  :ensure t
-  :commands vterm
-  :custom
-  (vterm-shell "/run/current-system/sw/bin/zsh")
-  (vterm-max-scrollback 10000)
-  :bind
-  (:map evil-normal-state-map
-    ("<leader>v" . vterm-other-window)))
 
 (use-package ein
   :ensure t)
