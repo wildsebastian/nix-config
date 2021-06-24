@@ -20,7 +20,7 @@
     (getenv "HOME")
     "/.nixpkgs/configuration.nix"
     ":"
-    "nixos-config=/etc/nixos/configuration.nix"
+    "nixos-config=/etc/nixos/configuration.nix" ":"
     "nixpkgs="
     (getenv "HOME")
     "/.nix-defexpr/nixpkgs" ":"
@@ -209,6 +209,11 @@
     ("t p" . centaur-tabs-backward)
     ("t s" . centaur-tabs-counsel-switch-group)
     ("t g" . centaur-tabs-group-by-projectile-project)))
+
+(use-package envrc
+  :ensure t
+  :config
+  (envrc-global-mode))
 
 (use-package rg
   :ensure t
@@ -494,6 +499,7 @@ create one.  Return the initialized session."
   (org-babel-do-load-languages
     'org-babel-load-languages
     '((coq . t)
+      (ditaa . t)
       (ein . t)
       (emacs-lisp . t)
       (gnuplot . t)
@@ -515,13 +521,7 @@ create one.  Return the initialized session."
     org-startup-folded t
     org-cycle-separator-lines 2
     org-default-notes-file "~/notes/inbox.org"
-    org-agenda-files (list
-                       "~/notes/habit.org"
-                       "~/notes/inbox.org"
-                       "~/notes/open_questions.org"
-                       "~/notes/reading.org"
-                       "~/notes/tasks.org"
-                       "~/notes/projects")
+    org-agenda-files (list "~/notes/inbox.org")
     org-modules (quote (org-habit))
     org-treat-insert-todo-heading-as-state-change t
     org-log-done 'note
@@ -603,17 +603,32 @@ create one.  Return the initialized session."
               :repo "tecosaur/org-pandoc-import"
               :files ("*.el" "filters" "preprocessors"))))
 
+(use-package org-roam
+  :ensure t
+  :hook
+  (after-init . org-roam-mode)
+  :custom
+  (org-roam-directory (file-truename "~/notes/zettelkasten/"))
+  :bind (:map org-roam-mode-map
+          (("C-c n l" . org-roam)
+           ("C-c n f" . org-roam-find-file)
+           ("C-c n g" . org-roam-graph))
+          :map org-mode-map
+          (("C-c n i" . org-roam-insert))
+          (("C-c n I" . org-roam-insert-immediate))))
+
 ;; Modes that are loaded under certain circumstances
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 (set-face-foreground 'fill-column-indicator "red")
 (add-hook 'prog-mode-hook #'company-mode)
 
-(use-package direnv
-  :ensure t
-  :init
-  (add-hook 'prog-mode-hook #'direnv-update-environment)
-  :config
-  (direnv-mode))
+;; (use-package direnv
+;;   :ensure t
+;;   :init
+;;   (add-hook 'prog-mode-hook #'direnv-update-environment)
+;;   :config
+;;   (direnv-mode))
+
 
 (use-package nix-mode
   :ensure t
