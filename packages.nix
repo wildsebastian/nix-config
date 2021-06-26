@@ -46,7 +46,7 @@ with pkgs; [
   direnv
   du-dust
   editorconfig-core-c
-  exa
+  # exa
   fd
   fzf
   gnugrep
