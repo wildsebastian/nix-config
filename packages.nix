@@ -56,7 +56,7 @@ with pkgs; [
   jq
   minify
   mosh
-  neovim
+  # neovim
   openssl_1_1
   procs
   python39
