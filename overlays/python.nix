@@ -31,6 +31,9 @@ rec {
       httplib2 = super.pylint-django.overridePythonAttrs(old: rec {
         doCheck = false;
       });
+      pycairo = super.pycairo.overridePythonAttrs(old: rec {
+        doCheck = false;
+      });
     };
   };
   # nix-shell -p pythonPackages.my_stuff
