@@ -18,6 +18,7 @@ self: pkgs:
           chronos             = dontCheck super.chronos;
           hakyll              = dontCheck (doJailbreak super.hakyll);
           http-media          = doJailbreak super.http-media;
+          junit-xml           = dontCheck super.junit-xml;
           math-functions      = dontCheck super.math-functions;
           pandoc              = dontCheck (doJailbreak (self.callPackage ~/.nixpkgs/haskell-packages/pandoc-2.11.4.nix {}));
           rebase              = doJailbreak super.rebase;
