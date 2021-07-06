@@ -5,7 +5,6 @@ self: pkgs:
     packages = pkgs.haskell.packages // {
       ghc884 = pkgs.haskell.packages.ghc884.override {
         overrides = self: super: with pkgs.haskell.lib; {
-          pandoc            = dontCheck (doJailbreak (self.callPackage ~/.nixpkgs/haskell-packages/pandoc-2.10.1.nix {}));
           hakyll            = dontCheck (doJailbreak (doDistribute super.hakyll_4_13_4_1));
           squeal-postgresql = self.callPackage ~/.nixpkgs/haskell-packages/squeal-0.6.0.2.nix {};
           math-functions    = dontCheck super.math-functions;
@@ -20,7 +19,6 @@ self: pkgs:
           http-media          = doJailbreak super.http-media;
           junit-xml           = dontCheck super.junit-xml;
           math-functions      = dontCheck super.math-functions;
-          pandoc              = dontCheck (doJailbreak (self.callPackage ~/.nixpkgs/haskell-packages/pandoc-2.11.4.nix {}));
           rebase              = doJailbreak super.rebase;
           servant-client-core = dontCheck (doJailbreak super.servant-client-core);
           servant-client      = dontCheck (doJailbreak super.servant-client);
