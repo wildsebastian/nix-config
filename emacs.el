@@ -609,7 +609,13 @@ create one.  Return the initialized session."
   :hook
   (after-init . org-roam-setup)
   :custom
-  (org-roam-directory (file-truename "~/notes/zettelkasten/"))
+  (org-roam-directory (file-truename "~/ideas/"))
+  (org-roam-dailies-directory "~/journal/")
+  (org-roam-dailies-capture-templates
+    '(("d" "default" entry
+         "* %?"
+         :if-new (file+head "%<%Y-%m-%d>.org"
+                            "#+title: %<%Y-%m-%d>\n"))))
   :bind (:map org-roam-mode-map
           (("C-c n l" . org-roam)
            ("C-c n f" . org-roam-find-file)
