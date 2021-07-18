@@ -70,6 +70,7 @@
       scroll-up-aggressively 0.01
       scroll-down-aggressively 0.01
       scroll-preserve-screen-position 'always)
+(setq org-roam-v2-ack t)
 
 (use-package quelpa
   :ensure t)
@@ -606,7 +607,7 @@ create one.  Return the initialized session."
 (use-package org-roam
   :ensure t
   :hook
-  (after-init . org-roam-mode)
+  (after-init . org-roam-setup)
   :custom
   (org-roam-directory (file-truename "~/notes/zettelkasten/"))
   :bind (:map org-roam-mode-map
