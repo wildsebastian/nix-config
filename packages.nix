@@ -57,6 +57,7 @@ with pkgs; [
   minify
   mosh
   # neovim
+  nushell
   openssl_1_1
   procs
   python39

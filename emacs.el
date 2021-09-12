@@ -70,7 +70,6 @@
       scroll-up-aggressively 0.01
       scroll-down-aggressively 0.01
       scroll-preserve-screen-position 'always)
-(setq org-roam-v2-ack t)
 
 (use-package quelpa
   :ensure t)
@@ -98,6 +97,8 @@
   (global-undo-tree-mode 1))
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+(setq evil-want-C-i-jump nil)
 
 (use-package evil
   :ensure t
@@ -495,7 +496,7 @@ create one.  Return the initialized session."
   :hook (org-mode . ws/org-mode-setup)
   :bind
   (:map evil-normal-state-map
-    ("<leader>oc" . org-capture))
+    ("<leader>oj" . org-roam-dailies-capture-today))
   :config
   (org-babel-do-load-languages
     'org-babel-load-languages
@@ -532,26 +533,6 @@ create one.  Return the initialized session."
       '((sequence "TODO(t)" "WIP(w)" "|" "DONE(d)"))
     org-todo-keyword-faces
       '(("TODO" . org-warning) ("WIP" . "yellow") ("DONE" . "green"))
-    org-capture-templates
-    `(
-       ("n" "Note" entry (file "~/notes/inbox.org")
-        "* %?\n")
-       ("t" "Task" entry (file "~/notes/inbox.org")
-        "* TODO %?\n")
-       ("j" "Journal" entry (
-                              file+headline
-                              ,(concat
-                                 "~/journal/"
-                                 (format-time-string "%Y%m%d.org")
-                                 )
-                              ,(format-time-string "%A, %d %B %Y"))
-        "** %<%H:%M> \n %?")
-       ;; -----
-       ("a" "Article idea" entry (file "~/notes/projects/website/ideas.org")
-        "* %?\n")
-       ("i" "Idea" entry (file "~/notes/projects/ideas.org")
-        "* %?\n")
-       )
     org-archive-location "~/notes/archive.org::* From %s"
     org-latex-listings 'minted
     org-latex-packages-alist '(("" "minted"))
@@ -606,6 +587,8 @@ create one.  Return the initialized session."
 
 (use-package org-roam
   :ensure t
+  :init
+  (setq org-roam-v2-ack t)
   :hook
   (after-init . org-roam-setup)
   :custom
@@ -769,7 +752,7 @@ create one.  Return the initialized session."
 (use-package lsp-mode
   :ensure t
   :hook
-  ((python-mode haskell-mode scala-mode) . lsp-deferred)
+  ((python-mode haskell-mode scala-mode purescript-mode) . lsp-deferred)
   (lsp-mode . lsp-enable-which-key-integration)
   (before-save . lsp-format-buffer)
   :custom
@@ -790,6 +773,23 @@ create one.  Return the initialized session."
   (lsp-headerline-breadcrumb-enable nil)
   (lsp-modeline-code-actions-enable nil)
   (lsp-prefer-flymake nil))
+
+(use-package lsp-ui
+  :ensure t
+  :after
+  (lsp-mode flycheck)
+  :custom
+  (lsp-ui-doc-enable t)
+  (lsp-ui-doc-use-childframe t)
+  (lsp-ui-doc-position 'at-point)
+  (lsp-ui-doc-include-signature t)
+  (lsp-ui-sideline-enable nil)
+  (lsp-ui-flycheck-enable t)
+  (lsp-ui-flycheck-list-position 'right)
+  (lsp-ui-flycheck-live-reporting t)
+  (lsp-ui-peek-enable t)
+  (lsp-ui-peek-list-width 60)
+  (lsp-ui-peek-peek-height 25))
 
 (use-package lsp-haskell
   :ensure t
@@ -812,8 +812,14 @@ create one.  Return the initialized session."
   :commands lsp-treemacs-errors-list)
 
 (use-package dap-mode
-  :ensure t)
-(use-package dap-python)
+  :ensure t
+  :commands dap-debug
+  :custom
+  (dap-auto-configure-features '(sessions locals controls tooltip)))
+
+(use-package dap-python
+  :custom
+  (dap-python-debugger 'debugpy))
 
 (use-package which-key
   :ensure t
