@@ -900,6 +900,15 @@ create one.  Return the initialized session."
 (use-package ein
   :ensure t)
 
+(use-package vterm
+  :ensure t)
+
+(use-package vterm-toggle
+  :ensure t
+  :bind (("<leader>vt" . vterm-toggle)
+         ("<leader>vn" . vterm-toggle-forward)
+         ("<leader>vp" . vterm-toggle-backward)))
+
 (use-package elfeed
   :ensure t
   :custom

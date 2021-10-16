@@ -54,8 +54,10 @@ with pkgs; [
   htop
   imgcat
   jq
+  macchina
   minify
   mosh
+  neofetch
   # neovim
   nushell
   openssl_1_1
