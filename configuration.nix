@@ -40,9 +40,10 @@ in
     config.allowBroken = true;
     config.allowUnsupportedSystem = true;
     overlays = [
-      (import ./overlays/haskell.nix)
       (import ./overlays/emacs-overlay/default.nix)
+      (import ./overlays/haskell.nix)
       (import ./overlays/packages.nix)
+      (import ./overlays/python.nix)
     ];
   };
 
