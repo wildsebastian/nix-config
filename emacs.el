@@ -794,7 +794,7 @@ create one.  Return the initialized session."
 (use-package lsp-haskell
   :ensure t
   :config
-  (setq lsp-haskell-formatting-provider "fourmolu"))
+  (setq lsp-haskell-formatting-provider "ormolu"))
 
 (use-package lsp-pyright
   :ensure t)
