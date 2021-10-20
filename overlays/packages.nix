@@ -18,4 +18,8 @@ self: super:
                          (builtins.elem "*" ["*"])))
             [ darwin.apple_sdk.frameworks.CoreAudio darwin.apple_sdk.frameworks.AudioToolbox ];
   }); 
+
+  proj = super.proj.overrideDerivation (attrs: {
+      doCheck = false;
+  });
 }
