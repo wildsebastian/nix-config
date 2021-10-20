@@ -3,7 +3,7 @@ self: super:
   procs = super.procs.overrideDerivation (attrs: {
     buildInputs = attrs.buildInputs ++ [ super.libiconv ];
   });
-  
+
   aws-sdk-cpp = super.aws-sdk-cpp.overrideDerivation (attrs: {
     src = super.fetchFromGitHub {
       owner = "awslabs";
@@ -17,9 +17,9 @@ self: super:
                         ((builtins.elem "text-to-speech" ["*"]) ||
                          (builtins.elem "*" ["*"])))
             [ darwin.apple_sdk.frameworks.CoreAudio darwin.apple_sdk.frameworks.AudioToolbox ];
-  }); 
+  });
 
   proj = super.proj.overrideDerivation (attrs: {
-      doCheck = false;
+    doCheck = false;
   });
 }
