@@ -4,6 +4,9 @@ self: super:
   python38 = super.python38.override {
     # Careful, we're using a different self and super here!
     packageOverrides = self: super: {
+      django-silk = super.django-silk.overridePythonAttrs(old: rec {
+        doCheck = false;
+      });
       python-language-server = super.python-language-server.overridePythonAttrs(old: rec {
         doCheck = false;
       });
@@ -21,7 +24,7 @@ self: super:
   python39 = super.python39.override {
     # Careful, we're using a different self and super here!
     packageOverrides = self: super: {
-      python-language-server = super.python-language-server.overridePythonAttrs(old: rec {
+      django-silk = super.django-silk.overridePythonAttrs(old: rec {
         doCheck = false;
       });
       pylint-django = super.pylint-django.overridePythonAttrs(old: rec {
