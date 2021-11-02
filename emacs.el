@@ -30,6 +30,8 @@
   )
 )
 
+(setenv "SHELL" "/run/current-system/sw/bin/zsh")
+
 (setq
   backup-directory-alist '(("." . "~/.emacs_backups"))
   backup-by-copying t
@@ -54,6 +56,7 @@
 (display-battery-mode t)
 (global-hl-line-mode t)
 (global-display-line-numbers-mode 1)
+(setq column-number-mode t)
 (setq display-line-numbers-type 'relative)
 (fset 'yes-or-no-p 'y-or-n-p)
 (show-paren-mode t)
@@ -78,13 +81,13 @@
   :ensure t)
 
 ;; Modes that are always active
-(use-package base16-theme
+(use-package doom-themes
   :ensure t
   :config
-  (load-theme 'base16-classic-dark t))
+  (load-theme 'doom-nord t))
 
-(set-face-foreground 'font-lock-comment-face "#b8b8b8")
-(set-face-foreground 'font-lock-comment-delimiter-face "#b8b8b8")
+; (set-face-foreground 'font-lock-comment-face "#b8b8b8")
+; (set-face-foreground 'font-lock-comment-delimiter-face "#b8b8b8")
 
 (use-package editorconfig
   :ensure t
@@ -136,6 +139,10 @@
   :custom
   (doom-modeline-mode t)
   (doom-modeline-unicode-fallback t)
+  (doom-modeline-window-width-limit fill-column)
+  (doom-modeline-env-version t)
+  (doom-modeline-env-load-string "?")
+  (doom-modeline-project-detection 'project)
   (doom-modeline-height 30)
   (doom-modeline-bar-width 1)
   (doom-modeline-lsp t)
@@ -144,7 +151,7 @@
   (doom-modeline-irc nil)
   (doom-modeline-minor-modes nil)
   (doom-modeline-persp-name nil)
-  (doom-modeline-buffer-file-name-style 'truncate-except-project)
+  (doom-modeline-buffer-file-name-style 'file-name)
   (doom-modeline-icon t)
   (doom-modeline-major-mode-icon t)
   (doom-modeline-major-mode-color-icon t)
@@ -612,14 +619,6 @@ create one.  Return the initialized session."
 (set-face-foreground 'fill-column-indicator "red")
 (add-hook 'prog-mode-hook #'company-mode)
 
-;; (use-package direnv
-;;   :ensure t
-;;   :init
-;;   (add-hook 'prog-mode-hook #'direnv-update-environment)
-;;   :config
-;;   (direnv-mode))
-
-
 (use-package nix-mode
   :ensure t
   :mode "\\.nix\\'")
@@ -668,6 +667,11 @@ create one.  Return the initialized session."
       (company-mode)
       (flycheck-mode)
       (turn-on-purescript-indentation))))
+
+(use-package agda2-mode
+  :ensure t
+  :mode
+  ("\\.agda\\'" . agda2-mode))
 
 (use-package yaml-mode
   :ensure t
@@ -909,26 +913,5 @@ create one.  Return the initialized session."
          ("<leader>vn" . vterm-toggle-forward)
          ("<leader>vp" . vterm-toggle-backward)))
 
-(use-package elfeed
-  :ensure t
-  :custom
-  (elfeed-feeds
-    '(
-       ; Mathematics
-       ("https://api.quantamagazine.org/feed/" mathematics physics computer-science)
-
-       ; News
-       ; zeit.de
-       ("http://newsfeed.zeit.de/politik/index" zeit politics)
-       ("http://newsfeed.zeit.de/wirtschaft/index" zeit economics)
-       ("http://newsfeed.zeit.de/wissen/index" zeit science)
-       ("http://newsfeed.zeit.de/digital/index" zeit digital)
-       ("http://newsfeed.zeit.de/arbeit/index" zeit work)
-       ("http://newsfeed.zeit.de/zeit-magazin/index" zeit magazine)
-       ))
-  :bind
-  (:map evil-normal-state-map
-    ("<leader>fo" . elfeed)))
-
-(use-package elfeed-web
-  :ensure t)
+(load-file (let ((coding-system-for-read 'utf-8))
+                (shell-command-to-string "agda-mode locate")))

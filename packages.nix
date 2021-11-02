@@ -19,6 +19,7 @@ let
     [];
 in
 with pkgs; [
+  agda
   (import ./emacs.nix { inherit pkgs; })
 
   diffstat
