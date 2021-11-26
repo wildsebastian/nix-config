@@ -30,13 +30,16 @@ self: super:
       django_silk = super.django_silk.overridePythonAttrs(old: rec {
         doCheck = false;
       });
-      pylint-django = super.pylint-django.overridePythonAttrs(old: rec {
-        doCheck = false;
-      });
       httplib2 = super.httplib2.overridePythonAttrs(old: rec {
         doCheck = false;
       });
+      keyring = super.keyring.overridePythonAttrs(old: rec {
+        doCheck = false;
+      });
       pycairo = super.pycairo.overridePythonAttrs(old: rec {
+        doCheck = false;
+      });
+      pylint-django = super.pylint-django.overridePythonAttrs(old: rec {
         doCheck = false;
       });
       weasyprint = super.weasyprint.overridePythonAttrs(old: rec {
