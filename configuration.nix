@@ -58,12 +58,5 @@ in
     fonts = [ pkgs.iosevka pkgs.nerdfonts ];
   };
 
-  services = {
-    emacs = {
-      enable = true;
-      package = (import ./emacs.nix { inherit pkgs; });
-    };
-  };
-
   time.timeZone = "Europe/Berlin";
 }

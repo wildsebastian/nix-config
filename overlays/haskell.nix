@@ -26,6 +26,13 @@ self: pkgs:
         };
       };
 
+      ghc921 = pkgs.haskell.packages.ghc921.override {
+        overrides = self: super: with pkgs.haskell.lib; {
+          HsYAML-aeson        = doJailbreak super.HsYAML-aeson;
+          cabal-doctest       = doJailbreak super.cabal-doctest;
+        };
+      };
+
       ghcjs = pkgs.haskell.packages.ghcjs.override {
         overrides = self: super: with pkgs.haskell.lib; {
           haddock-library-ghcjs = dontCheck super.haddock-library-ghcjs;
