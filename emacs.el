@@ -97,6 +97,7 @@
   (global-undo-tree-mode 1))
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+(global-set-key (kbd "<leader>x") 'execute-extended-command)
 
 (setq evil-want-C-i-jump nil)
 
@@ -154,11 +155,32 @@
   (doom-modeline-major-mode-color-icon t)
   (doom-modeline-buffer-state-icon t))
 
+(use-package yasnippet
+  :ensure t
+  :config
+  (use-package yasnippet-snippets
+    :ensure t)
+  (use-package consult-yasnippet
+    :ensure t)
+  (yas-global-mode t)
+  (define-key yas-minor-mode-map (kbd "<tab>") nil)
+  (define-key yas-minor-mode-map (kbd "C-'") #'yas-expand)
+  (add-to-list #'yas-snippet-dirs "my-personal-snippets")
+  (yas-reload-all)
+  (setq yas-prompt-functions '(yas-ido-prompt))
+  (defun help/yas-after-exit-snippet-hook-fn ()
+    (prettify-symbols-mode)
+    (prettify-symbols-mode))
+  (add-hook 'yas-after-exit-snippet-hook #'help/yas-after-exit-snippet-hook-fn)
+  :diminish yas-minor-mode)
+
 (use-package consult
   :ensure t
 
   :bind (:map evil-normal-state-map
-          ("<leader>si" . consult-ripgrep))
+          ("<leader>si" . consult-ripgrep)
+          ("<leader>sl" . consult-line)
+          ("<leader>ne" . consult-flycheck))
 
   ;; Enable automatic preview at point in the *Completions* buffer. This is
   ;; relevant when you use the default completion UI. You may want to also
@@ -215,12 +237,12 @@
   ;; Optionally configure a function which returns the project root directory.
   ;; There are multiple reasonable alternatives to chose from.
   ;;;; 1. project.el (project-roots)
-  (setq consult-project-root-function
-        (lambda ()
-          (when-let (project (project-current))
-            (car (project-roots project)))))
+  ;; (setq consult-project-root-function
+  ;;       (lambda ()
+  ;;         (when-let (project (project-current))
+  ;;           (car (project-roots project)))))
   ;;;; 2. projectile.el (projectile-project-root)
-  ;; (autoload 'projectile-project-root "projectile")
+  (autoload 'projectile-project-root "projectile")
   ;; (setq consult-project-root-function #'projectile-project-root)
   ;;;; 3. vc.el (vc-root-dir)
   ;; (setq consult-project-root-function #'vc-root-dir)
@@ -231,33 +253,18 @@
 (use-package vertico
   :ensure t
   :init
-  (vertico-mode)
+  (vertico-mode))
 
-  ;; Different scroll margin
-  ;; (setq vertico-scroll-margin 0)
+;; Enable Corfu completion UI
+;; See the Corfu README for more configuration tips.
+(use-package corfu
+  :ensure t
+  :init
+  (corfu-global-mode))
 
-  ;; Show more candidates
-  ;; (setq vertico-count 20)
-
-  ;; Grow and shrink the Vertico minibuffer
-  ;; (setq vertico-resize t)
-
-  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-  ;; (setq vertico-cycle t)
-  )
-
-;; Optionally use the `orderless' completion style. See
-;; `+orderless-dispatch' in the Consult wiki for an advanced Orderless style
-;; dispatcher. Additionally enable `partial-completion' for file path
-;; expansion. `partial-completion' is important for wildcard support.
-;; Multiple files can be opened at once with `find-file' if you enter a
-;; wildcard. You may also give the `initials' completion style a try.
 (use-package orderless
   :ensure t
   :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
   (setq completion-styles '(orderless)
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))))
@@ -333,6 +340,37 @@
   ;; auto-updating embark collect buffer
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
+
+;; Add extensions
+(use-package cape
+  :ensure t
+  ;; Bind dedicated completion commands
+  :bind (("C-c p p" . completion-at-point) ;; capf
+         ("C-c p t" . complete-tag)        ;; etags
+         ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
+         ("C-c p f" . cape-file)
+         ("C-c p k" . cape-keyword)
+         ("C-c p s" . cape-symbol)
+         ("C-c p a" . cape-abbrev)
+         ("C-c p i" . cape-ispell)
+         ("C-c p l" . cape-line)
+         ("C-c p w" . cape-dict)
+         ("C-c p \\" . cape-tex)
+         ("C-c p &" . cape-sgml)
+         ("C-c p r" . cape-rfc1345))
+  :init
+  ;; Add `completion-at-point-functions', used by `completion-at-point'.
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-tex)
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  (add-to-list 'completion-at-point-functions #'cape-sgml)
+  (add-to-list 'completion-at-point-functions #'cape-rfc1345)
+  (add-to-list 'completion-at-point-functions #'cape-ispell)
+  (add-to-list 'completion-at-point-functions #'cape-dict)
+  (add-to-list 'completion-at-point-functions #'cape-symbol)
+  (add-to-list 'completion-at-point-functions #'cape-line)
+)
 
 (use-package all-the-icons
   :ensure t)

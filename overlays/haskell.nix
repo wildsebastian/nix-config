@@ -12,16 +12,8 @@ self: pkgs:
         };
       };
 
-      ghc8104 = pkgs.haskell.packages.ghc8104.override {
+      ghc8107 = pkgs.haskell.packages.ghc8107.override {
         overrides = self: super: with pkgs.haskell.lib; {
-          chronos             = dontCheck super.chronos;
-          hakyll              = dontCheck (doJailbreak super.hakyll);
-          http-media          = doJailbreak super.http-media;
-          junit-xml           = dontCheck super.junit-xml;
-          math-functions      = dontCheck super.math-functions;
-          rebase              = doJailbreak super.rebase;
-          servant-client-core = dontCheck (doJailbreak super.servant-client-core);
-          servant-client      = dontCheck (doJailbreak super.servant-client);
           squeal-postgresql   = dontCheck super.squeal-postgresql;
         };
       };
