@@ -103,6 +103,7 @@
 
 (use-package evil
   :ensure t
+  :after undo-tree
   :init
   (setq evil-want-keybinding nil)
   :config
@@ -129,8 +130,15 @@
 (setq evil-replace-state-cursor '(bar "#ab4642"))
 (setq evil-visual-state-cursor  '(box "#dc9656"))
 
+(use-package evil-goggles
+  :ensure t
+  :config
+  (evil-goggles-mode)
+  (evil-goggles-use-diff-faces))
+
 (use-package doom-modeline
   :ensure t
+  :after eshell
   :custom-face
   (mode-line ((t (:height 1.0))))
   (mode-line-inactive ((t (:height 1.0))))
@@ -417,7 +425,7 @@
 (use-package envrc
   :ensure t
   :config
-  (envrc-global-mode))
+  (envrc-global-mode 1))
 
 (use-package rg
   :ensure t
@@ -980,11 +988,35 @@
 (use-package vterm
   :ensure t)
 
-(use-package vterm-toggle
+(use-package eshell
+  :init
+  (setq eshell-scroll-to-bottom-on-input 'all
+        eshell-error-if-no-glob t
+        eshell-hist-ignoredups t
+        eshell-save-history-on-exit t
+        eshell-prefer-lisp-functions nil
+        eshell-destroy-buffer-when-process-dies t))
+
+(use-package eshell-vterm
   :ensure t
-  :bind (("<leader>vt" . vterm-toggle)
-         ("<leader>vn" . vterm-toggle-forward)
-         ("<leader>vp" . vterm-toggle-backward)))
+  :after eshell vterm
+  :config
+  (eshell-vterm-mode))
+
+(use-package eshell-git-prompt
+  :ensure t
+  :init
+  (eshell-git-prompt-use-theme 'multiline))
+
+(use-package eshell-toggle
+  :ensure t
+  :custom
+  (eshell-toggle-size-fraction 3)
+  (eshell-toggle-use-projectile-root t)
+  (eshell-toggle-run-command nil)
+  (eshell-toggle-init-function #'eshell-toggle-init-eshell)
+  :bind
+  (:map evil-normal-state-map ("<leader>tt" . eshell-toggle)))
 
 (load-file (let ((coding-system-for-read 'utf-8))
                 (shell-command-to-string "agda-mode locate")))

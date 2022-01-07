@@ -55,7 +55,7 @@ in
 
   fonts = {
     enableFontDir = true;
-    fonts = [ pkgs.iosevka pkgs.nerdfonts ];
+    fonts = [ pkgs.nerdfonts ]; # pkgs.iosevka
   };
 
   time.timeZone = "Europe/Berlin";
