@@ -45,8 +45,8 @@
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq-default gc-cons-threshold 100000000)
 (setq-default read-process-output-max (* 1024 1024)) ;; 1mb
-(add-to-list 'default-frame-alist '(font . "Iosevka Extended 14"))
-(set-face-attribute 'default t :font "Iosevka Extended 14")
+(add-to-list 'default-frame-alist '(font . "JetBrains Mono 12"))
+(set-face-attribute 'default t :font "JetBrains Mono 12")
 (set-default-coding-systems 'utf-8)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -419,7 +419,6 @@
   (:map evil-normal-state-map
     ("t n" . centaur-tabs-forward)
     ("t p" . centaur-tabs-backward)
-    ("t s" . centaur-tabs-counsel-switch-group)
     ("t g" . centaur-tabs-group-by-projectile-project)))
 
 (use-package envrc
@@ -633,7 +632,7 @@
     :hook (org-mode . org-superstar-mode)
     :config (org-superstar-configure-like-org-bullets))
 
-  (set-face-attribute 'org-document-title nil :font "Iosevka Aile" :weight 'bold :height 1.3)
+  (set-face-attribute 'org-document-title nil :font "Iosevka Nerd Font" :weight 'bold :height 1.3)
   (dolist (face '((org-level-1 . 1.2)
                   (org-level-2 . 1.1)
                   (org-level-3 . 1.05)
@@ -642,7 +641,7 @@
                   (org-level-6 . 1.1)
                   (org-level-7 . 1.1)
                   (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font "Iosevka Aile" :weight 'medium :height (cdr face)))
+    (set-face-attribute (car face) nil :font "Iosevka Nerd Font" :weight 'medium :height (cdr face)))
     (set-face-attribute 'org-block nil :background "#000000" :foreground nil :inherit 'fixed-pitch)
     (set-face-attribute 'org-drawer nil :background "#000000")
     (set-face-attribute 'org-table nil  :inherit 'fixed-pitch)
@@ -663,35 +662,37 @@
     (require 'evil-org-agenda)
     (evil-org-agenda-set-keys))
 
-  (use-package org-pandoc-import
-    :after org
-    :ensure nil
-    :quelpa (org-pandoc-import
-              :fetcher github
-              :repo "tecosaur/org-pandoc-import"
-              :files ("*.el" "filters" "preprocessors"))))
+  (use-package ox-jekyll-md
+    :ensure t
+    :after org))
 
 (use-package org-roam
   :ensure t
+  :after org
   :init
   (setq org-roam-v2-ack t)
+  (org-roam-db-autosync-mode)
   :hook
   (after-init . org-roam-setup)
   :custom
-  (org-roam-directory (file-truename "~/ideas/"))
+  (org-roam-directory (file-truename "~/thoughts/"))
   (org-roam-dailies-directory "~/journal/")
   (org-roam-dailies-capture-templates
     '(("d" "default" entry
          "* %?"
          :if-new (file+head "%<%Y-%m-%d>.org"
                             "#+title: %<%Y-%m-%d>\n"))))
-  :bind (:map org-roam-mode-map
-          (("C-c n l" . org-roam)
-           ("C-c n f" . org-roam-find-file)
-           ("C-c n g" . org-roam-graph))
-          :map org-mode-map
-          (("C-c n i" . org-roam-insert))
-          (("C-c n I" . org-roam-insert-immediate))))
+  :bind
+  (:map evil-normal-state-map
+    ("<leader>orr" . org-roam)
+    ("<leader>orc" . org-roam-capture)
+    ("<leader>ornf" . org-roam-node-find)
+    ("<leader>orni" . org-roam-node-insert)
+    ("<leader>org" . org-roam-graph)
+    (:map org-mode-map
+      ("<leader>orin" . org-roam-insert)
+      ("<leader>orii" . org-roam-insert-immediate))))
+
 
 (use-package org-roam-ui
   :ensure t
@@ -701,6 +702,14 @@
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
+
+(use-package citar
+  :ensure t
+  :bind (("C-c b" . citar-insert-citation)
+         :map minibuffer-local-map
+         ("M-b" . citar-insert-preset))
+  :custom
+  (citar-bibliography '("~/bib/references.bib")))
 
 ;; Modes that are loaded under certain circumstances
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
@@ -946,10 +955,10 @@
   :ensure t
   :hook (coq-mode . company-coq-mode))
 
-(use-package company-posframe
-  :ensure t
-  :config
-  (company-posframe-mode 1))
+;(use-package company-posframe
+;  :ensure t
+;  :config
+;  (company-posframe-mode 1))
 
 (use-package flycheck
   :ensure t
@@ -961,10 +970,10 @@
   :ensure t
   :commands flycheck-haskell-setup)
 
-(use-package flycheck-posframe
-  :ensure t
-  :after flycheck
-  :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
+;(use-package flycheck-posframe
+;  :ensure t
+;  :after flycheck
+;  :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 
 (use-package docker
   :ensure t
@@ -1003,10 +1012,10 @@
   :config
   (eshell-vterm-mode))
 
-(use-package eshell-git-prompt
-  :ensure t
-  :init
-  (eshell-git-prompt-use-theme 'multiline))
+; (use-package eshell-git-prompt
+;   :ensure t
+;   :init
+;   (eshell-git-prompt-use-theme 'multiline))
 
 (use-package eshell-toggle
   :ensure t
