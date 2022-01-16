@@ -74,6 +74,10 @@
       scroll-down-aggressively 0.01
       scroll-preserve-screen-position 'always)
 
+;; scratch buffer settings
+(setq initial-scratch-message ""
+      initial-major-mode 'org-mode)
+
 (use-package quelpa
   :ensure t)
 
@@ -97,9 +101,15 @@
   (global-undo-tree-mode 1))
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-(global-set-key (kbd "<leader>x") 'execute-extended-command)
 
 (setq evil-want-C-i-jump nil)
+
+(use-package ace-window
+  :ensure t
+  :init
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
+        aw-minibuffer-flag t)
+  (ace-window-display-mode 1))
 
 (use-package evil
   :ensure t
@@ -108,11 +118,18 @@
   (setq evil-want-keybinding nil)
   :config
   (setq evil-undo-system 'undo-tree)
-  (evil-mode)
-  ;; set leader key in all states
-  (evil-set-leader nil (kbd "C-SPC"))
-  ;; set leader key in normal state
-  (evil-set-leader 'normal (kbd "SPC")))
+  (evil-set-initial-state 'dashboard-mode 'motion)
+  (evil-set-initial-state 'debugger-mode 'motion)
+
+  ;; cursor settings
+  (setq evil-emacs-state-cursor    '("#649bce" box))
+  (setq evil-normal-state-cursor   '("#ebcb8b" box))
+  (setq evil-operator-state-cursor '("#ebcb8b" hollow))
+  (setq evil-visual-state-cursor   '("#677691" box))
+  (setq evil-insert-state-cursor   '("#eb998b" (bar . 2)))
+  (setq evil-replace-state-cursor  '("#eb998b" hbar))
+  (setq evil-motion-state-cursor   '("#ad8beb" box))
+  (evil-mode 1))
 
 (use-package evil-collection
   :ensure t
@@ -123,12 +140,11 @@
   :config
   (evil-collection-init))
 
-(setq evil-emacs-state-cursor   '(box "#7cafc2"))
-(setq evil-insert-state-cursor  '(bar "#7cafc2"))
-(setq evil-motion-state-cursor  '(box "#ba8baf"))
-(setq evil-normal-state-cursor  '(box "#a1b56c"))
-(setq evil-replace-state-cursor '(bar "#ab4642"))
-(setq evil-visual-state-cursor  '(box "#dc9656"))
+(use-package evil-surround
+  :ensure t
+  :after evil
+  :config
+  (global-evil-surround-mode 1))
 
 (use-package evil-goggles
   :ensure t
@@ -163,6 +179,70 @@
   (doom-modeline-major-mode-color-icon t)
   (doom-modeline-buffer-state-icon t))
 
+(use-package general
+  :ensure t
+  :config
+  (general-define-key
+    :states '(normal motion visual)
+    :keymaps 'override
+    :prefix "SPC"
+
+    ;; Top level functions
+    "/" '(consult-ripgrep :which-key "ripgrep")
+    ":" '(projectile-find-file :which-key "p-find file")
+    "." '(org-roam-capture :which-key "roam capture")
+    "," '(org-roam-dailies-capture-today :which-key "journal")
+    "'" '(eshell-toggle :which-key "eshell")
+    "x" '(execute-extended-command :which-key "M-x")
+    "q" '(save-buffers-kill-terminal :which-key "quit emacs")
+
+    ;; Applications
+    "a" '(nil :which-key "applications")
+    "ad" '(docker :which-key "docker")
+    ;; Buffers
+    "b" '(nil :which-key "buffer")
+    "bb" '(consult-buffer :which-key "switch buffers")
+    "bk" '(kill-current-buffer :which-key "kill current buffer")
+
+    ;; Perspective Workspace
+    "w" '(nil :which-key "workspace")
+    "ws" '(persp-switch :which-key "switch workspace")
+    "wn" '(persp-next :which-key "next workspace")
+    "wkb" '(persp-kill-buffer :which-key "kill buffer in workspace")
+    "wkw" '(persp-kill :which-key "kill workspace")
+    "wb" '(persp-ibuffer :which-key "switch buffer in workspace"))
+
+    ;; Magit
+    "g" '(nil :which-key "magit")
+    "gm" '(magit :which-key "status")
+    "gfa" '(magit-fetch-all :which-key "fetch all")
+    "grs" '(magit-rebase :which-key "rebase")
+    "gri" '(magit-rebase-interactive :which-key "rebase interactive")
+    "gra" '(magit-rebase-abort :which-key "rebase abort")
+    "grc" '(magit-rebase-continue :which-key "rebase continue")
+    "gbc" '(magit-branch-checkout :which-key "branch + checkout")
+    "gss" '(magit-stash :which-key "stash")
+    "gsp" '(magit-stash-pop :which-key "stash pop")
+
+    ;; Treemacs
+    "t" '(nil :which-key "treemacs")
+    "to" '(treemacs :which-key "open")
+    "ts" '(treemacs-switch-workspace :which-key "switch workspace")
+    "tp" '(treemacs-projectile :which-key "treemacs projectile")
+
+    ;; Projectile
+    "p" '(nil :which-key "projectile")
+    "pff" '(projectile-find-file-other-window :which-key "find file")
+    "pt" '(projectile-test-project :which-key "run tests")
+    "pr" '(projectile-run-project :which-key "run project")
+
+    ;; TODO: Setup Bindings for Org, LSP, Haskell, Python
+  )
+
+(use-package hydra
+  :ensure t
+  )
+
 (use-package yasnippet
   :ensure t
   :config
@@ -184,12 +264,6 @@
 
 (use-package consult
   :ensure t
-
-  :bind (:map evil-normal-state-map
-          ("<leader>si" . consult-ripgrep)
-          ("<leader>sl" . consult-line)
-          ("<leader>ne" . consult-flycheck)
-          ("<leader>sb" . consult-buffer))
 
   ;; Enable automatic preview at point in the *Completions* buffer. This is
   ;; relevant when you use the default completion UI. You may want to also
@@ -353,20 +427,6 @@
 ;; Add extensions
 (use-package cape
   :ensure t
-  ;; Bind dedicated completion commands
-  :bind (("C-c c p" . completion-at-point) ;; capf
-         ("C-c c t" . complete-tag)        ;; etags
-         ("C-c c d" . cape-dabbrev)        ;; or dabbrev-completion
-         ("C-c c f" . cape-file)
-         ("C-c c k" . cape-keyword)
-         ("C-c c s" . cape-symbol)
-         ("C-c c a" . cape-abbrev)
-         ("C-c c i" . cape-ispell)
-         ("C-c c l" . cape-line)
-         ("C-c c w" . cape-dict)
-         ("C-c c \\" . cape-tex)
-         ("C-c c &" . cape-sgml)
-         ("C-c c r" . cape-rfc1345))
   :init
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
   (add-to-list 'completion-at-point-functions #'cape-file)
@@ -386,12 +446,6 @@
 
 (use-package perspective
   :ensure t
-  :bind (:map evil-normal-state-map
-    ("<leader>ws" . persp-switch)
-    ("<leader>wn" . persp-next)
-    ("<leader>wkb" . persp-kill-buffer)
-    ("<leader>wkw" . persp-kill)
-    ("<leader>wb" . persp-ibuffer))
   :custom
   (persp-initial-frame-name "Main")
   :config
@@ -449,11 +503,7 @@
     :format literal
     :flags '("--vimgrep")
     :files "*.{html,js,ts,scss,css}"
-    :menu ("Custom" "w" "web"))
-  (evil-define-key 'normal 'global (kbd "<leader>sc") 'rg)
-  (evil-define-key 'normal 'global (kbd "<leader>shp") 'rg-haskell)
-  (evil-define-key 'normal 'global (kbd "<leader>spp") 'rg-python)
-  (evil-define-key 'normal 'global (kbd "<leader>swp") 'rg-web))
+    :menu ("Custom" "w" "web")))
 
 (use-package flyspell
   :hook
@@ -485,12 +535,7 @@
   (with-eval-after-load 'winum
     (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
   :config
-  (treemacs-load-theme "Default")
-  :bind
-  (:map evil-normal-state-map
-    ("<leader>to" . treemacs)
-    ("<leader>ts" . treemacs-switch-workspace)
-    ("<leader>tp" . treemacs-projectile)))
+  (treemacs-load-theme "Default"))
 
 (use-package treemacs-evil
   :ensure t
@@ -512,13 +557,7 @@
   ("C-c p" . projectile-command-map)
   :init
   (when (file-directory-p "~/src")
-    (setq projectile-project-search-path '("~/src")))
-  :bind
-  (:map evil-normal-state-map
-    ("<leader>pff" . projectile--find-file)
-    ("<leader>pfw" . projectile-find-file-other-window)
-    ("<leader>pt" . projectile-test-project)
-    ("<leader>pr" . projectile-run-project)))
+    (setq projectile-project-search-path '("~/src"))))
 
 (use-package format-all
   :ensure t
@@ -526,22 +565,7 @@
   (python-mode . format-all-mode))
 
 (use-package magit
-  :ensure t
-  :bind
-  (:map evil-normal-state-map
-    ("<leader>gm" . magit)
-    ;; fetch
-    ("<leader>gfa" . magit-fetch-all))
-    ;; rebase
-    ("<leader>grs" . magit-rebase)
-    ("<leader>gri" . magit-rebase-interactive)
-    ("<leader>gra" . magit-rebase-abort)
-    ("<leader>grc" . magit-rebase-continue)
-    ;; checkout
-    ("<leader>gbc" . magit-branch-checkout)
-    ;; stash
-    ("<leader>gss" . magit-stash)
-    ("<leader>gsp" . magit-stash-pop))
+  :ensure t)
 
 (use-package magit-delta
   :ensure t
@@ -582,9 +606,6 @@
 
 (use-package org
   :hook (org-mode . ws/org-mode-setup)
-  :bind
-  (:map evil-normal-state-map
-    ("<leader>oj" . org-roam-dailies-capture-today))
   :config
   (org-babel-do-load-languages
     'org-babel-load-languages
@@ -613,7 +634,7 @@
     org-treat-insert-todo-heading-as-state-change t
     org-log-done 'note
     org-log-into-drawer t
-    org-habit-show-all-today t
+    org-habit-show-habits-only-for-today t
     org-todo-keywords
       '((sequence "TODO(t)" "WIP(w)" "|" "DONE(d)"))
     org-todo-keyword-faces
@@ -681,17 +702,7 @@
     '(("d" "default" entry
          "* %?"
          :if-new (file+head "%<%Y-%m-%d>.org"
-                            "#+title: %<%Y-%m-%d>\n"))))
-  :bind
-  (:map evil-normal-state-map
-    ("<leader>orr" . org-roam)
-    ("<leader>orc" . org-roam-capture)
-    ("<leader>ornf" . org-roam-node-find)
-    ("<leader>orni" . org-roam-node-insert)
-    ("<leader>org" . org-roam-graph)
-    (:map org-mode-map
-      ("<leader>orin" . org-roam-insert)
-      ("<leader>orii" . org-roam-insert-immediate))))
+                            "#+title: %<%Y-%m-%d>\n")))))
 
 
 (use-package org-roam-ui
@@ -921,7 +932,8 @@
 (use-package which-key
   :ensure t
   :config
-  (setq which-key-popup-type 'minibuffer)
+  (setq which-key-popup-type 'minibuffer
+        which-key-idle-delay 0.3)
   (which-key-setup-side-window-bottom)
   (which-key-mode))
 
@@ -955,11 +967,6 @@
   :ensure t
   :hook (coq-mode . company-coq-mode))
 
-;(use-package company-posframe
-;  :ensure t
-;  :config
-;  (company-posframe-mode 1))
-
 (use-package flycheck
   :ensure t
   :hook
@@ -970,16 +977,8 @@
   :ensure t
   :commands flycheck-haskell-setup)
 
-;(use-package flycheck-posframe
-;  :ensure t
-;  :after flycheck
-;  :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
-
 (use-package docker
-  :ensure t
-  :bind
-  (:map evil-normal-state-map
-    ("<leader>d" . docker)))
+  :ensure t)
 
 (use-package dockerfile-mode
   :ensure t
@@ -1012,10 +1011,10 @@
   :config
   (eshell-vterm-mode))
 
-; (use-package eshell-git-prompt
-;   :ensure t
-;   :init
-;   (eshell-git-prompt-use-theme 'multiline))
+(use-package eshell-git-prompt
+  :ensure t
+  :init
+  (eshell-git-prompt-use-theme 'multiline))
 
 (use-package eshell-toggle
   :ensure t
@@ -1023,9 +1022,7 @@
   (eshell-toggle-size-fraction 3)
   (eshell-toggle-use-projectile-root t)
   (eshell-toggle-run-command nil)
-  (eshell-toggle-init-function #'eshell-toggle-init-eshell)
-  :bind
-  (:map evil-normal-state-map ("<leader>tt" . eshell-toggle)))
+  (eshell-toggle-init-function #'eshell-toggle-init-eshell))
 
 (load-file (let ((coding-system-for-read 'utf-8))
                 (shell-command-to-string "agda-mode locate")))
