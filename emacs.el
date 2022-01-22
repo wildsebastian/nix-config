@@ -606,8 +606,10 @@
 (use-package ob-sql)
 
 ;;; ob-coq
+;;; https://git.sr.ht/~bzg/org-contrib/tree/master/item/lisp/ob-coq.el
 ;;; replace functions defined in coq-inferior.el
 ;;; Try to refactor to work with functions from ProofGeneral
+;;; http://alan.petitepomme.net/tips/executing_coq.html
 
 (require 'comint)
 
