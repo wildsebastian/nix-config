@@ -193,12 +193,14 @@
     "." '(org-roam-capture :which-key "roam capture")
     "," '(org-roam-dailies-capture-today :which-key "journal")
     "'" '(eshell-toggle :which-key "eshell")
+    "=" '(ace-window :which-key "ace-window")
     "x" '(execute-extended-command :which-key "M-x")
     "q" '(save-buffers-kill-terminal :which-key "quit emacs")
 
     ;; Applications
     "a" '(nil :which-key "applications")
     "ad" '(docker :which-key "docker")
+    "aw" '(writeroom-mode :which-key "writeroom")
     ;; Buffers
     "b" '(nil :which-key "buffer")
     "bb" '(consult-buffer :which-key "switch buffers")
@@ -210,7 +212,7 @@
     "wn" '(persp-next :which-key "next workspace")
     "wkb" '(persp-kill-buffer :which-key "kill buffer in workspace")
     "wkw" '(persp-kill :which-key "kill workspace")
-    "wb" '(persp-ibuffer :which-key "switch buffer in workspace"))
+    "wb" '(persp-ibuffer :which-key "switch buffer in workspace")
 
     ;; Magit
     "g" '(nil :which-key "magit")
@@ -238,10 +240,10 @@
 
     ;; TODO: Setup Bindings for Org, LSP, Haskell, Python
   )
+)
 
 (use-package hydra
-  :ensure t
-  )
+  :ensure t)
 
 (use-package yasnippet
   :ensure t
@@ -519,12 +521,11 @@
   (dashboard-setup-startup-hook)
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
   (setq dashboard-banner-logo-title "Welcome Sebastian")
-  (setq dashboard-startup-banner 'logo)
+  (setq dashboard-startup-banner "~/logo_256.png")
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
-  (setq dashboard-items '((projects . 5)
-                          (recents . 5)
-                          (agenda . 5))))
+  (setq dashboard-items '((projects . 10)
+                          (agenda . 10))))
 
 (use-package tramp
   :ensure t)
@@ -604,20 +605,71 @@
 
 (use-package ob-sql)
 
+;;; ob-coq
+;;; replace functions defined in coq-inferior.el
+;;; Try to refactor to work with functions from ProofGeneral
+
+(require 'comint)
+
+(defvar coq-program-name "coqtop")
+
+(defvar coq-buffer)
+
+(define-derived-mode inferior-coq-mode comint-mode "Run Coq"
+  ""
+  (setq comint-prompt-regexp "^[^<]* < *"))
+
+(defun coq-args-to-list (string)
+  (let ((where (string-match "[ \t]" string)))
+    (cond ((null where) (list string))
+    ((not (= where 0))
+     (cons (substring string 0 where)
+     (coq-args-to-list (substring string (+ 1 where)
+             (length string)))))
+    (t (let ((pos (string-match "[^ \t]" string)))
+         (if (null pos)
+       nil
+     (coq-args-to-list (substring string pos
+             (length string)))))))))
+
+(defun run-coq (cmd)
+  (interactive (list (if current-prefix-arg
+       (read-string "Run Coq: " coq-program-name)
+       coq-program-name)))
+  (if (not (comint-check-proc "*coq*"))
+      (let ((cmdlist (coq-args-to-list cmd)))
+  (set-buffer (apply 'make-comint "coq" (car cmdlist)
+         nil (cdr cmdlist)))
+  (inferior-coq-mode)))
+  (setq coq-program-name cmd)
+  (setq coq-buffer "*coq*")
+  (switch-to-buffer "*coq*"))
+
+(defun coq-proc ()
+  "Return the current coq process.  See variable `coq-buffer'."
+  (let ((proc (get-buffer-process (if (eq major-mode 'inferior-coq-mode)
+              (current-buffer)
+              coq-buffer))))
+    (or proc
+  (error "No current process.  See variable `coq-buffer'"))))
+
+;;; end ob-coq
+
 (use-package org
   :hook (org-mode . ws/org-mode-setup)
   :config
   (org-babel-do-load-languages
     'org-babel-load-languages
-    '((ditaa . t)
+    '((coq . t)
+      (ditaa . t)
       (emacs-lisp . t)
       (gnuplot . t)
       (haskell . t)
+      (ocaml . t)
       (python . t)
       (restclient . t)
       (shell . t)
-      (sql . t)
-      (ocaml . t)))
+      (sql . t)))
   (setq org-ellipsis " ▾"
     org-hide-emphasis-markers t
     org-src-fontify-natively t
@@ -628,8 +680,8 @@
     org-src-preserve-indentation nil
     org-startup-folded t
     org-cycle-separator-lines 2
-    org-default-notes-file "~/notes/inbox.org"
-    org-agenda-files (list "~/notes/inbox.org")
+    org-default-notes-file "~/.org/notes/inbox.org"
+    org-agenda-files '("~/.org" "~/.org/notes" "~/.org/journal" "~/.org/thoughts")
     org-modules (quote (org-habit))
     org-treat-insert-todo-heading-as-state-change t
     org-log-done 'note
@@ -639,13 +691,16 @@
       '((sequence "TODO(t)" "WIP(w)" "|" "DONE(d)"))
     org-todo-keyword-faces
       '(("TODO" . org-warning) ("WIP" . "yellow") ("DONE" . "green"))
-    org-archive-location "~/notes/archive.org::* From %s"
+    org-archive-location "~/.org/notes/archive.org::* From %s"
     org-latex-listings 'minted
     org-latex-packages-alist '(("" "minted"))
     org-latex-pdf-process
       '("pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
         "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f")
     )
+
+  (use-package org-contrib
+    :ensure t)
 
   (use-package org-superstar
     :ensure t
@@ -696,8 +751,8 @@
   :hook
   (after-init . org-roam-setup)
   :custom
-  (org-roam-directory (file-truename "~/thoughts/"))
-  (org-roam-dailies-directory "~/journal/")
+  (org-roam-directory (file-truename "~/.org/thoughts/"))
+  (org-roam-dailies-directory "~/.org/journal/")
   (org-roam-dailies-capture-templates
     '(("d" "default" entry
          "* %?"
@@ -1026,3 +1081,6 @@
 
 (load-file (let ((coding-system-for-read 'utf-8))
                 (shell-command-to-string "agda-mode locate")))
+
+(use-package writeroom-mode
+  :ensure t)
