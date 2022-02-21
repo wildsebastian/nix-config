@@ -217,6 +217,7 @@
     ;; Magit
     "g" '(nil :which-key "magit")
     "gm" '(magit :which-key "status")
+    "gci" '(blamer-show-commit-info :which-key "blame commit info")
     "gfa" '(magit-fetch-all :which-key "fetch all")
     "grs" '(magit-rebase :which-key "rebase")
     "gri" '(magit-rebase-interactive :which-key "rebase interactive")
@@ -588,11 +589,34 @@
 
 (use-package git-gutter
   :ensure t
+  :hook (prog-mode . git-gutter-mode)
   :config
-  (global-git-gutter-mode))
+  (setq git-gutter:update-interval 0.02))
 
 (use-package git-gutter-fringe
-  :ensure t)
+  :ensure t
+  :config
+  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
+
+(use-package blamer
+  :ensure t
+  :defer 20
+  :custom
+  (blamer-idle-time 0.5)
+  (blamer-min-offset 70)
+  (blamer-author-formatter "✎ %s ")
+  (blamer-datetime-formatter "[%s] ")
+  (blamer-commit-formatter "● %s")
+  (blamer-prettify-time-p t)
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                    :background nil
+                    :height 140
+                    :italic t)))
+  :config
+  (global-blamer-mode 1))
 
 (defun ws/org-mode-setup ()
   (org-indent-mode)
@@ -921,7 +945,7 @@
 (use-package lsp-mode
   :ensure t
   :hook
-  ((python-mode haskell-mode scala-mode purescript-mode) . lsp-deferred)
+  ((python-mode haskell-mode scala-mode purescript-mode javascript-mode) . lsp-deferred)
   (lsp-mode . lsp-enable-which-key-integration)
   (before-save . lsp-format-buffer)
   :custom

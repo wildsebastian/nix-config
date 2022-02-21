@@ -60,6 +60,7 @@ with pkgs; [
   mosh
   neofetch
   # neovim
+  ngrok
   nushell
   openssl_1_1
   procs
