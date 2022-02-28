@@ -8,7 +8,9 @@ git pull origin master
 cd ~/.nixpkgs
 git stash pop
 cd ~/src/nixpkgs
+git stash
 git pull origin master
+git stash pop
 cd ~/src/nix-darwin
 git pull origin master
 cd ~

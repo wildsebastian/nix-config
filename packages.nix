@@ -35,7 +35,6 @@ with pkgs; [
   patch
   patchutils
 
-  ag
   alacritty
   autossh
   (aspellWithDicts (d: [d.de d.en d.it]))
@@ -67,6 +66,7 @@ with pkgs; [
   python39
   ripgrep
   sd
+  silver-searcher
   starship
   tokei
   wget2
