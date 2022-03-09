@@ -78,6 +78,8 @@
 (setq initial-scratch-message ""
       initial-major-mode 'org-mode)
 
+(setq evil-want-keybinding nil)
+
 (use-package quelpa
   :ensure t)
 
@@ -95,11 +97,6 @@
   :config
   (editorconfig-mode 1))
 
-(use-package undo-tree
-  :ensure t
-  :init
-  (global-undo-tree-mode 1))
-
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 (setq evil-want-C-i-jump nil)
@@ -113,9 +110,6 @@
 
 (use-package evil
   :ensure t
-  :after undo-tree
-  :init
-  (setq evil-want-keybinding nil)
   :config
   (setq evil-undo-system 'undo-tree)
   (evil-set-initial-state 'dashboard-mode 'motion)
@@ -148,9 +142,20 @@
 
 (use-package evil-goggles
   :ensure t
+  :after evil
   :config
   (evil-goggles-mode)
   (evil-goggles-use-diff-faces))
+
+(use-package undo-tree
+  :ensure t
+  :after evil
+  :bind
+  (:map evil-normal-state-map
+    ("C-r" . undo-tree-redo)
+    ("u"   . undo-tree-undo))
+  :config
+  (global-undo-tree-mode 1))
 
 (use-package doom-modeline
   :ensure t
@@ -213,6 +218,7 @@
     "wkb" '(persp-kill-buffer :which-key "kill buffer in workspace")
     "wkw" '(persp-kill :which-key "kill workspace")
     "wb" '(persp-ibuffer :which-key "switch buffer in workspace")
+    "wr" '(persp-rename :which-key "rename workspace")
 
     ;; Magit
     "g" '(nil :which-key "magit")
@@ -445,7 +451,11 @@
 )
 
 (use-package all-the-icons
-  :ensure t)
+  :ensure t
+  :config
+  (add-to-list 'all-the-icons-mode-icon-alist
+    '(coq-mode all-the-icons-fileicon "coq" :face all-the-icons-lblue))
+  (add-to-list 'all-the-icons-extension-icon-alist '("v" all-the-icons-fileicon "coq")))
 
 (use-package perspective
   :ensure t
@@ -531,12 +541,17 @@
 (use-package tramp
   :ensure t)
 
+(defvar treemacs-all-the-icons-tab (if (bound-and-true-p treemacs-all-the-icons-tab-font)
+                                       (propertize "\t" 'face `((:family ,treemacs-all-the-icons-tab-font)))
+                                     "\t"))
+
 (use-package treemacs
   :ensure t
   :init
   (with-eval-after-load 'winum
     (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
   :config
+  (treemacs-create-icon :icon (format "  %s%s" (all-the-icons-fileicon "coq" :v-adjust 0 :face 'all-the-icons-orange) treemacs-all-the-icons-tab) :extensions ("v") :fallback 'same-as-icon)
   (treemacs-load-theme "Default"))
 
 (use-package treemacs-evil
@@ -911,8 +926,9 @@
   :mode ("\\.v\\'" . coq-mode)
   :custom
   (proof-layout-windows 'hybrid)
-  (proof-splash-enable nil)
-  )
+  (proof-three-window-mode-policy 'hybrid)
+  (proof-shrink-windows-tofit t)
+  (proof-splash-enable t))
 
 (use-package scala-mode
   :ensure t

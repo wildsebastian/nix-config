@@ -56,8 +56,6 @@
     drs         = "darwin-rebuild switch";
     du          = "dust";
     em          = "nohup emacs & disown";
-    ec          = "nohup emacsclient -c & disown";
-    ecnw        = "emacsclient -c -nw";
     find        = "fd";
     gf          = "git fetch";
     gg          = "git log --color --graph";
