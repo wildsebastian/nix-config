@@ -54,8 +54,8 @@
 (flymake-mode -1)
 (tab-bar-mode -1)
 (display-battery-mode t)
-(global-hl-line-mode t)
-(global-display-line-numbers-mode 1)
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+(add-hook 'text-mode-hook #'display-line-numbers-mode)
 (setq column-number-mode t)
 (setq display-line-numbers-type 'relative)
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -197,7 +197,7 @@
     ":" '(projectile-find-file :which-key "p-find file")
     "." '(org-roam-capture :which-key "roam capture")
     "," '(org-roam-dailies-capture-today :which-key "journal")
-    "'" '(eshell-toggle :which-key "eshell")
+    "'" '(vterm-toggle :which-key "eshell")
     "=" '(ace-window :which-key "ace-window")
     "x" '(execute-extended-command :which-key "M-x")
     "q" '(save-buffers-kill-terminal :which-key "quit emacs")
@@ -1091,6 +1091,9 @@
   :ensure t)
 
 (use-package vterm
+  :ensure t)
+
+(use-package vterm-toggle
   :ensure t)
 
 (use-package eshell

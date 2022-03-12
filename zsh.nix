@@ -6,6 +6,7 @@
   programs.zsh.enableSyntaxHighlighting = true;
   programs.zsh.promptInit = ''
     eval "$(starship init zsh)"
+    eval "$(direnv hook zsh)"
 
     if [ -n "$\{commands[fzf-share]\}" ]; then
       source "$(fzf-share)/key-bindings.zsh"
@@ -17,8 +18,6 @@
     :r() {
       direnv reload
     }
-
-    eval "$(direnv hook zsh)"
 
     function gi() {
       curl -sL https://www.gitignore.io/api/$@
