@@ -535,8 +535,7 @@
   (setq dashboard-startup-banner "~/logo_256.png")
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
-  (setq dashboard-items '((projects . 10)
-                          (agenda . 10))))
+  (setq dashboard-items '((projects . 10))))
 
 (use-package tramp
   :ensure t)
@@ -722,7 +721,6 @@
     org-startup-folded t
     org-cycle-separator-lines 2
     org-default-notes-file "~/.org/notes/inbox.org"
-    org-agenda-files '("~/.org" "~/.org/notes" "~/.org/journal" "~/.org/thoughts")
     org-modules (quote (org-habit))
     org-treat-insert-todo-heading-as-state-change t
     org-log-done 'note
