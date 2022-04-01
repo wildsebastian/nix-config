@@ -5,6 +5,7 @@ self: pkgs:
     packages = pkgs.haskell.packages // {
       ghc8107 = pkgs.haskell.packages.ghc8107.override {
         overrides = self: super: with pkgs.haskell.lib; {
+          records-sop = doJailbreak super.records-sop;
           squeal-postgresql = dontCheck super.squeal-postgresql;
         };
       };
