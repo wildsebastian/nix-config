@@ -7,6 +7,7 @@ self: pkgs:
         overrides = self: super: with pkgs.haskell.lib; {
           records-sop = doJailbreak super.records-sop;
           squeal-postgresql = dontCheck super.squeal-postgresql;
+          junit-xml = dontCheck super.junit-xml;
         };
       };
       ghc902 = pkgs.haskell.packages.ghc902.override {
