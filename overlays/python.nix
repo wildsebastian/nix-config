@@ -19,6 +19,9 @@ self: super:
       pycairo = super.pycairo.overridePythonAttrs(old: rec {
         doCheck = false;
       });
+      pycurl = super.pycurl.overridePythonAttrs(old: rec {
+        doCheck = false;
+      });
       weasyprint = super.weasyprint.overridePythonAttrs(old: rec {
         doCheck = false;
       });
