@@ -750,7 +750,11 @@
         "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f")
     org-capture-templates
       '(("a" "Actions" entry (file+headline "~/.org/actions.org" "Notes")
-       "* %?\n%T"))
+          "* %?\n%T")
+        ("h" "Habit" entry (file+headline "~/.org/habit.org" "Habit")
+          "* %?\n%T")
+        ("o" "Habit Observations" entry (file+headline "~/.org/habit_observations.org" "Habit Observations")
+          "* %?\n%T"))
     )
 
   (use-package org-contrib

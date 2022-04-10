@@ -56,6 +56,7 @@
     du          = "dust";
     ec          = "nohup emacsclient -c -s main & disown";
     ed          = "nohup emacs --daemon=main & disown";
+    ek          = "killall -9 emacs";
     em          = "nohup emacs & disown";
     find        = "fd";
     gf          = "git fetch";
