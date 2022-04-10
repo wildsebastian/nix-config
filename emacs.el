@@ -749,12 +749,15 @@
       '("pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
         "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f")
     org-capture-templates
-      '(("a" "Actions" entry (file+headline "~/.org/actions.org" "Notes")
+      '(("a" "Actions" entry (file+headline "~/.org/actions.org" "GTD Actions")
           "* %?\n%T")
         ("h" "Habit" entry (file+headline "~/.org/habit.org" "Habit")
           "* %?\n%T")
         ("o" "Habit Observations" entry (file+headline "~/.org/habit_observations.org" "Habit Observations")
-          "* %?\n%T"))
+          "* %?\n%T")
+        ("r" "Reading" entry (file+headline "~/.org/reading.org" "Reading List")
+          "* %?\n%T")
+         )
     )
 
   (use-package org-contrib
