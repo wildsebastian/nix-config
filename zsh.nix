@@ -54,6 +54,8 @@
     cat         = "bat";
     drs         = "darwin-rebuild switch";
     du          = "dust";
+    ec          = "nohup emacsclient -c -s main & disown";
+    ed          = "nohup emacs --daemon=main & disown";
     em          = "nohup emacs & disown";
     find        = "fd";
     gf          = "git fetch";

@@ -195,6 +195,7 @@
     ;; Top level functions
     "/" '(consult-ripgrep :which-key "ripgrep")
     ":" '(projectile-find-file :which-key "p-find file")
+    "[" '(org-capture :which-key "org capture")
     "." '(org-roam-capture :which-key "roam capture")
     "," '(org-roam-dailies-capture-today :which-key "journal")
     "'" '(vterm-toggle :which-key "eshell")
@@ -239,13 +240,21 @@
     "ts" '(treemacs-switch-workspace :which-key "switch workspace")
     "tp" '(treemacs-projectile :which-key "treemacs projectile")
 
+    ;; org-roam
+    "o" '(nil :which-key "org")
+    "oc" '(org-capture :which-key "org capture")
+    "or" '(nil :which-key "org roam")
+    "orc" '(org-roam-capture :which-key "org roam capture")
+    "ori" '(org-roam-node-insert :which-key "org roam insert")
+    "orf" '(org-roam-node-find :which-key "org roam find")
+
     ;; Projectile
     "p" '(nil :which-key "projectile")
     "pff" '(projectile-find-file-other-window :which-key "find file")
     "pt" '(projectile-test-project :which-key "run tests")
     "pr" '(projectile-run-project :which-key "run project")
 
-    ;; TODO: Setup Bindings for Org, LSP, Haskell, Python
+    ;; TODO: Setup Bindings for LSP, Haskell, Python
   )
 )
 
@@ -720,22 +729,28 @@
     org-src-preserve-indentation nil
     org-startup-folded t
     org-cycle-separator-lines 2
-    org-default-notes-file "~/.org/notes/inbox.org"
     org-modules (quote (org-habit))
     org-treat-insert-todo-heading-as-state-change t
     org-log-done 'note
     org-log-into-drawer t
     org-habit-show-habits-only-for-today t
     org-todo-keywords
-      '((sequence "TODO(t)" "WIP(w)" "|" "DONE(d)"))
+      '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))
     org-todo-keyword-faces
-      '(("TODO" . org-warning) ("WIP" . "yellow") ("DONE" . "green"))
-    org-archive-location "~/.org/notes/archive.org::* From %s"
+      '(("TODO" . "#a50101")
+        ("NEXT" . "#f9ad09")
+        ("WAITING" . "#0999f9")
+        ("DONE" . "#30c100")
+        ("CANCELLED" . "#00c670"))
+    org-archive-location "~/.org/archive.org::* From %s"
     org-latex-listings 'minted
     org-latex-packages-alist '(("" "minted"))
     org-latex-pdf-process
       '("pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
         "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f")
+    org-capture-templates
+      '(("a" "Actions" entry (file+headline "~/.org/actions.org" "Notes")
+       "* %?\n%T"))
     )
 
   (use-package org-contrib
