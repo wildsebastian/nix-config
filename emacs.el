@@ -544,7 +544,7 @@
   (setq dashboard-startup-banner "~/logo_256.png")
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
-  (setq dashboard-items '((projects . 10))))
+  (setq dashboard-items '((projects . 10) (agenda . 10))))
 
 (use-package tramp
   :ensure t)
@@ -743,6 +743,7 @@
         ("DONE" . "#30c100")
         ("CANCELLED" . "#00c670"))
     org-archive-location "~/.org/archive.org::* From %s"
+    org-agenda-files '("~/.org/gtd.org")
     org-latex-listings 'minted
     org-latex-packages-alist '(("" "minted"))
     org-latex-pdf-process

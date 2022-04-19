@@ -30,6 +30,9 @@ self: super:
   python39 = super.python39.override {
     # Careful, we're using a different self and super here!
     packageOverrides = self: super: {
+      apache-airflow = super.apache-airflow.overridePythonAttrs(old: rec {
+        doCheck = false;
+      });
       django_silk = super.django_silk.overridePythonAttrs(old: rec {
         doCheck = false;
       });
