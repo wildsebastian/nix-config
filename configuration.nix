@@ -54,9 +54,16 @@ in
   };
 
   fonts = {
-    enableFontDir = true;
+    fontDir.enable = true;
     fonts = [ pkgs.jetbrains-mono pkgs.nerdfonts ]; # pkgs.iosevka
   };
 
   time.timeZone = "Europe/Berlin";
+
+  services = {
+    emacs = {
+      enable = true;
+      package = (import ./emacs.nix { inherit pkgs; });
+    };
+  };
 }

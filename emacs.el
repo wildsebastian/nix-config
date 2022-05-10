@@ -361,7 +361,7 @@
 (use-package corfu
   :ensure t
   :init
-  (corfu-global-mode))
+  (global-corfu-mode))
 
 (use-package orderless
   :ensure t
@@ -470,6 +470,7 @@
   :ensure t
   :custom
   (persp-initial-frame-name "Main")
+  (persp-suppress-no-prefix-key-warning t)
   :config
   (unless persp-mode
     (persp-mode 1)))
@@ -539,12 +540,22 @@
   :ensure t
   :config
   (dashboard-setup-startup-hook)
-  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
   (setq dashboard-banner-logo-title "Welcome Sebastian")
   (setq dashboard-startup-banner "~/logo_256.png")
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
   (setq dashboard-items '((projects . 10) (agenda . 10))))
+
+(use-package xterm-color
+  :ensure t
+  :config
+  (setq compilation-environment '("TERM=xterm-256color"))
+  (setq compilation-scroll-output 1)
+  (defun my/advice-compilation-filter (f proc string)
+    (funcall f proc (xterm-color-filter string)))
+
+  (advice-add 'compilation-filter :around #'my/advice-compilation-filter))
 
 (use-package tramp
   :ensure t)
@@ -627,7 +638,7 @@
   :ensure t
   :defer 20
   :custom
-  (blamer-idle-time 0.5)
+  (blamer-idle-time 1.0)
   (blamer-min-offset 70)
   (blamer-author-formatter "✎ %s ")
   (blamer-datetime-formatter "[%s] ")
@@ -637,9 +648,7 @@
   (blamer-face ((t :foreground "#7a88cf"
                     :background nil
                     :height 140
-                    :italic t)))
-  :config
-  (global-blamer-mode 1))
+                    :italic t))))
 
 (defun ws/org-mode-setup ()
   (org-indent-mode)
@@ -756,7 +765,7 @@
           "* %?\n%T")
         ("o" "Habit Observations" entry (file+headline "~/.org/habit_observations.org" "Habit Observations")
           "* %?\n%T")
-        ("r" "Reading" entry (file+headline "~/.org/reading.org" "Reading List")
+        ("r" "Reading" entry (file "~/.org/reading.org")
           "* %?\n%T")
          )
     )
@@ -798,11 +807,7 @@
     :hook (org-mode . (lambda () evil-org-mode))
     :config
     (require 'evil-org-agenda)
-    (evil-org-agenda-set-keys))
-
-  (use-package ox-jekyll-md
-    :ensure t
-    :after org))
+    (evil-org-agenda-set-keys)))
 
 (use-package org-roam
   :ensure t
@@ -1057,6 +1062,7 @@
 
 (use-package company
   :ensure t
+  :after lsp-mode
   :custom
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.0)
