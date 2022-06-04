@@ -62,7 +62,7 @@ with pkgs; [
   ngrok
   nushell
   openssl_1_1
-  procs
+  # procs
   python39
   ripgrep
   sd

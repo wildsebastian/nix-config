@@ -193,7 +193,7 @@
     :prefix "SPC"
 
     ;; Top level functions
-    "/" '(consult-ripgrep :which-key "ripgrep")
+    "/" '(affe-grep :which-key "grep")
     ":" '(projectile-find-file :which-key "p-find file")
     "[" '(org-capture :which-key "org capture")
     "." '(org-roam-capture :which-key "roam capture")
@@ -254,12 +254,12 @@
     "pt" '(projectile-test-project :which-key "run tests")
     "pr" '(projectile-run-project :which-key "run project")
 
+    ;; Yasnippet
+    "y" '(nil :which-key "yasnippet")
+    "yi" '(yas-insert-snippet :which-key "yasnippet insert")
     ;; TODO: Setup Bindings for LSP, Haskell, Python
   )
 )
-
-(use-package hydra
-  :ensure t)
 
 (use-package yasnippet
   :ensure t
@@ -268,11 +268,11 @@
     :ensure t)
   (use-package consult-yasnippet
     :ensure t)
+  (yas-reload-all)
   (yas-global-mode t)
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
   (define-key yas-minor-mode-map (kbd "C-'") #'yas-expand)
-  (add-to-list #'yas-snippet-dirs "my-personal-snippets")
-  (yas-reload-all)
+  (add-to-list #'yas-snippet-dirs "~/.emacs.d/snippets")
   (setq yas-prompt-functions '(yas-ido-prompt))
   (defun help/yas-after-exit-snippet-hook-fn ()
     (prettify-symbols-mode)
@@ -413,19 +413,14 @@
 
 (use-package embark
   :ensure t
-
   :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
+  (("C-q" . embark-act)         ;; pick some comfortable binding
+   ("M-;" . embark-dwim)        ;; good alternative: M-.
    ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
-
   :init
-
   ;; Optionally replace the key help with a completing-read interface
   (setq prefix-help-command #'embark-prefix-help-command)
-
   :config
-
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
@@ -448,16 +443,25 @@
   :init
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
   (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-tex)
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
   (add-to-list 'completion-at-point-functions #'cape-sgml)
   (add-to-list 'completion-at-point-functions #'cape-rfc1345)
   (add-to-list 'completion-at-point-functions #'cape-ispell)
-  (add-to-list 'completion-at-point-functions #'cape-dict)
   (add-to-list 'completion-at-point-functions #'cape-symbol)
-  (add-to-list 'completion-at-point-functions #'cape-line)
+  ;; (add-to-list 'completion-at-point-functions #'cape-dict)
+  ;; (add-to-list 'completion-at-point-functions #'cape-tex)
+  ;; (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  ;; (add-to-list 'completion-at-point-functions #'cape-line)
 )
+
+(use-package affe
+  :ensure t
+  :after (consult orderless)
+  :config
+  (defun affe-orderless-regexp-compiler (input _type _ignorecase)
+    (setq compiled_input (orderless-pattern-compiler input))
+    (cons compiled_input (lambda (str) (orderless--highlight compiled_input str))))
+  (setq affe-regexp-compiler #'affe-orderless-regexp-compiler))
 
 (use-package all-the-icons
   :ensure t
@@ -465,6 +469,13 @@
   (add-to-list 'all-the-icons-mode-icon-alist
     '(coq-mode all-the-icons-fileicon "coq" :face all-the-icons-lblue))
   (add-to-list 'all-the-icons-extension-icon-alist '("v" all-the-icons-fileicon "coq")))
+
+(use-package all-the-icons-completion
+  :ensure t
+  :after (marginalia all-the-icons)
+  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
+  :init
+  (all-the-icons-completion-mode))
 
 (use-package perspective
   :ensure t
@@ -998,7 +1009,7 @@
   (lsp-enable-folding nil)
   (lsp-diagnostic-package :flycheck)
   (lsp-completion-provider :capf)
-  (lsp-enable-snippet nil)
+  (lsp-enable-snippet t)
   (lsp-enable-symbol-highlighting nil)
   (lsp-lens-enable nil)
   (lsp-enable-links nil)
