@@ -251,6 +251,7 @@
     ;; Projectile
     "p" '(nil :which-key "projectile")
     "pff" '(projectile-find-file-other-window :which-key "find file")
+    "psp" '(projectile-switch-project :which-key "switch project")
     "pt" '(projectile-test-project :which-key "run tests")
     "pr" '(projectile-run-project :which-key "run project")
 
