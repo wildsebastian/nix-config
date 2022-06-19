@@ -260,6 +260,17 @@
     "yi" '(yas-insert-snippet :which-key "yasnippet insert")
     ;; TODO: Setup Bindings for LSP, Haskell, Python
   )
+  (general-define-key
+    :states '(normal motion)
+    :keymaps 'override
+
+    ;; lsp-mode
+    "fd" '(lsp-ui-peek-find-definitions :which-key "find definition")
+    "fr" '(lsp-ui-peek-find-references :which-key "find references")
+    "fn" '(flycheck-next-error :which-key "next error")
+    "fp" '(flycheck-previous-error :which-key "previous error")
+    "fca" '(lsp-execute-code-action :which-key "code action")
+    "ff" '(lsp-rename :which-key "rename")
 )
 
 (use-package yasnippet
