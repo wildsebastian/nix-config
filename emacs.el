@@ -270,7 +270,7 @@
     "fn" '(flycheck-next-error :which-key "next error")
     "fp" '(flycheck-previous-error :which-key "previous error")
     "fca" '(lsp-execute-code-action :which-key "code action")
-    "ff" '(lsp-rename :which-key "rename")
+    "ff" '(lsp-rename :which-key "rename"))
 )
 
 (use-package yasnippet
@@ -1001,6 +1001,12 @@
 (use-package terraform-mode
   :ensure t
   :mode ("\\.tf\\'" . terraform-mode))
+
+(use-package yaml-mode
+  :ensure t
+  :mode
+  ("\\.yml\\'" . yaml-mode)
+  ("\\.yaml\\'" . yaml-mode))
 
 (use-package rustic
   :ensure t
