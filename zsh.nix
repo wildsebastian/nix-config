@@ -48,6 +48,10 @@
     if [ -d "$HOME/.nixpkgs/bin" ] ; then
       PATH="$HOME/.nixpkgs/bin:$PATH"
     fi
+
+    if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
+      source /etc/zprofile
+    fi
   '';
 
   environment.shellAliases = {
@@ -64,6 +68,7 @@
     ls          = "exa";
     nixs        = "nix-env -f '<nixpkgs>' -qaP | grep";
     ps          = "procs";
+    vim         = "nvim";
     wget        = "wget2";
   };
 }

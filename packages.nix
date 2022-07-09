@@ -14,6 +14,7 @@ let
   if localconfig.system == "pi" then
   [
     libraspberrypi
+    docker-compose
   ]
   else
     [];
@@ -58,7 +59,7 @@ with pkgs; [
   minify
   mosh
   neofetch
-  # neovim
+  neovim
   ngrok
   nushell
   openssl_1_1

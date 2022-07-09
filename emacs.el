@@ -198,7 +198,7 @@
     "[" '(org-capture :which-key "org capture")
     "." '(org-roam-capture :which-key "roam capture")
     "," '(org-roam-dailies-capture-today :which-key "journal")
-    "'" '(vterm-toggle :which-key "eshell")
+    "'" '(vterm-toggle :which-key "vterm")
     "=" '(ace-window :which-key "ace-window")
     "x" '(execute-extended-command :which-key "M-x")
     "q" '(save-buffers-kill-terminal :which-key "quit emacs")
@@ -234,11 +234,10 @@
     "gss" '(magit-stash :which-key "stash")
     "gsp" '(magit-stash-pop :which-key "stash pop")
 
-    ;; Treemacs
-    "t" '(nil :which-key "treemacs")
-    "to" '(treemacs :which-key "open")
-    "ts" '(treemacs-switch-workspace :which-key "switch workspace")
-    "tp" '(treemacs-projectile :which-key "treemacs projectile")
+    ;; Terminal
+    "t" '(nil :which-key "terminal")
+    "tv" '(multi-vterm :which-key "vterm")
+    "ts" '(shell-command :which-key "shell command")
 
     ;; org-roam
     "o" '(nil :which-key "org")
@@ -583,31 +582,6 @@
 (use-package tramp
   :ensure t)
 
-(defvar treemacs-all-the-icons-tab (if (bound-and-true-p treemacs-all-the-icons-tab-font)
-                                       (propertize "\t" 'face `((:family ,treemacs-all-the-icons-tab-font)))
-                                     "\t"))
-
-(use-package treemacs
-  :ensure t
-  :init
-  (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
-  :config
-  (treemacs-create-icon :icon (format "  %s%s" (all-the-icons-fileicon "coq" :v-adjust 0 :face 'all-the-icons-orange) treemacs-all-the-icons-tab) :extensions ("v") :fallback 'same-as-icon)
-  (treemacs-load-theme "Default"))
-
-(use-package treemacs-evil
-  :ensure t
-  :after (treemacs evil))
-
-(use-package treemacs-magit
-  :ensure t
-  :after (treemacs magit))
-
-(use-package treemacs-projectile
-  :ensure t
-  :after (treemacs projectile))
-
 (use-package projectile
   :ensure t
   :config
@@ -621,7 +595,8 @@
 (use-package format-all
   :ensure t
   :hook
-  (python-mode . format-all-mode))
+  (python-mode . format-all-mode)
+  (purescript-mode . format-all-mode))
 
 (use-package magit
   :ensure t)
@@ -872,6 +847,28 @@
 (set-face-foreground 'fill-column-indicator "red")
 (add-hook 'prog-mode-hook #'company-mode)
 
+(use-package tree-sitter
+  :ensure t
+  :config
+  ;; activate tree-sitter on any buffer containing code for which it has a parser available
+  (global-tree-sitter-mode)
+  ;; you can easily see the difference tree-sitter-hl-mode makes for python, ts or tsx
+  ;; by switching on and off
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
+(use-package tree-sitter-langs
+  :ensure t
+  :after tree-sitter)
+
+(use-package tree-sitter-indent
+  :ensure t
+  :after tree-sitter)
+
+(add-hook 'rust-mode-hook #'tree-sitter-indent-mode)
+(add-hook 'csharp-mode-hook #'tree-sitter-indent-mode)
+(add-hook 'typescript-mode-hook #'tree-sitter-indent-mode)
+(add-hook 'typescriptreact-mode-hook #'tree-sitter-indent-mode)
+
 (use-package nix-mode
   :ensure t
   :mode "\\.nix\\'")
@@ -941,6 +938,34 @@
   :mode
   ("\\.php" . php-mode))
 
+(use-package typescript-mode
+  :ensure t
+  :after tree-sitter
+  :config
+  ;; we choose this instead of tsx-mode so that eglot can automatically figure out language for server
+  ;; see https://github.com/joaotavora/eglot/issues/624 and https://github.com/joaotavora/eglot#handling-quirky-servers
+  (define-derived-mode typescriptreact-mode typescript-mode
+    "TypeScript TSX")
+
+  ;; use our derived mode for tsx files
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescriptreact-mode))
+  ;; by default, typescript-mode is mapped to the treesitter typescript parser
+  ;; use our derived mode to map both .tsx AND .ts -> typescriptreact-mode -> treesitter tsx
+  (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx)))
+
+;; https://github.com/orzechowskid/tsi.el/
+;; great tree-sitter-based indentation for typescript/tsx, css, json
+(use-package tsi
+  :after tree-sitter typescript-mode
+  :quelpa (tsi :fetcher github :repo "orzechowskid/tsi.el")
+  ;; define autoload definitions which when actually invoked will cause package to be loaded
+  :commands (tsi-typescript-mode tsi-json-mode tsi-css-mode)
+  :init
+  (add-hook 'typescript-mode-hook (lambda () (tsi-typescript-mode 1)))
+  (add-hook 'json-mode-hook (lambda () (tsi-json-mode 1)))
+  (add-hook 'css-mode-hook (lambda () (tsi-css-mode 1)))
+  (add-hook 'scss-mode-hook (lambda () (tsi-scss-mode 1))))
+
 (use-package web-mode
   :ensure t
   :mode
@@ -954,11 +979,6 @@
   :ensure t
   :mode
   ("\\.scss\\'" . scss-mode))
-
-(use-package typescript-mode
-  :ensure t
-  :mode
-  ("\\.ts\\'" . typescript-mode))
 
 (use-package markdown-mode
   :ensure t
@@ -1013,10 +1033,21 @@
   :custom
   (rustic-format-on-save t))
 
+(use-package csharp-mode
+  :ensure t
+  :mode ("\\.cs\\'" . csharp-tree-sitter-mode))
+
 (use-package lsp-mode
   :ensure t
   :hook
-  ((python-mode haskell-mode scala-mode purescript-mode javascript-mode) . lsp-deferred)
+  ((python-mode
+    haskell-mode
+    scala-mode
+    purescript-mode
+    javascript-mode
+    typescriptreact-mode
+    csharp-mode
+    ) . lsp-deferred)
   (lsp-mode . lsp-enable-which-key-integration)
   (before-save . lsp-format-buffer)
   :custom
@@ -1066,10 +1097,6 @@
 (use-package lsp-metals
   :ensure t
   :config (setq lsp-metals-treeview-show-when-views-received t))
-
-(use-package lsp-treemacs
-  :ensure t
-  :commands lsp-treemacs-errors-list)
 
 (use-package dap-mode
   :ensure t
@@ -1150,6 +1177,9 @@
   :ensure t)
 
 (use-package vterm-toggle
+  :ensure t)
+
+(use-package multi-vterm
   :ensure t)
 
 (use-package eshell
