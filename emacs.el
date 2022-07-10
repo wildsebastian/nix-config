@@ -827,6 +827,7 @@
 (add-hook 'csharp-mode-hook #'tree-sitter-indent-mode)
 (add-hook 'typescript-mode-hook #'tree-sitter-indent-mode)
 (add-hook 'typescriptreact-mode-hook #'tree-sitter-indent-mode)
+(add-hook 'haskell-mode-hook #'tree-sitter-indent-mode)
 
 (use-package nix-mode
   :ensure t
@@ -839,14 +840,16 @@
 
 (use-package haskell-mode
   :ensure t
+  :after tree-sitter
   :mode
   ("\\.hs" . haskell-mode)
   ("\\.ghci$" . ghci-script-mode)
   ("\\.cabal$" . haskell-cabal-mode)
   :interpreter
   (("runghc" . haskell-mode)
-    ("runhaskell" . haskell-mode))
+   ("runhaskell" . haskell-mode))
   :config
+  (add-to-list 'tree-sitter-major-mode-language-alist '(haskell-mode . haskell))
   (require 'haskell-doc)
   ;; hoogle setup
   (setq haskell-hoogle-port-number 8181)
