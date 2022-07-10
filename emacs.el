@@ -60,6 +60,8 @@
 (setq display-line-numbers-type 'relative)
 (fset 'yes-or-no-p 'y-or-n-p)
 (show-paren-mode t)
+(setq-default
+  auto-save-interval 60)
 
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
