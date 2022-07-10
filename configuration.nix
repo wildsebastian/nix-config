@@ -55,7 +55,12 @@ in
 
   fonts = {
     fontDir.enable = true;
-    fonts = [ pkgs.jetbrains-mono pkgs.nerdfonts pkgs.iosevka ];
+    fonts = [
+      pkgs.jetbrains-mono
+      pkgs.nerdfonts
+      pkgs.iosevka
+      pkgs.sarasa-gothic
+    ];
   };
 
   time.timeZone = "Europe/Berlin";
