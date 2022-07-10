@@ -45,8 +45,8 @@
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq-default gc-cons-threshold 100000000)
 (setq-default read-process-output-max (* 1024 1024)) ;; 1mb
-(add-to-list 'default-frame-alist '(font . "JetBrains Mono 12"))
-(set-face-attribute 'default t :font "JetBrains Mono 12")
+(add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font Mono 14"))
+(set-face-attribute 'default t :font "Iosevka Nerd Font Mono 14")
 (set-default-coding-systems 'utf-8)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -87,10 +87,18 @@
   :ensure t)
 
 ;; Modes that are always active
-(use-package doom-themes
-  :ensure t
-  :config
-  (load-theme 'doom-nord t))
+;; (use-package doom-themes
+;;   :ensure t
+;;   :config
+;;   (load-theme 'doom-nord t))
+
+(use-package mindre-theme
+    :ensure t
+    :custom
+    (mindre-use-more-bold nil)
+    (mindre-use-faded-lisp-parens t)
+    :config
+    (load-theme 'mindre t))
 
 (use-package editorconfig
   :ensure t
@@ -497,29 +505,6 @@
   (unless persp-mode
     (persp-mode 1)))
 
-(use-package centaur-tabs
-  :ensure t
-  :after all-the-icons
-  :custom
-  (centaur-tabs-style "wave")
-  (centaur-tabs-height 36)
-  (centaur-tabs-set-icons t)
-  (centaur-tabs-set-modified-marker "o")
-  (centaur-tabs-close-button "×")
-  (centaur-tabs-set-bar 'over)
-  (centaur-tabs-mode t)
-  :hook
-  (dashboard-mode . centaur-tabs-local-mode)
-  (term-mode . centaur-tabs-local-mode)
-  (calendar-mode . centaur-tabs-local-mode)
-  (org-agenda-mode . centaur-tabs-local-mode)
-  (helpful-mode . centaur-tabs-local-mode)
-  :bind
-  (:map evil-normal-state-map
-    ("t n" . centaur-tabs-forward)
-    ("t p" . centaur-tabs-backward)
-    ("t g" . centaur-tabs-group-by-projectile-project)))
-
 (use-package envrc
   :ensure t
   :config
@@ -648,13 +633,6 @@
                     :height 140
                     :italic t))))
 
-(defun ws/org-mode-setup ()
-  (org-indent-mode)
-  (variable-pitch-mode 1)
-  (auto-fill-mode 0)
-  (visual-line-mode 1)
-  (setq evil-auto-indent nil))
-
 (use-package sql)
 
 (use-package ob-sql)
@@ -712,7 +690,6 @@
 ;;; end ob-coq
 
 (use-package org
-  :hook (org-mode . ws/org-mode-setup)
   :config
   (org-babel-do-load-languages
     'org-babel-load-languages
@@ -735,6 +712,8 @@
     org-hide-block-startup t
     org-src-preserve-indentation nil
     org-startup-folded t
+    org-startup-with-inline-images t
+    org-image-actual-width 360
     org-cycle-separator-lines 2
     org-modules (quote (org-habit))
     org-treat-insert-todo-heading-as-state-change t
@@ -743,12 +722,6 @@
     org-habit-show-habits-only-for-today t
     org-todo-keywords
       '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))
-    org-todo-keyword-faces
-      '(("TODO" . "#a50101")
-        ("NEXT" . "#f9ad09")
-        ("WAITING" . "#0999f9")
-        ("DONE" . "#30c100")
-        ("CANCELLED" . "#00c670"))
     org-archive-location "~/.org/archive.org::* From %s"
     org-agenda-files '("~/.org/gtd.org")
     org-latex-listings 'minted
@@ -771,33 +744,17 @@
   (use-package org-contrib
     :ensure t)
 
-  (use-package org-superstar
+  (use-package org-modern
     :ensure t
-    :after org
-    :hook (org-mode . org-superstar-mode)
-    :config (org-superstar-configure-like-org-bullets))
-
-  (set-face-attribute 'org-document-title nil :font "Iosevka Nerd Font" :weight 'bold :height 1.3)
-  (dolist (face '((org-level-1 . 1.2)
-                  (org-level-2 . 1.1)
-                  (org-level-3 . 1.05)
-                  (org-level-4 . 1.0)
-                  (org-level-5 . 1.1)
-                  (org-level-6 . 1.1)
-                  (org-level-7 . 1.1)
-                  (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font "Iosevka Nerd Font" :weight 'medium :height (cdr face)))
-    (set-face-attribute 'org-block nil :background "#000000" :foreground nil :inherit 'fixed-pitch)
-    (set-face-attribute 'org-drawer nil :background "#000000")
-    (set-face-attribute 'org-table nil  :inherit 'fixed-pitch)
-    (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
-    (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
-    (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
-    (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
-    (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-    (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch)
-    (set-face-attribute 'org-column nil :background nil)
-    (set-face-attribute 'org-column-title nil :background nil)
+    :commands (org-modern-mode org-modern-agenda)
+    :custom
+    (org-modern-table-vertical 1)
+    (org-modern-table-horizontal 1)
+    (org-modern-block t)
+    :init
+    (setq org-modern-todo t
+          org-modern-variable-pitch nil)
+    (global-org-modern-mode))
 
   (use-package evil-org
     :ensure t
@@ -948,7 +905,7 @@
     "TypeScript TSX")
 
   ;; use our derived mode for tsx files
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescriptreact-mode))
+  (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode))
   ;; by default, typescript-mode is mapped to the treesitter typescript parser
   ;; use our derived mode to map both .tsx AND .ts -> typescriptreact-mode -> treesitter tsx
   (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx)))
@@ -956,7 +913,7 @@
 ;; https://github.com/orzechowskid/tsi.el/
 ;; great tree-sitter-based indentation for typescript/tsx, css, json
 (use-package tsi
-  :after tree-sitter typescript-mode
+  :after tree-sitter
   :quelpa (tsi :fetcher github :repo "orzechowskid/tsi.el")
   ;; define autoload definitions which when actually invoked will cause package to be loaded
   :commands (tsi-typescript-mode tsi-json-mode tsi-css-mode)
@@ -1045,6 +1002,7 @@
     scala-mode
     purescript-mode
     javascript-mode
+    typescript-mode
     typescriptreact-mode
     csharp-mode
     ) . lsp-deferred)
