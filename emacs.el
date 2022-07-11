@@ -45,8 +45,8 @@
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq-default gc-cons-threshold 100000000)
 (setq-default read-process-output-max (* 1024 1024)) ;; 1mb
-(add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font Mono 14"))
-(set-face-attribute 'default t :font "Iosevka Nerd Font Mono 14")
+(add-to-list 'default-frame-alist '(font . "Sarasa Mono TC 14"))
+(set-face-attribute 'default t :font "Sarasa Mono TC 14")
 (set-default-coding-systems 'utf-8)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -321,9 +321,6 @@
   ;; Optionally tweak the register preview window.
   ;; This adds thin lines, sorting and hides the mode line of the window.
   (advice-add #'register-preview :override #'consult-register-window)
-
-  ;; Optionally replace `completing-read-multiple' with an enhanced version.
-  (advice-add #'completing-read-multiple :override #'consult-completing-read-multiple)
 
   ;; Use Consult to select xref locations with preview
   (setq xref-show-xrefs-function #'consult-xref
@@ -707,6 +704,7 @@
       (sql . t)))
   (setq org-ellipsis " ▾"
     org-hide-emphasis-markers t
+    org-startup-indented t
     org-src-fontify-natively t
     org-src-tab-acts-natively t
     org-confirm-babel-evaluate nil
@@ -722,26 +720,31 @@
     org-log-done 'note
     org-log-into-drawer t
     org-habit-show-habits-only-for-today t
-    org-todo-keywords
-      '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)"))
+		org-todo-keywords '(
+      (sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+			(sequence "BACKLOG(b)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|"
+                "DELEGATED(D)" "CANCELLED(c)"))
     org-archive-location "~/.org/archive.org::* From %s"
-    org-agenda-files '("~/.org/gtd.org")
+    org-agenda-files '("~/.org/gtd.org" "~/.org/someday.org")
+    org-agenda-include-diary t
     org-latex-listings 'minted
     org-latex-packages-alist '(("" "minted"))
     org-latex-pdf-process
       '("pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
+        "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
         "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f")
     org-capture-templates
-      '(("a" "Actions" entry (file+headline "~/.org/actions.org" "GTD Actions")
-          "* %?\n%T")
-        ("h" "Habit" entry (file+headline "~/.org/habit.org" "Habit")
-          "* %?\n%T")
-        ("o" "Habit Observations" entry (file+headline "~/.org/habit_observations.org" "Habit Observations")
-          "* %?\n%T")
+      '(("i" "Inbox" entry (file "~/.org/inbox.org"))
+		    ("t" "Todo" entry (file+headline "~/.org/gtd.org" "Tasks")
+		     "* TODO %?\n  %i\n  %a")
+		    ("s" "Someday" entry (file "~/.org/someday.org")
+		     "* TODO %?\n  %i\n  %a")
         ("r" "Reading" entry (file "~/.org/reading.org")
           "* %?\n%T")
-         )
-    )
+		    ("r" "Roam node" function #'org-roam-capture)
+		    ("j" "Journal: Today" function #'org-roam-dailies-capture-today)
+		    ("J" "Journal: Tomorrow" function #'org-roam-dailies-capture-tomorrow)
+		    ("d" "Journal: Date" function #'org-roam-dailies-capture-date)))
 
   (use-package org-contrib
     :ensure t)
@@ -1177,4 +1180,6 @@
                 (shell-command-to-string "agda-mode locate")))
 
 (use-package writeroom-mode
-  :ensure t)
+  :ensure t
+  :config
+  (setq writeroom-width 0.5))
