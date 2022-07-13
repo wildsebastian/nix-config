@@ -60,6 +60,7 @@
 (setq display-line-numbers-type 'relative)
 (fset 'yes-or-no-p 'y-or-n-p)
 (show-paren-mode t)
+(setq-default fill-column 80)
 (setq-default
   auto-save-interval 60)
 
@@ -212,6 +213,7 @@
     "=" '(ace-window :which-key "ace-window")
     "x" '(execute-extended-command :which-key "M-x")
     "q" '(save-buffers-kill-terminal :which-key "quit emacs")
+    "#" '(comment-dwim :which-key "add/remove comment")
 
     ;; Applications
     "a" '(nil :which-key "applications")
@@ -741,7 +743,7 @@
 		     "* TODO %?\n  %i\n  %a")
         ("r" "Reading" entry (file "~/.org/reading.org")
           "* %?\n%T")
-		    ("r" "Roam node" function #'org-roam-capture)
+		    ("n" "Roam node" function #'org-roam-capture)
 		    ("j" "Journal: Today" function #'org-roam-dailies-capture-today)
 		    ("J" "Journal: Tomorrow" function #'org-roam-dailies-capture-tomorrow)
 		    ("d" "Journal: Date" function #'org-roam-dailies-capture-date)))
