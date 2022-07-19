@@ -869,7 +869,8 @@
   (add-to-list 'tree-sitter-major-mode-language-alist '(haskell-mode . haskell))
   (require 'haskell-doc)
   ;; hoogle setup
-  (setq haskell-hoogle-port-number 8181)
+  (setq haskell-hoogle-command "hoogle")
+  (setq haskell-hoogle-port-number 8100)
   (setq haskell-hoogle-server-command (lambda (port) (list
                                         "hoogle"
                                         "server"
@@ -879,7 +880,7 @@
                                         "--local"
                                         "--haskell"
                                         "-n")))
-  (setq haskell-hoogle-url "http://127.0.0.1:8181/?hoogle=%s")
+  (setq haskell-hoogle-url "http://127.0.0.1:8100/?hoogle=%s")
   )
 
 (use-package purescript-mode
