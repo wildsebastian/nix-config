@@ -254,6 +254,9 @@
     ;; org-roam
     "o" '(nil :which-key "org")
     "oc" '(org-capture :which-key "org capture")
+    "ojd" '(org-roam-dailies-capture-today :which-key "journal today")
+    "ojt" '(org-roam-dailies-capture-tomorrow :which-key "journal tomorrow")
+    "ojy" '(org-roam-dailies-capture-yesterday :which-key "journal yesterday")
     "or" '(nil :which-key "org roam")
     "orc" '(org-roam-capture :which-key "org roam capture")
     "ori" '(org-roam-node-insert :which-key "org roam insert")
@@ -415,7 +418,9 @@
         #'command-completion-default-include-p)
 
   ;; Enable recursive minibuffers
-  (setq enable-recursive-minibuffers t))
+  (setq enable-recursive-minibuffers t)
+  ;; Auto reload buffer when the file on disk changes
+  (setq global-auto-revert-mode t))
 
 (use-package marginalia
   :ensure t
@@ -496,6 +501,12 @@
   :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
   :init
   (all-the-icons-completion-mode))
+
+(use-package dirvish
+  :ensure t
+  :init
+  ;; Let Dirvish take over Dired globally
+  (dirvish-override-dired-mode))
 
 (use-package perspective
   :ensure t
@@ -742,11 +753,7 @@
 		    ("s" "Someday" entry (file "~/.org/someday.org")
 		     "* TODO %?\n  %i\n  %a")
         ("r" "Reading" entry (file "~/.org/reading.org")
-          "* %?\n%T")
-		    ("n" "Roam node" function #'org-roam-capture)
-		    ("j" "Journal: Today" function #'org-roam-dailies-capture-today)
-		    ("J" "Journal: Tomorrow" function #'org-roam-dailies-capture-tomorrow)
-		    ("d" "Journal: Date" function #'org-roam-dailies-capture-date)))
+          "* %?\n%T")))
 
   (use-package org-contrib
     :ensure t)
@@ -788,7 +795,6 @@
          :if-new (file+head "%<%Y-%m-%d>.org"
                             "#+title: %<%Y-%m-%d>\n")))))
 
-
 (use-package org-roam-ui
   :ensure t
   :after org-roam
@@ -806,8 +812,14 @@
   :custom
   (citar-bibliography '("~/bib/references.bib")))
 
+(use-package org-auto-tangle
+  :ensure t
+  :after org
+  :hook (org-mode . org-auto-tangle-mode))
+
 ;; Modes that are loaded under certain circumstances
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+(add-hook 'org-mode-hook #'display-fill-column-indicator-mode)
 (set-face-foreground 'fill-column-indicator "red")
 (add-hook 'prog-mode-hook #'company-mode)
 
