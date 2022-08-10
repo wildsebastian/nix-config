@@ -608,6 +608,9 @@
       "--features" "magit-delta"
       "--color-only")))
 
+(use-package magit-todos
+  :ensure t)
+
 (use-package forge
   :ensure t
   :after magit)
@@ -751,9 +754,7 @@
 		    ("t" "Todo" entry (file+headline "~/.org/gtd.org" "Tasks")
 		     "* TODO %?\n  %i\n  %a")
 		    ("s" "Someday" entry (file "~/.org/someday.org")
-		     "* TODO %?\n  %i\n  %a")
-        ("r" "Reading" entry (file "~/.org/reading.org")
-          "* %?\n%T")))
+		     "* TODO %?\n  %i\n  %a")))
 
   (use-package org-contrib
     :ensure t)
@@ -1028,6 +1029,7 @@
     typescript-mode
     typescriptreact-mode
     csharp-mode
+    php-mode
     ) . lsp-deferred)
   (lsp-mode . lsp-enable-which-key-integration)
   (before-save . lsp-format-buffer)
