@@ -2,10 +2,13 @@
 
 {
   nix = {
-    binaryCachePublicKeys = [ "nix-cache:voABK2fsjF4bXgwIt2+iFymykxhT0Gk60XWAs7uoP+Y=" ];
-    binaryCaches = [ s3://nix-cache?profile=nix-cache&scheme=https&endpoint=fra1.digitaloceanspaces.com ];
-    trustedBinaryCaches = [ s3://nix-cache?profile=nix-cache&scheme=https&endpoint=fra1.digitaloceanspaces.com ];
-    trustedUsers = [ "@admin" "@sebastian" ];
+    settings = {
+      trusted-substituters = [ s3://nix-cache?profile=nix-cache&scheme=https&endpoint=fra1.digitaloceanspaces.com ];
+      trusted-users = [ "@admin" "@sebastian" ];
+      trusted-public-keys = [ "nix-cache:voABK2fsjF4bXgwIt2+iFymykxhT0Gk60XWAs7uoP+Y=" ];
+      require-sigs = true;
+    };
+    configureBuildUsers = true;
   };
 
   networking = {
@@ -59,7 +62,4 @@
 
     stateVersion = 4;
   };
-
-  # Auto upgrade nix package and the daemon service.
-  users.nix.configureBuildUsers = true;
 }

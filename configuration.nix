@@ -14,9 +14,11 @@ in
   [ ./pi4/config.nix ]);
 
   nix = {
+    settings = {
+      cores = 2;
+      max-jobs = 2;
+    };
     package = pkgs.nix;
-    maxJobs = 2;
-    buildCores = 2;
     gc = {
       automatic = true;
       options = "--delete-older-than 30d";
@@ -33,7 +35,6 @@ in
     ] else [
       "nixos-config=/etc/nixos/configuration.nix"
     ]);
-    requireSignedBinaryCaches = true;
   };
 
   nixpkgs = {
