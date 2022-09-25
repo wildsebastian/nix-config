@@ -1,66 +1,264 @@
 { config, pkgs, lib, ... }:
 
-  let
-    user = "sebastian";
-    passwordHash = "$6$1OkN.2NSh$oGkKmBKy8rhND5Q/rE7.WYWOWHx.BUR61lxEomMQHZ0Q1EmOYzpaWZ6ilr9q8kuE289zHwvddEy.4Y.IvwXu51";
-    SSID = "Sicilia";
-    SSIDpassword = "naEN6XXe68^k{83CieC=%%ybstxVah>rVwqufhJtqXf$4D%p=9dVL7Qx(hB7wp3";
-    interface = "wlan0";
-    hostname = "rpi4-0";
-  in {
-    imports = ["${fetchTarball "https://github.com/NixOS/nixos-hardware/archive/936e4649098d6a5e0762058cb7687be1b2d90550.tar.gz" }/raspberry-pi/4"];
+{
+  imports = [
+    ../modules/tmux.nix
+    ../modules/zsh.nix
+  ];
 
-    fileSystems = {
-      "/" = {
-        device = "/dev/disk/by-label/NIXOS_SD";
-        fsType = "ext4";
-        options = [ "noatime" ];
+  nix = {
+    settings = {
+      max-jobs = 2;
+      cores = 2;
+      require-sigs = true;
+      experimental-features = [ "nix-command" "flakes" ];
+    };
+    package = pkgs.nix;
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 30d";
+    };
+    extraOptions = ''
+      gc-keep-derivations = true
+      gc-keep-outputs = true
+    '';
+    nixPath = [
+      "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
+      "nixos-config=/etc/nixos/configuration.nix"
+      "/nix/var/nix/profiles/per-user/root/channels"
+    ];
+  };
+
+  nixpkgs = {
+    config.allowUnfree = true;
+    config.allowBroken = true;
+    config.allowUnsupportedSystem = true;
+    overlays = [
+      (import ../overlays/haskell.nix)
+      (import ../overlays/packages.nix)
+      (import ../overlays/python.nix)
+    ];
+  };
+
+  environment = {
+    systemPackages = import ./packages.nix { inherit pkgs; };
+    variables.LANG = "en_US.UTF-8";
+    variables.LC_ALL = "en_US.UTF-8";
+  };
+
+  fonts = {
+    fontDir.enable = true;
+    fonts = [ pkgs.jetbrains-mono pkgs.nerdfonts ];
+  };
+
+  time.timeZone = "Europe/Berlin";
+
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-label/NIXOS_SD";
+      fsType = "ext4";
+      options = [ "noatime" ];
+    };
+  };
+
+  networking = {
+    hostName = "pi4-0";
+    wireless = {
+      enable = false;
+    };
+    interfaces.eth0.ipv4.addresses = [{
+      address = "192.168.178.3";
+      prefixLength = 24;
+    }];
+    defaultGateway = "192.168.178.1";
+    nameservers = [ "192.168.178.3" "1.1.1.1" ];
+    firewall.interfaces.eth0 = {
+      allowedTCPPorts = [ 22 53 80 3000 8000 2375 2379 2380 5432 6379 6443 ];
+      allowedUDPPorts = [ 53 67 ];
+      allowedUDPPortRanges = [ { from = 60000; to = 61000; } ];
+    };
+  };
+
+  system.stateVersion = "22.05";
+
+  programs = {
+    mosh.enable = true;
+    zsh = {
+      enable = true;
+      histSize = 10000;
+    };
+  };
+  services = {
+    nginx = {
+      enable = true;
+      virtualHosts."192.168.178.3" = {
+        enableACME = false;
+        enableSSL = false;
+        locations."/" = {
+          proxyPass = "http://192.168.178.3:3000";
+        };
+        locations."/pihole/" = {
+          proxyPass = "http://192.168.178.3:8000/admin/";
+        };
       };
     };
-
-    networking = {
-      hostName = hostname;
-      wireless = {
-        enable = true;
-        networks."${SSID}".psk = SSIDpassword;
-        interfaces = [ interface ];
-      };
+    grafana = {
+      addr = "192.168.178.3";
+      domain = "192.168.178.3";
+      enable = true;
+      port = 3000;
+      protocol = "http";
+      dataDir = "/var/lib/grafana";
     };
-
-    environment.systemPackages = with pkgs; [ git starship vim ];
-
-    nix = {
-      autoOptimiseStore = true;
-      # Free up to 1GiB whenever there is less than 100MiB left.
-      extraOptions = ''
-        min-free = ${toString (100 * 1024 * 1024)}
-        max-free = ${toString (1024 * 1024 * 1024)}
+    k3s = {
+      enable = true;
+      role = "server";
+      disableAgent = true;
+    };
+    openssh.enable = true;
+    prometheus = {
+      enable = true;
+      port = 9001;
+      exporters = {
+  node = {
+          enable = true;
+    enabledCollectors = [ "systemd" "processes" ];
+    port = 9002;
+  };
+        blackbox = {
+          enable = true;
+          enableConfigCheck = true;
+          port = 9003;
+          configFile = ./blackbox.yaml;
+        };
+        postgres = {
+          enable = true;
+          port = 9004;
+        };
+        redis = {
+          enable = true;
+          port = 9005;
+        };
+};
+      scrapeConfigs = [{
+        job_name = "node";
+        static_configs = [{
+          targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.node.port}" ];
+        }];
+        scrape_interval = "15s";
+      } {
+        job_name = "blackbox";
+        params.module = [ "icmp_ipv4" ];
+        metrics_path = "/probe";
+        scrape_interval = "15s";
+        static_configs = [{
+          targets = [ "1.1.1.2" "1.0.0.2" ];
+        }];
+        relabel_configs = [{
+          source_labels = [ "__address__" ];
+          target_label = "__param_target";
+        } {
+          source_labels = [ "__param_target" ];
+          target_label = "instance";
+        } {
+          target_label = "__address__";
+          replacement = "127.0.0.1:9003";
+        }];
+      } {
+        job_name = "blackbox-http";
+        params.module = [ "http_2xx" ];
+        metrics_path = "/probe";
+        scrape_interval = "15s";
+        static_configs = [{
+          targets = [ "https://wildsebastian.eu" ];
+        }];
+        relabel_configs = [{
+          source_labels = [ "__address__" ];
+          target_label = "__param_target";
+        } {
+          source_labels = [ "__param_target" ];
+          target_label = "instance";
+        } {
+          target_label = "__address__";
+          replacement = "127.0.0.1:9003";
+        }];
+      } {
+        job_name = "postgres";
+        static_configs = [{
+          targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.postgres.port}" ];
+        }];
+        scrape_interval = "15s";
+      } {
+        job_name = "redis";
+        static_configs = [{
+          targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.redis.port}" ];
+        }];
+        scrape_interval = "15s";
+      } {
+        job_name = "cadvisor";
+        static_configs = [{
+          targets = [ "127.0.0.1:${toString config.services.cadvisor.port}" ];
+        }];
+        scrape_interval = "15s";
+      }];
+    };
+    loki = {
+      enable = true;
+      configFile = ./loki.yaml;
+    };
+    postgresql = {
+      enable = true;
+      package = pkgs.postgresql_14;
+      enableTCPIP = true;
+      checkConfig = true;
+      extraPlugins = with pkgs.postgresql_14.pkgs; [ postgis ];
+      authentication = ''
+        local   all             all                                     trust
+        host    all             all             192.168.178.0/24        scram-sha-256
+        host    replication     all             192.168.178.0/24       scram-sha-256
       '';
     };
-
-    powerManagement.cpuFreqGovernor = "ondemand";
-
-    services = {
-      openssh = {
-        enable = true;
+    redis = {
+      servers = {
+        pi4 = {
+          bind = "0.0.0.0";
+          enable = true;
+          openFirewall = true;
+          port = 6379;
+        };
       };
     };
+  };
 
-    users = {
-      mutableUsers = false;
-      users."${user}" = {
-        isNormalUser = true;
-        hashedPassword = passwordHash;
-        extraGroups = [ "wheel" "docker" ];
-        openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5ivHP+Az4mJC2eKpV5ALZFnoa1bMCr2CEY6r9ErM6nlGLZ159ec9HGf06IHXvk0kFmtrWeaT4CKY5LdZubHyTnIzeGgDRX8J47qcKl2NG0dScVebX/EF7kXIA15t8ek6hbPvkXNq0ORYWyaIfALr17vxMZ8oET+lBadNGZBTm67pHno0y/kS5nS2lei0izR2rO0m/an5yZ7DXJzuzx8VVL1OaYgHpa9Mv1lviyuIWnQdDG/ohTPVIEkDMqAQoUzzEDUUgR78pHgyRR+QFkA6JCe+w/V9rKvpGHQ2dV8IImyWniX/V7bupmSKdSBES/bUzhC2scBhwVvKq/XJ9lNet sebastian@desktop" ];
-        defaultUserShell = pkgs.zsh;
-      };
+  systemd.services.promtail = {
+    description = "Promtail service for Loki";
+    wantedBy = [ "multi-user.target" ];
+
+    serviceConfig = {
+      ExecStart = ''
+        ${pkgs.grafana-loki}/bin/promtail --config.file ${./promtail.yaml}
+      '';
     };
+  };
 
-    # Enable GPU acceleration
-    hardware.raspberry-pi."4".fkms-3d.enable = true;
+  users = {
+    users.sebastian = {
+      isNormalUser = true;
+      extraGroups = [ "wheel" "docker" ];
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDdFv1ZT9EzT2mrapiucBoe83vJDwRuBri245aYL+dmI sebastian@monad"
+      ];
+      shell = pkgs.zsh;
+    };
+  };
 
-    hardware.pulseaudio.enable = true;
+  # Enable GPU acceleration
+  hardware.raspberry-pi."4".fkms-3d.enable = true;
 
-    virtualisation.docker.enable = true;
-  }
+  hardware.pulseaudio.enable = false;
+
+  virtualisation.docker = {
+    enable = true;
+    listenOptions = [ "/run/docker.sock" ];
+  };
+}

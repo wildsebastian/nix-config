@@ -41,6 +41,7 @@ with pkgs; [
   neofetch
   neovim
   ngrok
+  nix-direnv
   nushell
   openssl_1_1
   procs

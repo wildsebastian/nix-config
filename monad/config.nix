@@ -11,6 +11,9 @@
     systemPackages = import ./packages.nix { inherit pkgs; };
     variables.LANG = "en_US.UTF-8";
     variables.LC_ALL = "en_US.UTF-8";
+    pathsToLink = [
+      "/share/nix-direnv"
+    ];
   };
 
   fonts = {
@@ -27,6 +30,8 @@
     extraOptions = ''
       gc-keep-derivations = true
       gc-keep-outputs = true
+      keep-outputs = true
+      keep-derivations = true
     '';
     gc = {
       automatic = true;
@@ -45,8 +50,10 @@
     config.allowBroken = true;
     config.allowUnsupportedSystem = true;
     overlays = [
-      # (import ../overlays/emacs-overlay/default.nix)
       emacs.overlay
+      (self: super: {
+        nix-direnv = super.nix-direnv.override { enableFlakes = true; };
+      })
       (import ../overlays/haskell.nix)
       (import ../overlays/packages.nix)
       (import ../overlays/python.nix)

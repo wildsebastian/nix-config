@@ -14,7 +14,8 @@ nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
 ```
 
 This creates an example config in `~/.nixpkgs/darwin-configuration` and bootstraps the system.
-Afterwards we can clone this repository and build the system using nix flakes.
+Afterwards we can clone this repository and build the system using nix flakes. You can omit the
+path to flake if you are in the directory already.
 ```sh
 darwin-rebuild switch --flake <path_to_flake>/.#
 ```
