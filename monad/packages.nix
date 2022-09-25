@@ -1,27 +1,8 @@
 { pkgs ? import <nixpkgs> {} }:
 
-let
-  localconfig = import ./local.nix;
-  server_packages = with pkgs;
-  if localconfig.hostname == "Nixpkgs" then
-  [
-    adoptopenjdk-jre-openj9-bin-11
-    jenkins
-  ]
-  else
-    [];
-  pi4_packages = with pkgs;
-  if localconfig.system == "pi" then
-  [
-    libraspberrypi
-    docker-compose
-  ]
-  else
-    [];
-in
 with pkgs; [
-  agda
-  (import ./emacs.nix { inherit pkgs; })
+  # agda
+  (import ../modules/emacs/emacs.nix { inherit pkgs; })
 
   diffstat
   diffutils
@@ -55,7 +36,6 @@ with pkgs; [
   htop
   imgcat
   jq
-  macchina
   minify
   mosh
   neofetch
@@ -63,7 +43,7 @@ with pkgs; [
   ngrok
   nushell
   openssl_1_1
-  # procs
+  procs
   python39
   ripgrep
   sd
@@ -71,4 +51,4 @@ with pkgs; [
   starship
   tokei
   wget2
-] ++ server_packages ++ pi4_packages
+]

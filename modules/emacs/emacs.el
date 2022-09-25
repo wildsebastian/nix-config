@@ -6,8 +6,8 @@
     ("org" . "https://orgmode.org/elpa/")
     ("elpa" . "https://elpa.gnu.org/packages/")))
 
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
+;; (setq custom-file "~/.emacs.d/custom.el")
+;; (load custom-file)
 
 ;;(package-initialize 'noactivate)
 (eval-when-compile
@@ -90,18 +90,18 @@
   :ensure t)
 
 ;; Modes that are always active
-;; (use-package doom-themes
-;;   :ensure t
-;;   :config
-;;   (load-theme 'doom-nord t))
+(use-package doom-themes
+  :ensure t
+  :config
+  (load-theme 'doom-nord t))
 
-(use-package mindre-theme
-    :ensure t
-    :custom
-    (mindre-use-more-bold nil)
-    (mindre-use-faded-lisp-parens t)
-    :config
-    (load-theme 'mindre t))
+;; (use-package mindre-theme
+;;     :ensure t
+;;     :custom
+;;     (mindre-use-more-bold nil)
+;;     (mindre-use-faded-lisp-parens t)
+;;     :config
+;;     (load-theme 'mindre t))
 
 (use-package editorconfig
   :ensure t
@@ -561,7 +561,7 @@
   (dashboard-setup-startup-hook)
   (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
   (setq dashboard-banner-logo-title "Welcome Sebastian")
-  (setq dashboard-startup-banner "~/logo_256.png")
+  (setq dashboard-startup-banner "~/logo256.png")
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
   (setq dashboard-items '((projects . 10) (agenda . 10))))
@@ -740,8 +740,8 @@
       (sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
 			(sequence "BACKLOG(b)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|"
                 "DELEGATED(D)" "CANCELLED(c)"))
-    org-archive-location "~/.org/archive.org::* From %s"
-    org-agenda-files '("~/.org/gtd.org" "~/.org/someday.org")
+    org-archive-location "~/appunti/archive.org::* From %s"
+    org-agenda-files '("~/appunti/gtd.org" "~/appunti/someday.org")
     org-agenda-include-diary t
     org-latex-listings 'minted
     org-latex-packages-alist '(("" "minted"))
@@ -750,10 +750,10 @@
         "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
         "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f")
     org-capture-templates
-      '(("i" "Inbox" entry (file "~/.org/inbox.org"))
-		    ("t" "Todo" entry (file+headline "~/.org/gtd.org" "Tasks")
+      '(("i" "Inbox" entry (file "~/appunti/inbox.org"))
+		    ("t" "Todo" entry (file+headline "~/appunti/gtd.org" "Tasks")
 		     "* TODO %?\n  %i\n  %a")
-		    ("s" "Someday" entry (file "~/.org/someday.org")
+		    ("s" "Someday" entry (file "~/appunti/someday.org")
 		     "* TODO %?\n  %i\n  %a")))
 
   (use-package org-contrib
@@ -788,8 +788,8 @@
   :hook
   (after-init . org-roam-setup)
   :custom
-  (org-roam-directory (file-truename "~/.org/thoughts/"))
-  (org-roam-dailies-directory "~/.org/journal/")
+  (org-roam-directory (file-truename "~/appunti/thoughts/"))
+  (org-roam-dailies-directory "~/appunti/journal/")
   (org-roam-dailies-capture-templates
     '(("d" "default" entry
          "* %?"
@@ -899,10 +899,10 @@
       (flycheck-mode)
       (turn-on-purescript-indentation))))
 
-(use-package agda2-mode
-  :ensure t
-  :mode
-  ("\\.agda\\'" . agda2-mode))
+;; (use-package agda2-mode
+;;   :ensure t
+;;   :mode
+;;   ("\\.agda\\'" . agda2-mode))
 
 (use-package yaml-mode
   :ensure t
@@ -1193,10 +1193,32 @@
   (eshell-toggle-run-command nil)
   (eshell-toggle-init-function #'eshell-toggle-init-eshell))
 
-(load-file (let ((coding-system-for-read 'utf-8))
-                (shell-command-to-string "agda-mode locate")))
+;; (load-file (let ((coding-system-for-read 'utf-8))
+;;                 (shell-command-to-string "agda-mode locate")))
 
 (use-package writeroom-mode
   :ensure t
   :config
   (setq writeroom-width 0.5))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+    '(yasnippet-snippets yaml-mode writeroom-mode which-key web-mode vterm-toggle vertico undo-tree typescript-mode tree-sitter-langs tree-sitter-indent tramp terraform-mode scss-mode sbt-mode rustic rg quelpa-use-package purescript-mode psc-ide proof-general projectile php-mode perspective org-roam-ui org-modern org-contrib org-auto-tangle orderless ob-restclient nix-mode multi-vterm mindre-theme marginalia magit-todos magit-delta lsp-ui lsp-pyright lsp-metals lsp-haskell idris-mode git-gutter-fringe general format-all forge flycheck-haskell evil-surround evil-org evil-goggles evil-collection eshell-vterm eshell-toggle eshell-git-prompt envrc embark-consult ein editorconfig doom-modeline dockerfile-mode docker dirvish csharp-mode corfu consult-yasnippet company-coq company-box citar cape blamer all-the-icons-completion affe tsi dashboard)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(blamer-face ((t :foreground "#7a88cf" :background nil :height 140 :italic t)))
+ '(evil-goggles-change-face ((t (:inherit diff-removed))))
+ '(evil-goggles-delete-face ((t (:inherit diff-removed))))
+ '(evil-goggles-paste-face ((t (:inherit diff-added))))
+ '(evil-goggles-undo-redo-add-face ((t (:inherit diff-added))))
+ '(evil-goggles-undo-redo-change-face ((t (:inherit diff-changed))))
+ '(evil-goggles-undo-redo-remove-face ((t (:inherit diff-removed))))
+ '(evil-goggles-yank-face ((t (:inherit diff-changed))))
+ '(mode-line ((t (:height 1.0))))
+ '(mode-line-inactive ((t (:height 1.0)))))

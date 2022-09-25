@@ -52,4 +52,3 @@ flycheck_*.el
 
 Makefile
 tags
-local.nix
