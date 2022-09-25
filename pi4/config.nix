@@ -75,7 +75,7 @@
     firewall.interfaces.eth0 = {
       allowedTCPPorts = [ 22 53 80 3000 8000 2375 2379 2380 5432 6379 6443 ];
       allowedUDPPorts = [ 53 67 ];
-      allowedUDPPortRanges = [ { from = 60000; to = 61000; } ];
+      allowedUDPPortRanges = [{ from = 60000; to = 61000; }];
     };
   };
 
@@ -120,11 +120,11 @@
       enable = true;
       port = 9001;
       exporters = {
-  node = {
+        node = {
           enable = true;
-    enabledCollectors = [ "systemd" "processes" ];
-    port = 9002;
-  };
+          enabledCollectors = [ "systemd" "processes" ];
+          port = 9002;
+        };
         blackbox = {
           enable = true;
           enableConfigCheck = true;
@@ -139,68 +139,77 @@
           enable = true;
           port = 9005;
         };
-};
+      };
       scrapeConfigs = [{
         job_name = "node";
         static_configs = [{
           targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.node.port}" ];
         }];
         scrape_interval = "15s";
-      } {
-        job_name = "blackbox";
-        params.module = [ "icmp_ipv4" ];
-        metrics_path = "/probe";
-        scrape_interval = "15s";
-        static_configs = [{
-          targets = [ "1.1.1.2" "1.0.0.2" ];
+      }
+        {
+          job_name = "blackbox";
+          params.module = [ "icmp_ipv4" ];
+          metrics_path = "/probe";
+          scrape_interval = "15s";
+          static_configs = [{
+            targets = [ "1.1.1.2" "1.0.0.2" ];
+          }];
+          relabel_configs = [{
+            source_labels = [ "__address__" ];
+            target_label = "__param_target";
+          }
+            {
+              source_labels = [ "__param_target" ];
+              target_label = "instance";
+            }
+            {
+              target_label = "__address__";
+              replacement = "127.0.0.1:9003";
+            }];
+        }
+        {
+          job_name = "blackbox-http";
+          params.module = [ "http_2xx" ];
+          metrics_path = "/probe";
+          scrape_interval = "15s";
+          static_configs = [{
+            targets = [ "https://wildsebastian.eu" ];
+          }];
+          relabel_configs = [{
+            source_labels = [ "__address__" ];
+            target_label = "__param_target";
+          }
+            {
+              source_labels = [ "__param_target" ];
+              target_label = "instance";
+            }
+            {
+              target_label = "__address__";
+              replacement = "127.0.0.1:9003";
+            }];
+        }
+        {
+          job_name = "postgres";
+          static_configs = [{
+            targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.postgres.port}" ];
+          }];
+          scrape_interval = "15s";
+        }
+        {
+          job_name = "redis";
+          static_configs = [{
+            targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.redis.port}" ];
+          }];
+          scrape_interval = "15s";
+        }
+        {
+          job_name = "cadvisor";
+          static_configs = [{
+            targets = [ "127.0.0.1:${toString config.services.cadvisor.port}" ];
+          }];
+          scrape_interval = "15s";
         }];
-        relabel_configs = [{
-          source_labels = [ "__address__" ];
-          target_label = "__param_target";
-        } {
-          source_labels = [ "__param_target" ];
-          target_label = "instance";
-        } {
-          target_label = "__address__";
-          replacement = "127.0.0.1:9003";
-        }];
-      } {
-        job_name = "blackbox-http";
-        params.module = [ "http_2xx" ];
-        metrics_path = "/probe";
-        scrape_interval = "15s";
-        static_configs = [{
-          targets = [ "https://wildsebastian.eu" ];
-        }];
-        relabel_configs = [{
-          source_labels = [ "__address__" ];
-          target_label = "__param_target";
-        } {
-          source_labels = [ "__param_target" ];
-          target_label = "instance";
-        } {
-          target_label = "__address__";
-          replacement = "127.0.0.1:9003";
-        }];
-      } {
-        job_name = "postgres";
-        static_configs = [{
-          targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.postgres.port}" ];
-        }];
-        scrape_interval = "15s";
-      } {
-        job_name = "redis";
-        static_configs = [{
-          targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.redis.port}" ];
-        }];
-        scrape_interval = "15s";
-      } {
-        job_name = "cadvisor";
-        static_configs = [{
-          targets = [ "127.0.0.1:${toString config.services.cadvisor.port}" ];
-        }];
-        scrape_interval = "15s";
-      }];
     };
     loki = {
       enable = true;

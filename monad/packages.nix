@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import <nixpkgs> { } }:
 
 with pkgs; [
   # agda
@@ -19,7 +19,7 @@ with pkgs; [
 
   alacritty
   autossh
-  (aspellWithDicts (d: [d.de d.en d.it]))
+  (aspellWithDicts (d: [ d.de d.en d.it ]))
   bat
   bottom
   cabal2nix

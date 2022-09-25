@@ -1,5 +1,12 @@
-{ mkDerivation, base, fetchgit, mtl, parsec, stdenv, tasty
-, tasty-hunit, text
+{ mkDerivation
+, base
+, fetchgit
+, mtl
+, parsec
+, stdenv
+, tasty
+, tasty-hunit
+, text
 }:
 mkDerivation {
   pname = "jira-wiki-markup";

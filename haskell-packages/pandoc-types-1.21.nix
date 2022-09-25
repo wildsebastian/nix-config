@@ -1,7 +1,22 @@
-{ mkDerivation, aeson, base, bytestring, containers, criterion
-, deepseq, fetchgit, ghc-prim, HUnit, QuickCheck, stdenv, string-qq
-, syb, test-framework, test-framework-hunit
-, test-framework-quickcheck2, text, transformers
+{ mkDerivation
+, aeson
+, base
+, bytestring
+, containers
+, criterion
+, deepseq
+, fetchgit
+, ghc-prim
+, HUnit
+, QuickCheck
+, stdenv
+, string-qq
+, syb
+, test-framework
+, test-framework-hunit
+, test-framework-quickcheck2
+, text
+, transformers
 }:
 mkDerivation {
   pname = "pandoc-types";
@@ -13,12 +28,30 @@ mkDerivation {
     fetchSubmodules = true;
   };
   libraryHaskellDepends = [
-    aeson base bytestring containers deepseq ghc-prim QuickCheck syb
-    text transformers
+    aeson
+    base
+    bytestring
+    containers
+    deepseq
+    ghc-prim
+    QuickCheck
+    syb
+    text
+    transformers
   ];
   testHaskellDepends = [
-    aeson base bytestring containers HUnit QuickCheck string-qq syb
-    test-framework test-framework-hunit test-framework-quickcheck2 text
+    aeson
+    base
+    bytestring
+    containers
+    HUnit
+    QuickCheck
+    string-qq
+    syb
+    test-framework
+    test-framework-hunit
+    test-framework-quickcheck2
+    text
   ];
   benchmarkHaskellDepends = [ base criterion text ];
   homepage = "https://pandoc.org/";

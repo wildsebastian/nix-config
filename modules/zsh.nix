@@ -55,20 +55,20 @@
   '';
 
   environment.shellAliases = {
-    cat         = "bat";
-    drs         = "darwin-rebuild switch";
-    du          = "dust";
-    ec          = "nohup emacsclient -c & disown";
-    em          = "nohup emacs & disown";
-    gf          = "git fetch";
-    gg          = "git log --color --graph";
-    gl          = "git log --color -32";
-    grbm        = "git rebase origin/master";
-    gst         = "git status";
-    ls          = "exa";
-    nixs        = "nix-env -f '<nixpkgs>' -qaP | grep";
-    ps          = "procs";
-    vim         = "nvim";
-    wget        = "wget2";
+    cat = "bat";
+    drs = "darwin-rebuild switch";
+    du = "dust";
+    ec = "nohup emacsclient -c & disown";
+    em = "nohup emacs & disown";
+    gf = "git fetch";
+    gg = "git log --color --graph";
+    gl = "git log --color -32";
+    grbm = "git rebase origin/master";
+    gst = "git status";
+    ls = "exa";
+    nixs = "nix-env -f '<nixpkgs>' -qaP | grep";
+    ps = "procs";
+    vim = "nvim";
+    wget = "wget2";
   };
 }

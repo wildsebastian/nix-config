@@ -1,5 +1,11 @@
-{ mkDerivation, base, binary, bytestring, containers, fetchgit
-, skylighting-core, stdenv
+{ mkDerivation
+, base
+, binary
+, bytestring
+, containers
+, fetchgit
+, skylighting-core
+, stdenv
 }:
 mkDerivation {
   pname = "skylighting";
@@ -14,7 +20,11 @@ mkDerivation {
   isLibrary = true;
   isExecutable = true;
   libraryHaskellDepends = [
-    base binary bytestring containers skylighting-core
+    base
+    binary
+    bytestring
+    containers
+    skylighting-core
   ];
   homepage = "https://github.com/jgm/skylighting";
   description = "syntax highlighting library";

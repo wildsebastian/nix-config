@@ -28,5 +28,5 @@
     bind L resize-pane -R 5
 
     run-shell "~/.tmux/themes/nord-tmux/nord.tmux"
-    '';
+  '';
 }

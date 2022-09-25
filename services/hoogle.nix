@@ -11,7 +11,8 @@ let
     paths = [ (cfg.haskellPackages.ghcWithHoogle cfg.packages) ];
   };
 
-in {
+in
+{
 
   options.services.hoogle = {
     enable = mkOption {
@@ -30,7 +31,7 @@ in {
 
     packages = mkOption {
       # type = types.functionTo (types.listOf types.package);
-      default = hp: [];
+      default = hp: [ ];
       defaultText = literalExpression "hp: []";
       example = literalExpression "hp: with hp; [ text lens ]";
       description = ''

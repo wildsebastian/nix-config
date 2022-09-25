@@ -1,5 +1,11 @@
-{ mkDerivation, base, bytestring, directory, fetchgit, filepath
-, stdenv, template-haskell
+{ mkDerivation
+, base
+, bytestring
+, directory
+, fetchgit
+, filepath
+, stdenv
+, template-haskell
 }:
 mkDerivation {
   pname = "file-embed";
@@ -11,7 +17,11 @@ mkDerivation {
     fetchSubmodules = true;
   };
   libraryHaskellDepends = [
-    base bytestring directory filepath template-haskell
+    base
+    bytestring
+    directory
+    filepath
+    template-haskell
   ];
   testHaskellDepends = [ base filepath ];
   homepage = "https://github.com/snoyberg/file-embed";

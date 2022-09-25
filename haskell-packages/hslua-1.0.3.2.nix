@@ -1,7 +1,20 @@
-{ mkDerivation, base, bytestring, containers, criterion, deepseq
-, exceptions, fetchgit, lua5_3, mtl, QuickCheck
-, quickcheck-instances, stdenv, tasty, tasty-hunit
-, tasty-quickcheck, text
+{ mkDerivation
+, base
+, bytestring
+, containers
+, criterion
+, deepseq
+, exceptions
+, fetchgit
+, lua5_3
+, mtl
+, QuickCheck
+, quickcheck-instances
+, stdenv
+, tasty
+, tasty-hunit
+, tasty-quickcheck
+, text
 }:
 mkDerivation {
   pname = "hslua";
@@ -14,12 +27,26 @@ mkDerivation {
   };
   configureFlags = [ "-fsystem-lua" "-f-use-pkgconfig" ];
   libraryHaskellDepends = [
-    base bytestring containers exceptions mtl text
+    base
+    bytestring
+    containers
+    exceptions
+    mtl
+    text
   ];
   librarySystemDepends = [ lua5_3 ];
   testHaskellDepends = [
-    base bytestring containers exceptions mtl QuickCheck
-    quickcheck-instances tasty tasty-hunit tasty-quickcheck text
+    base
+    bytestring
+    containers
+    exceptions
+    mtl
+    QuickCheck
+    quickcheck-instances
+    tasty
+    tasty-hunit
+    tasty-quickcheck
+    text
   ];
   benchmarkHaskellDepends = [ base bytestring criterion deepseq ];
   homepage = "https://hslua.github.io/";
