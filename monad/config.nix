@@ -37,7 +37,7 @@
       automatic = true;
       options = "--delete-older-than 30d";
     };
-    package = pkgs.nixFlakes;
+    package = pkgs.nixVersions.stable;
     settings = {
       cores = 6;
       experimental-features = [ "nix-command" "flakes" ];

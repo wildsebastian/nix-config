@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs = {
-      url = "github:nixos/nixpkgs/8e819696fea32a10916a6bcf70d4798b7bcf56c1";
+      url = "github:nixos/nixpkgs";
     };
 
     nixos-hardware = {
