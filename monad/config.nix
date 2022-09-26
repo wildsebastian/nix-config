@@ -56,7 +56,6 @@
       })
       (import ../overlays/haskell.nix)
       (import ../overlays/packages.nix)
-      (import ../overlays/python.nix)
     ];
   };
 
@@ -129,9 +128,14 @@
   system = {
     defaults = {
       NSGlobalDomain = {
-        AppleShowScrollBars = "WhenScrolling";
+        AppleInterfaceStyle = "Dark";
+        AppleInterfaceStyleSwitchesAutomatically = false;
         AppleKeyboardUIMode = 3;
+        AppleMeasurementUnits = "Centimeters";
+        AppleMetricUnits = 1;
         ApplePressAndHoldEnabled = false;
+        AppleShowScrollBars = "WhenScrolling";
+        AppleTemperatureUnit = "Celsius";
         InitialKeyRepeat = 15;
         KeyRepeat = 2;
         NSAutomaticCapitalizationEnabled = false;
@@ -139,6 +143,18 @@
         NSAutomaticPeriodSubstitutionEnabled = false;
         NSAutomaticQuoteSubstitutionEnabled = false;
         NSAutomaticSpellingCorrectionEnabled = false;
+        NSDocumentSaveNewDocumentsToCloud = true;
+        NSTableViewDefaultSizeMode = 2;
+        "com.apple.sound.beep.feedback" = 0;
+      };
+
+      SoftwareUpdate.AutomaticallyInstallMacOSUpdates = true;
+
+      alf = {
+        allowdownloadsignedenabled = 1;
+        allowsignedenabled = 1;
+        globalstate = 1;
+        loggingenabled = 1;
       };
 
       dock = {
@@ -150,8 +166,10 @@
 
       finder = {
         AppleShowAllExtensions = true;
-        QuitMenuItem = true;
         FXEnableExtensionChangeWarning = false;
+        QuitMenuItem = true;
+        ShowPathbar = true;
+        ShowStatusBar = true;
       };
 
       trackpad = {
