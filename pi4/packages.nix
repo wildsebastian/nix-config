@@ -13,10 +13,10 @@ with pkgs; [
   git
   htop
   jq
-  k3s
   macchina
   minify
   mosh
+  neovim
   nushell
   openssl_1_1
   procs
@@ -24,6 +24,5 @@ with pkgs; [
   sd
   starship
   tokei
-  vim
   wget2
 ]

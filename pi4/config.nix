@@ -9,7 +9,7 @@
   nix = {
     settings = {
       max-jobs = 2;
-      cores = 2;
+      cores = 4;
       require-sigs = true;
       experimental-features = [ "nix-command" "flakes" ];
     };
@@ -22,22 +22,12 @@
       gc-keep-derivations = true
       gc-keep-outputs = true
     '';
-    nixPath = [
-      "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
-      "nixos-config=/etc/nixos/configuration.nix"
-      "/nix/var/nix/profiles/per-user/root/channels"
-    ];
   };
 
   nixpkgs = {
     config.allowUnfree = true;
     config.allowBroken = true;
     config.allowUnsupportedSystem = true;
-    overlays = [
-      (import ../overlays/haskell.nix)
-      (import ../overlays/packages.nix)
-      (import ../overlays/python.nix)
-    ];
   };
 
   environment = {
@@ -110,11 +100,6 @@
       protocol = "http";
       dataDir = "/var/lib/grafana";
     };
-    k3s = {
-      enable = true;
-      role = "server";
-      disableAgent = true;
-    };
     openssh.enable = true;
     prometheus = {
       enable = true;
@@ -122,8 +107,7 @@
       exporters = {
         node = {
           enable = true;
-          enabledCollectors = [ "systemd" "processes" ];
-          port = 9002;
+	  port = 9002;
         };
         blackbox = {
           enable = true;
