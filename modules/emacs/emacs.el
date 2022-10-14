@@ -1203,3 +1203,25 @@
   :config
   (setq writeroom-width 0.5))
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+    '(yasnippet-snippets yaml-mode writeroom-mode which-key web-mode vterm-toggle vertico undo-tree typescript-mode tree-sitter-langs tree-sitter-indent tramp terraform-mode scss-mode sbt-mode rustic rg quelpa-use-package purescript-mode psc-ide proof-general projectile php-mode perspective org-roam-ui org-modern org-contrib org-auto-tangle orderless ob-restclient nix-mode multi-vterm marginalia magit-todos magit-delta lsp-ui lsp-pyright lsp-metals lsp-haskell idris-mode git-gutter-fringe general format-all forge flycheck-haskell evil-surround evil-org evil-goggles evil-collection eshell-vterm eshell-toggle eshell-git-prompt envrc embark-consult ein editorconfig doom-themes doom-modeline dockerfile-mode docker dirvish csharp-mode corfu consult-yasnippet company-coq company-box citar cape blamer all-the-icons-completion affe tsi dashboard)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(blamer-face ((t :foreground "#7a88cf" :background nil :height 140 :italic t)))
+ '(evil-goggles-change-face ((t (:inherit diff-removed))))
+ '(evil-goggles-delete-face ((t (:inherit diff-removed))))
+ '(evil-goggles-paste-face ((t (:inherit diff-added))))
+ '(evil-goggles-undo-redo-add-face ((t (:inherit diff-added))))
+ '(evil-goggles-undo-redo-change-face ((t (:inherit diff-changed))))
+ '(evil-goggles-undo-redo-remove-face ((t (:inherit diff-removed))))
+ '(evil-goggles-yank-face ((t (:inherit diff-changed))))
+ '(mode-line ((t (:height 1.0))))
+ '(mode-line-inactive ((t (:height 1.0)))))
