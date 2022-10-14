@@ -1033,8 +1033,6 @@
     ) . lsp-deferred)
   (lsp-mode . lsp-enable-which-key-integration)
   (before-save . lsp-format-buffer)
-  :config
-  (setq lsp-intelephense-stubs (vconcat lsp-intelephense-stubs '("sqlsrv" "pdo_sqlsrv")))
   :custom
   (lsp-prefer-capf t)
   (read-process-output-max (* 1024 1024))
@@ -1053,7 +1051,8 @@
   (lsp-headerline-breadcrumb-enable nil)
   (lsp-modeline-code-actions-enable nil)
   (lsp-prefer-flymake nil)
-  (lsp-disabled-clients '(eslint)))
+  (lsp-disabled-clients '(eslint))
+  (lsp-intelephense-stubs ["apache" "bcmath" "bz2" "calendar" "com_dotnet" "Core" "ctype" "curl" "date" "dba" "dom" "enchant" "exif" "fileinfo" "filter" "fpm" "ftp" "gd" "hash" "iconv" "imap" "interbase" "intl" "json" "ldap" "libxml" "mbstring" "mcrypt" "meta" "mssql" "mysqli" "oci8" "odbc" "openssl" "pcntl" "pcre" "PDO" "pdo_ibm" "pdo_mysql" "pdo_pgsql" "pdo_sqlite" "pgsql" "Phar" "posix" "pspell" "readline" "recode" "Reflection" "regex" "session" "shmop" "SimpleXML" "snmp" "soap" "sockets" "sodium" "SPL" "sqlite3" "standard" "superglobals" "sybase" "sysvmsg" "sysvsem" "sysvshm" "tidy" "tokenizer" "wddx" "xml" "xmlreader" "xmlrpc" "xmlwriter" "Zend OPcache" "zip" "zlib" "sqlsrv" "pdo_sqlsrv"]))
 
 (use-package lsp-ui
   :ensure t
@@ -1203,25 +1202,4 @@
   :ensure t
   :config
   (setq writeroom-width 0.5))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-    '(yasnippet-snippets yaml-mode writeroom-mode which-key web-mode vterm-toggle vertico undo-tree typescript-mode tree-sitter-langs tree-sitter-indent tramp terraform-mode scss-mode sbt-mode rustic rg quelpa-use-package purescript-mode psc-ide proof-general projectile php-mode perspective org-roam-ui org-modern org-contrib org-auto-tangle orderless ob-restclient nix-mode multi-vterm mindre-theme marginalia magit-todos magit-delta lsp-ui lsp-pyright lsp-metals lsp-haskell idris-mode git-gutter-fringe general format-all forge flycheck-haskell evil-surround evil-org evil-goggles evil-collection eshell-vterm eshell-toggle eshell-git-prompt envrc embark-consult ein editorconfig doom-modeline dockerfile-mode docker dirvish csharp-mode corfu consult-yasnippet company-coq company-box citar cape blamer all-the-icons-completion affe tsi dashboard)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(blamer-face ((t :foreground "#7a88cf" :background nil :height 140 :italic t)))
- '(evil-goggles-change-face ((t (:inherit diff-removed))))
- '(evil-goggles-delete-face ((t (:inherit diff-removed))))
- '(evil-goggles-paste-face ((t (:inherit diff-added))))
- '(evil-goggles-undo-redo-add-face ((t (:inherit diff-added))))
- '(evil-goggles-undo-redo-change-face ((t (:inherit diff-changed))))
- '(evil-goggles-undo-redo-remove-face ((t (:inherit diff-removed))))
- '(evil-goggles-yank-face ((t (:inherit diff-changed))))
- '(mode-line ((t (:height 1.0))))
- '(mode-line-inactive ((t (:height 1.0)))))
+
