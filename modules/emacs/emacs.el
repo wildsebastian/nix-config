@@ -1033,6 +1033,8 @@
     ) . lsp-deferred)
   (lsp-mode . lsp-enable-which-key-integration)
   (before-save . lsp-format-buffer)
+  :config
+  (setq lsp-intelephense-stubs (vconcat lsp-intelephense-stubs '("sqlsrv" "pdo_sqlsrv")))
   :custom
   (lsp-prefer-capf t)
   (read-process-output-max (* 1024 1024))
@@ -1050,7 +1052,8 @@
   (lsp-idle-delay 0.500)
   (lsp-headerline-breadcrumb-enable nil)
   (lsp-modeline-code-actions-enable nil)
-  (lsp-prefer-flymake nil))
+  (lsp-prefer-flymake nil)
+  (lsp-disabled-clients '(eslint)))
 
 (use-package lsp-ui
   :ensure t
