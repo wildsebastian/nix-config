@@ -6,6 +6,8 @@
     ../modules/zsh.nix
   ];
 
+  boot.kernelPackages = pkgs.linuxPackages_rpi4;
+
   nix = {
     settings = {
       max-jobs = 2;
@@ -108,6 +110,7 @@
         node = {
           enable = true;
 	  port = 9002;
+	  enabledCollectors = [ "netdev" ];
         };
         blackbox = {
           enable = true;
@@ -223,14 +226,22 @@
     };
   };
 
-  systemd.services.promtail = {
-    description = "Promtail service for Loki";
-    wantedBy = [ "multi-user.target" ];
+  systemd.services = {
+    promtail = {
+      description = "Promtail service for Loki";
+      wantedBy = [ "multi-user.target" ];
 
-    serviceConfig = {
-      ExecStart = ''
-        ${pkgs.grafana-loki}/bin/promtail --config.file ${./promtail.yaml}
-      '';
+      serviceConfig = {
+        ExecStart = ''
+	  ${pkgs.grafana-loki}/bin/promtail --config.file ${./promtail.yaml}
+        '';
+      };
+    };
+
+    prometheus-node-exporter = {
+      serviceConfig = {
+        RestrictAddressFamilies = [ "AF_NETLINK" ];
+      };
     };
   };
 
