@@ -7,9 +7,7 @@ with pkgs; [
   diffstat
   diffutils
   gitRepo
-  gitAndTools.delta
   gitAndTools.git-imerge
-  (gitAndTools.gitFull.override { sendEmailSupport = true; })
   gitAndTools.gitflow
   gitstats
   nix-prefetch-git
@@ -17,7 +15,6 @@ with pkgs; [
   patch
   patchutils
 
-  alacritty
   autossh
   (aspellWithDicts (d: [ d.de d.en d.it ]))
   bat
@@ -39,7 +36,6 @@ with pkgs; [
   minify
   mosh
   neofetch
-  neovim
   ngrok
   nix-direnv
   nushell
@@ -49,7 +45,6 @@ with pkgs; [
   ripgrep
   sd
   silver-searcher
-  starship
   tokei
   wget2
 ]

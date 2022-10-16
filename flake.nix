@@ -2,14 +2,6 @@
   description = "My nix(OS) config";
 
   inputs = {
-    nixpkgs = {
-      url = "github:nixos/nixpkgs";
-    };
-
-    nixos-hardware = {
-      url = "github:NixOS/nixos-hardware/master";
-    };
-
     darwin = {
       url = "github:lnl7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -18,15 +10,36 @@
     emacs = {
       url = "github:nix-community/emacs-overlay";
     };
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware/master";
+    };
+
+    nixpkgs = {
+      url = "github:nixos/nixpkgs";
+    };
   };
 
-  outputs = { self, darwin, emacs, nixpkgs, nixos-hardware }@attrs: {
+  outputs = { self, darwin, emacs, home-manager, nixpkgs, nixos-hardware }@attrs: {
     # Macbook Air
     darwinConfigurations = {
       "monad" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = attrs;
-        modules = [ ./monad/config.nix ];
+        modules = [
+          ./monad/config.nix
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.sebastian = import ./monad/home.nix;
+          }
+        ];
       };
     };
 

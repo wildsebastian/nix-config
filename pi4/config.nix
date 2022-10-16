@@ -109,8 +109,8 @@
       exporters = {
         node = {
           enable = true;
-	  port = 9002;
-	  enabledCollectors = [ "netdev" ];
+          port = 9002;
+          enabledCollectors = [ "netdev" ];
         };
         blackbox = {
           enable = true;
@@ -233,7 +233,7 @@
 
       serviceConfig = {
         ExecStart = ''
-	  ${pkgs.grafana-loki}/bin/promtail --config.file ${./promtail.yaml}
+          	  ${pkgs.grafana-loki}/bin/promtail --config.file ${./promtail.yaml}
         '';
       };
     };

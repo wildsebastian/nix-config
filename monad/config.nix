@@ -3,7 +3,7 @@
 {
   imports = [
     ../modules/tmux.nix
-    ../modules/zsh.nix
+    # ../modules/zsh.nix
     ../services/hoogle.nix
   ];
 
@@ -63,6 +63,8 @@
     hostName = "monad";
     knownNetworkServices = [ "Wi-Fi" ];
   };
+
+  programs.zsh.enable = true;
 
   services = {
     emacs = {
