@@ -1027,7 +1027,7 @@
   :ensure t
   :mode ("\\.cs\\'" . csharp-tree-sitter-mode))
 
-(use-package lsp-mode
+(use-package eglot
   :ensure t
   :hook
   ((python-mode
@@ -1039,69 +1039,9 @@
     typescriptreact-mode
     csharp-mode
     php-mode
-    ) . lsp-deferred)
-  (lsp-mode . lsp-enable-which-key-integration)
-  (before-save . lsp-format-buffer)
-  :commands (lsp lsp-deferred)
-  :custom
-  (lsp-prefer-capf t)
-  (read-process-output-max (* 1024 1024))
-  (lsp-modeline-diagnostics-enable nil)
-  (lsp-log-io nil)
-  (lsp-enable-folding nil)
-  (lsp-diagnostic-package :flycheck)
-  (lsp-completion-provider :capf)
-  (lsp-enable-snippet t)
-  (lsp-enable-symbol-highlighting nil)
-  (lsp-lens-enable nil)
-  (lsp-enable-links nil)
-  (lsp-restart 'auto-restart)
-  (lsp-enable-file-watchers nil)
-  (lsp-idle-delay 0.500)
-  (lsp-headerline-breadcrumb-enable nil)
-  (lsp-modeline-code-actions-enable nil)
-  (lsp-prefer-flymake nil)
-  (lsp-disabled-clients '(eslint))
-  (lsp-intelephense-stubs ["apache" "bcmath" "bz2" "calendar" "com_dotnet" "Core" "ctype" "curl" "date" "dba" "dom" "enchant" "exif" "fileinfo" "filter" "fpm" "ftp" "gd" "hash" "iconv" "imap" "interbase" "intl" "json" "ldap" "libxml" "mbstring" "mcrypt" "meta" "mssql" "mysqli" "oci8" "odbc" "openssl" "pcntl" "pcre" "PDO" "pdo_ibm" "pdo_mysql" "pdo_pgsql" "pdo_sqlite" "pgsql" "Phar" "posix" "pspell" "readline" "recode" "Reflection" "regex" "session" "shmop" "SimpleXML" "snmp" "soap" "sockets" "sodium" "SPL" "sqlite3" "standard" "superglobals" "sybase" "sysvmsg" "sysvsem" "sysvshm" "tidy" "tokenizer" "wddx" "xml" "xmlreader" "xmlrpc" "xmlwriter" "Zend OPcache" "zip" "zlib" "sqlsrv" "pdo_sqlsrv"]))
-
-(use-package lsp-ui
-  :ensure t
-  :after
-  (lsp-mode flycheck)
-  :custom
-  (lsp-ui-doc-enable t)
-  (lsp-ui-doc-use-childframe t)
-  (lsp-ui-doc-position 'at-point)
-  (lsp-ui-doc-include-signature t)
-  (lsp-ui-sideline-enable nil)
-  (lsp-ui-flycheck-enable t)
-  (lsp-ui-flycheck-list-position 'right)
-  (lsp-ui-flycheck-live-reporting t)
-  (lsp-ui-peek-enable t)
-  (lsp-ui-peek-list-width 60)
-  (lsp-ui-peek-peek-height 25))
-
-(use-package lsp-haskell
-  :ensure t
+     ) . eglot-ensure)
   :config
-  (setq lsp-haskell-formatting-provider "ormolu"))
-
-(use-package lsp-pyright
-  :ensure t)
-
-(use-package lsp-metals
-  :ensure t
-  :config (setq lsp-metals-treeview-show-when-views-received t))
-
-(use-package dap-mode
-  :ensure t
-  :commands dap-debug
-  :custom
-  (dap-auto-configure-features '(sessions locals controls tooltip)))
-
-(use-package dap-python
-  :custom
-  (dap-python-debugger 'debugpy))
+  (add-to-list 'eglot-server-programs '((php-mode phps-mode) "intelephense" "--stdio")))
 
 (use-package which-key
   :ensure t
@@ -1119,20 +1059,6 @@
   (company-idle-delay 0.0)
   (lsp-completion-provider :capf)
   (global-company-mode t))
-
-;; Synchronize company with pcomplete for org mode
-;; https://marcohassan.github.io/bits-of-experience/pages/emacs/
-(defun trigger-org-company-complete ()
-  "Begins company-complete in org-mode buffer after pressing #+ chars."
-  (interactive)
-  (if (string-equal "#" (string (preceding-char)))
-    (progn
-      (insert "+")
-      (company-complete))
-    (insert "+")))
-
-(eval-after-load 'org '(define-key org-mode-map
-	       (kbd "+") 'trigger-org-company-complete))
 
 (use-package company-box
   :ensure t
