@@ -20,6 +20,7 @@ with pkgs; [
   bat
   bottom
   cabal2nix
+  cachix
   curl
   ctags
   direnv
