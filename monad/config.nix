@@ -16,14 +16,14 @@
     ];
   };
 
-  fonts = {
-    fontDir.enable = true;
-    fonts = [
-      pkgs.jetbrains-mono
-      pkgs.nerdfonts
-      pkgs.sarasa-gothic
-    ];
-  };
+  # fonts = {
+  #   fontDir.enable = true;
+  #   fonts = [
+  #     pkgs.jetbrains-mono
+  #     pkgs.nerdfonts
+  #     pkgs.sarasa-gothic
+  #   ];
+  # };
 
   nix = {
     configureBuildUsers = true;
