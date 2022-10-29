@@ -95,14 +95,6 @@
   :config
   (load-theme 'doom-nord t))
 
-;; (use-package mindre-theme
-;;     :ensure t
-;;     :custom
-;;     (mindre-use-more-bold nil)
-;;     (mindre-use-faded-lisp-parens t)
-;;     :config
-;;     (load-theme 'mindre t))
-
 (use-package editorconfig
   :ensure t
   :config
@@ -249,6 +241,7 @@
     ;; Terminal
     "t" '(nil :which-key "terminal")
     "tv" '(multi-vterm :which-key "vterm")
+    "tr" '(multi-vterm-rename-buffer :which-key "rename vterm buffer")
     "ts" '(shell-command :which-key "shell command")
 
     ;; org-roam
@@ -272,19 +265,18 @@
     ;; Yasnippet
     "y" '(nil :which-key "yasnippet")
     "yi" '(yas-insert-snippet :which-key "yasnippet insert")
-    ;; TODO: Setup Bindings for LSP, Haskell, Python
   )
   (general-define-key
     :states '(normal motion)
     :keymaps 'override
 
-    ;; lsp-mode
-    "fd" '(lsp-ui-peek-find-definitions :which-key "find definition")
-    "fr" '(lsp-ui-peek-find-references :which-key "find references")
-    "fn" '(flycheck-next-error :which-key "next error")
-    "fp" '(flycheck-previous-error :which-key "previous error")
-    "fca" '(lsp-execute-code-action :which-key "code action")
-    "ff" '(lsp-rename :which-key "rename"))
+    ;; eglot
+    "efd" '(eglot-find-declaration :which-key "find definition")
+    "efr" '(eglot-find-implementation :which-key "find references")
+    "efn" '(flycheck-next-error :which-key "next error")
+    "efp" '(flycheck-previous-error :which-key "previous error")
+    "efca" '(eglot-code-actions :which-key "code action")
+    "eff" '(eglot-rename :which-key "rename"))
 )
 
 (use-package yasnippet
@@ -807,11 +799,20 @@
 
 (use-package citar
   :ensure t
-  :bind (("C-c b" . citar-insert-citation)
-         :map minibuffer-local-map
-         ("M-b" . citar-insert-preset))
+  :bind
+  (:map org-mode-map :package org ("C-c b" . #'org-cite-insert))
   :custom
-  (citar-bibliography '("~/bib/references.bib")))
+  (citar-bibliography '("~/bib/references.bib"))
+  (org-cite-global-bibliography '("~/bib/references.bib"))
+  (org-cite-insert-processor 'citar)
+  (org-cite-follow-processor 'citar)
+  (org-cite-activate-processor 'citar)
+  (citar-bibliography org-cite-global-bibliography))
+
+(use-package citar-embark
+  :after citar embark
+  :no-require
+  :config (citar-embark-mode))
 
 (use-package org-auto-tangle
   :ensure t
@@ -1039,9 +1040,9 @@
     typescriptreact-mode
     csharp-mode
     php-mode
-     ) . eglot-ensure)
-  :config
-  (add-to-list 'eglot-server-programs '((php-mode phps-mode) "intelephense" "--stdio")))
+     ) . eglot-ensure))
+  ;; :config
+  ;; (add-to-list 'eglot-server-programs '((php-mode phps-mode) "intelephense" "--stdio")))
 
 (use-package which-key
   :ensure t
@@ -1053,11 +1054,10 @@
 
 (use-package company
   :ensure t
-  :after lsp-mode
+  :after eglot
   :custom
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.0)
-  (lsp-completion-provider :capf)
   (global-company-mode t))
 
 (use-package company-box
@@ -1067,16 +1067,6 @@
 (use-package company-coq
   :ensure t
   :hook (coq-mode . company-coq-mode))
-
-(use-package flycheck
-  :ensure t
-  :hook
-  (python-mode . flycheck-mode)
-  (haskell-mode . flycheck-mode))
-
-(use-package flycheck-haskell
-  :ensure t
-  :commands flycheck-haskell-setup)
 
 (use-package docker
   :ensure t)
@@ -1138,26 +1128,22 @@
   :ensure t
   :config
   (setq writeroom-width 0.5))
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-    '(js2-mode js-mode yasnippet-snippets yaml-mode writeroom-mode which-key web-mode vterm-toggle vertico undo-tree typescript-mode tree-sitter-langs tree-sitter-indent tramp terraform-mode scss-mode sbt-mode rustic rg quelpa-use-package purescript-mode psc-ide proof-general projectile php-mode perspective org-roam-ui org-modern org-contrib org-auto-tangle orderless ob-restclient nix-mode multi-vterm marginalia magit-todos magit-delta lsp-ui lsp-pyright lsp-metals lsp-haskell idris-mode git-gutter-fringe general format-all forge flycheck-haskell evil-surround evil-org evil-goggles evil-collection eshell-vterm eshell-toggle eshell-git-prompt envrc embark-consult ein editorconfig doom-themes doom-modeline dockerfile-mode docker dirvish csharp-mode corfu consult-yasnippet company-coq company-box citar cape blamer all-the-icons-completion affe tsi dashboard)))
+    '(yasnippet-snippets yaml-mode writeroom-mode which-key web-mode vterm-toggle vertico undo-tree typescript-mode tree-sitter-langs tree-sitter-indent tramp terraform-mode scss-mode scala-mode sbt-mode rustic rg quelpa-use-package purescript-mode psc-ide proof-general projectile php-mode perspective org-roam-ui org-modern org-contrib org-auto-tangle orderless ob-restclient nix-mode multi-vterm marginalia magit-todos magit-delta idris-mode haskell-mode git-gutter-fringe general format-all forge evil-surround evil-org evil-goggles evil-collection eshell-vterm eshell-toggle eshell-git-prompt envrc embark-consult ein eglot editorconfig doom-themes doom-modeline dockerfile-mode docker dirvish csharp-mode corfu consult-yasnippet company-coq company-box citar cape blamer all-the-icons-completion affe ace-window tsi js2-mode dashboard)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(blamer-face ((t :foreground "#7a88cf" :background nil :height 140 :italic t)))
  '(evil-goggles-change-face ((t (:inherit diff-removed))))
  '(evil-goggles-delete-face ((t (:inherit diff-removed))))
  '(evil-goggles-paste-face ((t (:inherit diff-added))))
  '(evil-goggles-undo-redo-add-face ((t (:inherit diff-added))))
  '(evil-goggles-undo-redo-change-face ((t (:inherit diff-changed))))
  '(evil-goggles-undo-redo-remove-face ((t (:inherit diff-removed))))
- '(evil-goggles-yank-face ((t (:inherit diff-changed))))
- '(mode-line ((t (:height 1.0))))
- '(mode-line-inactive ((t (:height 1.0)))))
+ '(evil-goggles-yank-face ((t (:inherit diff-changed)))))
