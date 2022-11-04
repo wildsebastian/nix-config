@@ -1040,9 +1040,9 @@
     typescriptreact-mode
     csharp-mode
     php-mode
-     ) . eglot-ensure))
-  ;; :config
-  ;; (add-to-list 'eglot-server-programs '((php-mode phps-mode) "intelephense" "--stdio")))
+     ) . eglot-ensure)
+  :config
+  (add-to-list 'eglot-server-programs '((php-mode phps-mode) "intelephense" "--stdio")))
 
 (use-package which-key
   :ensure t

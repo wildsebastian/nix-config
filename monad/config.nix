@@ -3,7 +3,6 @@
 {
   imports = [
     ../modules/tmux.nix
-    # ../modules/zsh.nix
     ../services/hoogle.nix
   ];
 
