@@ -126,6 +126,13 @@
           enable = true;
           port = 9005;
         };
+        pihole = {
+          enable = true;
+          port = 9006;
+          apiToken = "365d84d2a47d3c42c8a261973d5c53e652113e9f88b4bcfb07439c62da333559";
+          piholeHostname = "127.0.0.1";
+          piholePort = 8000;
+        };
       };
       scrapeConfigs = [{
         job_name = "node";
@@ -196,6 +203,20 @@
             targets = [ "127.0.0.1:${toString config.services.cadvisor.port}" ];
           }];
           scrape_interval = "15s";
+        }
+        {
+          job_name = "pihole";
+          static_configs = [{
+            targets = [ "127.0.0.1:9006" ];
+          }];
+          scrape_interval = "15s";
+        }
+        {
+          job_name = "fritzbox";
+          static_configs = [{
+            targets = [ "127.0.0.1:9007" ];
+          }];
+          scrape_interval = "15s";
         }];
     };
     loki = {
@@ -233,7 +254,7 @@
 
       serviceConfig = {
         ExecStart = ''
-          	  ${pkgs.grafana-loki}/bin/promtail --config.file ${./promtail.yaml}
+          ${pkgs.grafana-loki}/bin/promtail --config.file ${./promtail.yaml}
         '';
       };
     };
@@ -242,6 +263,17 @@
       serviceConfig = {
         RestrictAddressFamilies = [ "AF_NETLINK" ];
       };
+    };
+
+    prometheus-pihole-exporter = {
+      serviceConfig.ExecStart = lib.mkForce ''
+        ${pkgs.bash}/bin/bash -c "${pkgs.prometheus-pihole-exporter}/bin/pihole-exporter \
+          -pihole_api_token 365d84d2a47d3c42c8a261973d5c53e652113e9f88b4bcfb07439c62da333559 \
+          -pihole_hostname 127.0.0.1 \
+          -pihole_port 8000 \
+          -pihole_protocol http \
+          -port 9006"
+        '';
     };
   };
 
@@ -261,8 +293,38 @@
 
   hardware.pulseaudio.enable = false;
 
-  virtualisation.docker = {
-    enable = true;
-    listenOptions = [ "/run/docker.sock" ];
+  virtualisation = {
+    podman = {
+      enable = true;
+      dockerCompat = true;
+    };
+
+    oci-containers.backend = "podman";
+
+    oci-containers.containers = {
+      fritz = {
+        autoStart = true;
+	environmentFiles = [ /home/sebastian/.fritzbox.env ];
+	extraOptions = [ "--pull=newer" ];
+        image = "pdreker/fritz_exporter:2";
+	login.registry = "registry-1.docker.io";
+	ports = [ "9007:9007/tcp" ];
+      };
+
+      pihole = {
+        autoStart = true;
+	environmentFiles = [ /home/sebastian/.pihole.env ];
+        extraOptions = [
+	  "--cap-add=NET_ADMIN"
+	  "--network=host"
+	  "--pull=newer"
+        ];
+        image = "pihole/pihole:latest";
+	volumes = [
+	  "/home/sebastian/etc-pihole:/etc/pihole"
+	  "/home/sebastian/etc-dnsmasq.d:/etc/dnsmasq.d"
+	];
+      };
+    };
   };
 }
