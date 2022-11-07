@@ -273,7 +273,7 @@
           -pihole_port 8000 \
           -pihole_protocol http \
           -port 9006"
-        '';
+      '';
     };
   };
 
@@ -304,26 +304,26 @@
     oci-containers.containers = {
       fritz = {
         autoStart = true;
-	environmentFiles = [ /home/sebastian/.fritzbox.env ];
-	extraOptions = [ "--pull=newer" ];
+        environmentFiles = [ /home/sebastian/.fritzbox.env ];
+        extraOptions = [ "--pull=newer" ];
         image = "pdreker/fritz_exporter:2";
-	login.registry = "registry-1.docker.io";
-	ports = [ "9007:9007/tcp" ];
+        login.registry = "registry-1.docker.io";
+        ports = [ "9007:9007/tcp" ];
       };
 
       pihole = {
         autoStart = true;
-	environmentFiles = [ /home/sebastian/.pihole.env ];
+        environmentFiles = [ /home/sebastian/.pihole.env ];
         extraOptions = [
-	  "--cap-add=NET_ADMIN"
-	  "--network=host"
-	  "--pull=newer"
+          "--cap-add=NET_ADMIN"
+          "--network=host"
+          "--pull=newer"
         ];
         image = "pihole/pihole:latest";
-	volumes = [
-	  "/home/sebastian/etc-pihole:/etc/pihole"
-	  "/home/sebastian/etc-dnsmasq.d:/etc/dnsmasq.d"
-	];
+        volumes = [
+          "/home/sebastian/etc-pihole:/etc/pihole"
+          "/home/sebastian/etc-dnsmasq.d:/etc/dnsmasq.d"
+        ];
       };
     };
   };

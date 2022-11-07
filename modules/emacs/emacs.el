@@ -265,6 +265,7 @@
     ;; Yasnippet
     "y" '(nil :which-key "yasnippet")
     "yi" '(yas-insert-snippet :which-key "yasnippet insert")
+    "yl" '(yas/describe-tables :which-key "yasnippet show snippets")
   )
   (general-define-key
     :states '(normal motion)
