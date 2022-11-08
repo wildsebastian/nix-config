@@ -1,6 +1,8 @@
 { config, lib, pkgs, ... }:
 
 {
+  disabledModules = [ "targets/darwin/linkapps.nix" ];
+
   home = {
     username = "sebastian";
     stateVersion = "22.11";

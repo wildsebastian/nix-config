@@ -20,9 +20,10 @@ with pkgs; [
   bat
   bottom
   cabal2nix
-  cachix
+  # cachix
   curl
   ctags
+  delta
   direnv
   du-dust
   editorconfig-core-c
