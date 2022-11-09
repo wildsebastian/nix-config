@@ -153,9 +153,11 @@
         };
       };
       extraConfig = {
+        commit.gpgsign = true;
         core = {
           editor = "nvim";
         };
+        "delta \"magit-delta\"".line-numbers = false;
         diff.colorMoved = "default";
         gpg.format = "ssh";
         "gpg \"ssh\"".program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
