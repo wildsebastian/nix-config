@@ -20,7 +20,7 @@ with pkgs; [
   bat
   bottom
   cabal2nix
-  # cachix
+  cachix
   curl
   ctags
   delta
@@ -48,5 +48,6 @@ with pkgs; [
   sd
   silver-searcher
   tokei
+  wireshark
   wget2
 ]
