@@ -1,10 +1,10 @@
 (require 'package)
 
 (setq package-archives
-  '(("melpa" . "https://melpa.org/packages/")
-    ("melpa-stable" . "https://stable.melpa.org/packages/")
-    ("org" . "https://orgmode.org/elpa/")
-    ("elpa" . "https://elpa.gnu.org/packages/")))
+      '(("melpa" . "https://melpa.org/packages/")
+        ("melpa-stable" . "https://stable.melpa.org/packages/")
+        ("org" . "https://orgmode.org/elpa/")
+        ("elpa" . "https://elpa.gnu.org/packages/")))
 
 ;; (setq custom-file "~/.emacs.d/custom.el")
 ;; (load custom-file)
@@ -13,32 +13,32 @@
 (eval-when-compile
   (require 'use-package))
 
-; Set nix path for emacs deamon started by launchd
+;; Set nix path for emacs deamon started by launchd
 (setenv "NIX_PATH"
-  (concat
-    "darwin-config="
-    (getenv "HOME")
-    "/.nixpkgs/configuration.nix"
-    ":"
-    "nixos-config=/etc/nixos/configuration.nix" ":"
-    "nixpkgs="
-    (getenv "HOME")
-    "/.nix-defexpr/nixpkgs" ":"
-    "darwin="
-    (getenv "HOME")
-    "/.nix-defexpr/darwin"
-  )
-)
+        (concat
+         "darwin-config="
+         (getenv "HOME")
+         "/.nixpkgs/configuration.nix"
+         ":"
+         "nixos-config=/etc/nixos/configuration.nix" ":"
+         "nixpkgs="
+         (getenv "HOME")
+         "/.nix-defexpr/nixpkgs" ":"
+         "darwin="
+         (getenv "HOME")
+         "/.nix-defexpr/darwin"
+         )
+        )
 
 (setenv "SHELL" "/run/current-system/sw/bin/zsh")
 
 (setq
-  backup-directory-alist '(("." . "~/.emacs_backups"))
-  backup-by-copying t
-  version-control t
-  delete-old-versions t
-  kept-new-versions 6
-  kept-old-versions 2)
+ backup-directory-alist '(("." . "~/.emacs_backups"))
+ backup-by-copying t
+ version-control t
+ delete-old-versions t
+ kept-new-versions 6
+ kept-old-versions 2)
 
 (setq comp-deferred-compilation t)
 (setq comp-async-report-warnings-errors nil)
@@ -62,7 +62,7 @@
 (show-paren-mode t)
 (setq-default fill-column 80)
 (setq-default
-  auto-save-interval 60)
+ auto-save-interval 60)
 
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
@@ -155,8 +155,8 @@
   :after evil
   :bind
   (:map evil-normal-state-map
-    ("C-r" . undo-tree-redo)
-    ("u"   . undo-tree-undo))
+        ("C-r" . undo-tree-redo)
+        ("u"   . undo-tree-undo))
   :config
   (global-undo-tree-mode 1))
 
@@ -191,94 +191,94 @@
   :ensure t
   :config
   (general-define-key
-    :states '(normal motion visual)
-    :keymaps 'override
-    :prefix "SPC"
+   :states '(normal motion visual)
+   :keymaps 'override
+   :prefix "SPC"
 
-    ;; Top level functions
-    "/" '(affe-grep :which-key "grep")
-    ":" '(projectile-find-file :which-key "p-find file")
-    "[" '(org-capture :which-key "org capture")
-    "." '(org-roam-capture :which-key "roam capture")
-    "," '(org-roam-dailies-capture-today :which-key "journal")
-    "'" '(vterm-toggle :which-key "vterm")
-    "=" '(ace-window :which-key "ace-window")
-    "x" '(execute-extended-command :which-key "M-x")
-    "q" '(save-buffers-kill-terminal :which-key "quit emacs")
-    "#" '(comment-dwim :which-key "add/remove comment")
+   ;; Top level functions
+   "/" '(affe-grep :which-key "grep")
+   ":" '(projectile-find-file :which-key "p-find file")
+   "[" '(org-capture :which-key "org capture")
+   "." '(org-roam-capture :which-key "roam capture")
+   "," '(org-roam-dailies-capture-today :which-key "journal")
+   "'" '(vterm-toggle :which-key "vterm")
+   "=" '(ace-window :which-key "ace-window")
+   "x" '(execute-extended-command :which-key "M-x")
+   "q" '(save-buffers-kill-terminal :which-key "quit emacs")
+   "#" '(comment-dwim :which-key "add/remove comment")
 
-    ;; Applications
-    "a" '(nil :which-key "applications")
-    "ad" '(docker :which-key "docker")
-    "aw" '(writeroom-mode :which-key "writeroom")
-    ;; Buffers
-    "b" '(nil :which-key "buffer")
-    "bb" '(consult-buffer :which-key "switch buffers")
-    "bk" '(kill-current-buffer :which-key "kill current buffer")
+   ;; Applications
+   "a" '(nil :which-key "applications")
+   "ad" '(docker :which-key "docker")
+   "aw" '(writeroom-mode :which-key "writeroom")
+   ;; Buffers
+   "b" '(nil :which-key "buffer")
+   "bb" '(consult-buffer :which-key "switch buffers")
+   "bk" '(kill-current-buffer :which-key "kill current buffer")
 
-    ;; Perspective Workspace
-    "w" '(nil :which-key "workspace")
-    "ws" '(persp-switch :which-key "switch workspace")
-    "wn" '(persp-next :which-key "next workspace")
-    "wkb" '(persp-kill-buffer :which-key "kill buffer in workspace")
-    "wkw" '(persp-kill :which-key "kill workspace")
-    "wb" '(persp-ibuffer :which-key "switch buffer in workspace")
-    "wr" '(persp-rename :which-key "rename workspace")
+   ;; Perspective Workspace
+   "w" '(nil :which-key "workspace")
+   "ws" '(persp-switch :which-key "switch workspace")
+   "wn" '(persp-next :which-key "next workspace")
+   "wkb" '(persp-kill-buffer :which-key "kill buffer in workspace")
+   "wkw" '(persp-kill :which-key "kill workspace")
+   "wb" '(persp-ibuffer :which-key "switch buffer in workspace")
+   "wr" '(persp-rename :which-key "rename workspace")
 
-    ;; Magit
-    "g" '(nil :which-key "magit")
-    "gm" '(magit :which-key "status")
-    "gci" '(blamer-show-commit-info :which-key "blame commit info")
-    "gfa" '(magit-fetch-all :which-key "fetch all")
-    "grs" '(magit-rebase :which-key "rebase")
-    "gri" '(magit-rebase-interactive :which-key "rebase interactive")
-    "gra" '(magit-rebase-abort :which-key "rebase abort")
-    "grc" '(magit-rebase-continue :which-key "rebase continue")
-    "gbc" '(magit-branch-checkout :which-key "branch + checkout")
-    "gss" '(magit-stash :which-key "stash")
-    "gsp" '(magit-stash-pop :which-key "stash pop")
+   ;; Magit
+   "g" '(nil :which-key "magit")
+   "gm" '(magit :which-key "status")
+   "gci" '(blamer-show-commit-info :which-key "blame commit info")
+   "gfa" '(magit-fetch-all :which-key "fetch all")
+   "grs" '(magit-rebase :which-key "rebase")
+   "gri" '(magit-rebase-interactive :which-key "rebase interactive")
+   "gra" '(magit-rebase-abort :which-key "rebase abort")
+   "grc" '(magit-rebase-continue :which-key "rebase continue")
+   "gbc" '(magit-branch-checkout :which-key "branch + checkout")
+   "gss" '(magit-stash :which-key "stash")
+   "gsp" '(magit-stash-pop :which-key "stash pop")
 
-    ;; Terminal
-    "t" '(nil :which-key "terminal")
-    "tv" '(multi-vterm :which-key "vterm")
-    "tr" '(multi-vterm-rename-buffer :which-key "rename vterm buffer")
-    "ts" '(shell-command :which-key "shell command")
+   ;; Terminal
+   "t" '(nil :which-key "terminal")
+   "tv" '(multi-vterm :which-key "vterm")
+   "tr" '(multi-vterm-rename-buffer :which-key "rename vterm buffer")
+   "ts" '(shell-command :which-key "shell command")
 
-    ;; org-roam
-    "o" '(nil :which-key "org")
-    "oc" '(org-capture :which-key "org capture")
-    "ojd" '(org-roam-dailies-capture-today :which-key "journal today")
-    "ojt" '(org-roam-dailies-capture-tomorrow :which-key "journal tomorrow")
-    "ojy" '(org-roam-dailies-capture-yesterday :which-key "journal yesterday")
-    "or" '(nil :which-key "org roam")
-    "orc" '(org-roam-capture :which-key "org roam capture")
-    "ori" '(org-roam-node-insert :which-key "org roam insert")
-    "orf" '(org-roam-node-find :which-key "org roam find")
+   ;; org-roam
+   "o" '(nil :which-key "org")
+   "oc" '(org-capture :which-key "org capture")
+   "ojd" '(org-roam-dailies-capture-today :which-key "journal today")
+   "ojt" '(org-roam-dailies-capture-tomorrow :which-key "journal tomorrow")
+   "ojy" '(org-roam-dailies-capture-yesterday :which-key "journal yesterday")
+   "or" '(nil :which-key "org roam")
+   "orc" '(org-roam-capture :which-key "org roam capture")
+   "ori" '(org-roam-node-insert :which-key "org roam insert")
+   "orf" '(org-roam-node-find :which-key "org roam find")
 
-    ;; Projectile
-    "p" '(nil :which-key "projectile")
-    "pff" '(projectile-find-file-other-window :which-key "find file")
-    "psp" '(projectile-switch-project :which-key "switch project")
-    "pt" '(projectile-test-project :which-key "run tests")
-    "pr" '(projectile-run-project :which-key "run project")
+   ;; Projectile
+   "p" '(nil :which-key "projectile")
+   "pff" '(projectile-find-file-other-window :which-key "find file")
+   "psp" '(projectile-switch-project :which-key "switch project")
+   "pt" '(projectile-test-project :which-key "run tests")
+   "pr" '(projectile-run-project :which-key "run project")
 
-    ;; Yasnippet
-    "y" '(nil :which-key "yasnippet")
-    "yi" '(yas-insert-snippet :which-key "yasnippet insert")
-    "yl" '(yas/describe-tables :which-key "yasnippet show snippets")
-  )
+   ;; Yasnippet
+   "y" '(nil :which-key "yasnippet")
+   "yi" '(yas-insert-snippet :which-key "yasnippet insert")
+   "yl" '(yas/describe-tables :which-key "yasnippet show snippets")
+   )
   (general-define-key
-    :states '(normal motion)
-    :keymaps 'override
+   :states '(normal motion)
+   :keymaps 'override
 
-    ;; eglot
-    "efd" '(eglot-find-declaration :which-key "find definition")
-    "efr" '(eglot-find-implementation :which-key "find references")
-    "efn" '(flycheck-next-error :which-key "next error")
-    "efp" '(flycheck-previous-error :which-key "previous error")
-    "efca" '(eglot-code-actions :which-key "code action")
-    "eff" '(eglot-rename :which-key "rename"))
-)
+   ;; eglot
+   "efd" '(eglot-find-declaration :which-key "find definition")
+   "efr" '(eglot-find-implementation :which-key "find references")
+   "efn" '(flycheck-next-error :which-key "next error")
+   "efp" '(flycheck-previous-error :which-key "previous error")
+   "efca" '(eglot-code-actions :which-key "code action")
+   "eff" '(eglot-rename :which-key "rename"))
+  )
 
 (use-package yasnippet
   :ensure t
@@ -365,7 +365,7 @@
   ;; (setq consult-project-root-function #'vc-root-dir)
   ;;;; 4. locate-dominating-file
   ;; (setq consult-project-root-function (lambda () (locate-dominating-file "." ".git")))
-)
+  )
 
 (use-package vertico
   :ensure t
@@ -470,7 +470,7 @@
   ;; (add-to-list 'completion-at-point-functions #'cape-tex)
   ;; (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   ;; (add-to-list 'completion-at-point-functions #'cape-line)
-)
+  )
 
 (use-package affe
   :ensure t
@@ -485,7 +485,7 @@
   :ensure t
   :config
   (add-to-list 'all-the-icons-mode-icon-alist
-    '(coq-mode all-the-icons-fileicon "coq" :face all-the-icons-lblue))
+               '(coq-mode all-the-icons-fileicon "coq" :face all-the-icons-lblue))
   (add-to-list 'all-the-icons-extension-icon-alist '("v" all-the-icons-fileicon "coq")))
 
 (use-package all-the-icons-completion
@@ -597,9 +597,9 @@
   (magit-mode . magit-delta-mode)
   :custom
   (magit-delta-delta-args
-    '("--24-bit-color" "always"
-      "--features" "magit-delta"
-      "--color-only")))
+   '("--24-bit-color" "always"
+     "--no-gitconfig"
+     "--color-only")))
 
 (use-package magit-todos
   :ensure t)
@@ -637,9 +637,9 @@
   (blamer-prettify-time-p t)
   :custom-face
   (blamer-face ((t :foreground "#7a88cf"
-                    :background nil
-                    :height 140
-                    :italic t))))
+                   :background nil
+                   :height 140
+                   :italic t))))
 
 (use-package sql)
 
@@ -664,25 +664,25 @@
 (defun coq-args-to-list (string)
   (let ((where (string-match "[ \t]" string)))
     (cond ((null where) (list string))
-    ((not (= where 0))
-     (cons (substring string 0 where)
-     (coq-args-to-list (substring string (+ 1 where)
-             (length string)))))
-    (t (let ((pos (string-match "[^ \t]" string)))
-         (if (null pos)
-       nil
-     (coq-args-to-list (substring string pos
-             (length string)))))))))
+          ((not (= where 0))
+           (cons (substring string 0 where)
+                 (coq-args-to-list (substring string (+ 1 where)
+                                              (length string)))))
+          (t (let ((pos (string-match "[^ \t]" string)))
+               (if (null pos)
+                   nil
+                 (coq-args-to-list (substring string pos
+                                              (length string)))))))))
 
 (defun run-coq (cmd)
   (interactive (list (if current-prefix-arg
-       (read-string "Run Coq: " coq-program-name)
-       coq-program-name)))
+                         (read-string "Run Coq: " coq-program-name)
+                       coq-program-name)))
   (if (not (comint-check-proc "*coq*"))
       (let ((cmdlist (coq-args-to-list cmd)))
-  (set-buffer (apply 'make-comint "coq" (car cmdlist)
-         nil (cdr cmdlist)))
-  (inferior-coq-mode)))
+        (set-buffer (apply 'make-comint "coq" (car cmdlist)
+                           nil (cdr cmdlist)))
+        (inferior-coq-mode)))
   (setq coq-program-name cmd)
   (setq coq-buffer "*coq*")
   (switch-to-buffer "*coq*"))
@@ -690,64 +690,64 @@
 (defun coq-proc ()
   "Return the current coq process.  See variable `coq-buffer'."
   (let ((proc (get-buffer-process (if (eq major-mode 'inferior-coq-mode)
-              (current-buffer)
-              coq-buffer))))
+                                      (current-buffer)
+                                    coq-buffer))))
     (or proc
-  (error "No current process.  See variable `coq-buffer'"))))
+        (error "No current process.  See variable `coq-buffer'"))))
 
 ;;; end ob-coq
 
 (use-package org
   :config
   (org-babel-do-load-languages
-    'org-babel-load-languages
-    '((coq . t)
-      (ditaa . t)
-      (emacs-lisp . t)
-      (gnuplot . t)
-      (haskell . t)
-      (ocaml . t)
-      (python . t)
-      (restclient . t)
-      (shell . t)
-      (sql . t)))
+   'org-babel-load-languages
+   '((coq . t)
+     (ditaa . t)
+     (emacs-lisp . t)
+     (gnuplot . t)
+     (haskell . t)
+     (ocaml . t)
+     (python . t)
+     (restclient . t)
+     (shell . t)
+     (sql . t)))
   (setq org-ellipsis " ▾"
-    org-hide-emphasis-markers t
-    org-startup-indented t
-    org-src-fontify-natively t
-    org-src-tab-acts-natively t
-    org-confirm-babel-evaluate nil
-    org-edit-src-content-indentation 2
-    org-hide-block-startup t
-    org-src-preserve-indentation nil
-    org-startup-folded t
-    org-startup-with-inline-images t
-    org-image-actual-width 360
-    org-cycle-separator-lines 2
-    org-modules (quote (org-habit))
-    org-treat-insert-todo-heading-as-state-change t
-    org-log-done 'note
-    org-log-into-drawer t
-    org-habit-show-habits-only-for-today t
-		org-todo-keywords '(
-      (sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-			(sequence "BACKLOG(b)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|"
-                "DELEGATED(D)" "CANCELLED(c)"))
-    org-archive-location "~/appunti/archive.org::* From %s"
-    org-agenda-files '("~/appunti/gtd.org" "~/appunti/someday.org")
-    org-agenda-include-diary t
-    org-latex-listings 'minted
-    org-latex-packages-alist '(("" "minted"))
-    org-latex-pdf-process
-      '("pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
-        "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
-        "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f")
-    org-capture-templates
-      '(("i" "Inbox" entry (file "~/appunti/inbox.org"))
-		    ("t" "Todo" entry (file+headline "~/appunti/gtd.org" "Tasks")
-		     "* TODO %?\n  %i\n  %a")
-		    ("s" "Someday" entry (file "~/appunti/someday.org")
-		     "* TODO %?\n  %i\n  %a")))
+        org-hide-emphasis-markers t
+        org-startup-indented t
+        org-src-fontify-natively t
+        org-src-tab-acts-natively t
+        org-confirm-babel-evaluate nil
+        org-edit-src-content-indentation 2
+        org-hide-block-startup t
+        org-src-preserve-indentation nil
+        org-startup-folded t
+        org-startup-with-inline-images t
+        org-image-actual-width 360
+        org-cycle-separator-lines 2
+        org-modules (quote (org-habit))
+        org-treat-insert-todo-heading-as-state-change t
+        org-log-done 'note
+        org-log-into-drawer t
+        org-habit-show-habits-only-for-today t
+		    org-todo-keywords '(
+                            (sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+			                      (sequence "BACKLOG(b)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|"
+                                      "DELEGATED(D)" "CANCELLED(c)"))
+        org-archive-location "~/appunti/archive.org::* From %s"
+        org-agenda-files '("~/appunti/gtd.org" "~/appunti/someday.org")
+        org-agenda-include-diary t
+        org-latex-listings 'minted
+        org-latex-packages-alist '(("" "minted"))
+        org-latex-pdf-process
+        '("pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
+          "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
+          "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f")
+        org-capture-templates
+        '(("i" "Inbox" entry (file "~/appunti/inbox.org"))
+		      ("t" "Todo" entry (file+headline "~/appunti/gtd.org" "Tasks")
+		       "* TODO %?\n  %i\n  %a")
+		      ("s" "Someday" entry (file "~/appunti/someday.org")
+		       "* TODO %?\n  %i\n  %a")))
 
   (use-package org-contrib
     :ensure t)
@@ -784,19 +784,19 @@
   (org-roam-directory (file-truename "~/appunti/thoughts/"))
   (org-roam-dailies-directory "~/appunti/journal/")
   (org-roam-dailies-capture-templates
-    '(("d" "default" entry
-         "* %?"
-         :if-new (file+head "%<%Y-%m-%d>.org"
-                            "#+title: %<%Y-%m-%d>\n")))))
+   '(("d" "default" entry
+      "* %?"
+      :if-new (file+head "%<%Y-%m-%d>.org"
+                         "#+title: %<%Y-%m-%d>\n")))))
 
 (use-package org-roam-ui
   :ensure t
   :after org-roam
   :config
-    (setq org-roam-ui-sync-theme t
-          org-roam-ui-follow t
-          org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t))
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
 
 (use-package citar
   :ensure t
@@ -875,14 +875,14 @@
   (setq haskell-hoogle-command "hoogle")
   (setq haskell-hoogle-port-number 8100)
   (setq haskell-hoogle-server-command (lambda (port) (list
-                                        "hoogle"
-                                        "server"
-                                        "-p" (number-to-string port)
-                                        "--host"
-                                        "127.0.0.1"
-                                        "--local"
-                                        "--haskell"
-                                        "-n")))
+                                                      "hoogle"
+                                                      "server"
+                                                      "-p" (number-to-string port)
+                                                      "--host"
+                                                      "127.0.0.1"
+                                                      "--local"
+                                                      "--haskell"
+                                                      "-n")))
   (setq haskell-hoogle-url "http://127.0.0.1:8100/?hoogle=%s")
   )
 
@@ -895,11 +895,11 @@
   :ensure t
   :init
   (add-hook 'purescript-mode-hook (
-    lambda ()
-      (psc-ide-mode)
-      (company-mode)
-      (flycheck-mode)
-      (turn-on-purescript-indentation))))
+                                   lambda ()
+                                   (psc-ide-mode)
+                                   (company-mode)
+                                   (flycheck-mode)
+                                   (turn-on-purescript-indentation))))
 
 ;; (use-package agda2-mode
 ;;   :ensure t
@@ -977,8 +977,8 @@
   :commands (markdown-mode gfm-mode)
   :mode
   (("README\\.md\\'" . gfm-mode)
-    ("\\.md\\'" . markdown-mode)
-    ("\\.markdown\\'" . markdown-mode))
+   ("\\.md\\'" . markdown-mode)
+   ("\\.markdown\\'" . markdown-mode))
   :init
   (setq markdown-command "multimarkdown"))
 
@@ -1006,9 +1006,9 @@
    'minibuffer-complete-word
    'self-insert-command
    minibuffer-local-completion-map)
-   ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-   (setq sbt:program-options '("-Dsbt.supershell=false"))
-)
+  ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+  (setq sbt:program-options '("-Dsbt.supershell=false"))
+  )
 
 (use-package terraform-mode
   :ensure t
@@ -1032,16 +1032,17 @@
 (use-package eglot
   :ensure t
   :hook
-  ((python-mode
+  ((csharp-mode
     haskell-mode
-    scala-mode
-    purescript-mode
     js2-mode
+    nix-mode
+    purescript-mode
+    php-mode
+    python-mode
+    scala-mode
     typescript-mode
     typescriptreact-mode
-    csharp-mode
-    php-mode
-     ) . eglot-ensure)
+    ) . eglot-ensure)
   :config
   (add-to-list 'eglot-server-programs '((php-mode phps-mode) "intelephense" "--stdio")))
 
@@ -1135,7 +1136,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-    '(yasnippet-snippets yaml-mode writeroom-mode which-key web-mode vterm-toggle vertico undo-tree typescript-mode tree-sitter-langs tree-sitter-indent tramp terraform-mode scss-mode scala-mode sbt-mode rustic rg quelpa-use-package purescript-mode psc-ide proof-general projectile php-mode perspective org-roam-ui org-modern org-contrib org-auto-tangle orderless ob-restclient nix-mode multi-vterm marginalia magit-todos magit-delta idris-mode haskell-mode git-gutter-fringe general format-all forge evil-surround evil-org evil-goggles evil-collection eshell-vterm eshell-toggle eshell-git-prompt envrc embark-consult ein eglot editorconfig doom-themes doom-modeline dockerfile-mode docker dirvish csharp-mode corfu consult-yasnippet company-coq company-box citar cape blamer all-the-icons-completion affe ace-window tsi js2-mode dashboard)))
+   '(yasnippet-snippets yaml-mode writeroom-mode which-key web-mode vterm-toggle vertico undo-tree typescript-mode tree-sitter-langs tree-sitter-indent tramp terraform-mode scss-mode scala-mode sbt-mode rustic rg quelpa-use-package purescript-mode psc-ide proof-general projectile php-mode perspective org-roam-ui org-modern org-contrib org-auto-tangle orderless ob-restclient nix-mode multi-vterm marginalia magit-todos magit-delta idris-mode haskell-mode git-gutter-fringe general format-all forge evil-surround evil-org evil-goggles evil-collection eshell-vterm eshell-toggle eshell-git-prompt envrc embark-consult ein eglot editorconfig doom-themes doom-modeline dockerfile-mode docker dirvish csharp-mode corfu consult-yasnippet company-coq company-box citar cape blamer all-the-icons-completion affe ace-window tsi js2-mode dashboard)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

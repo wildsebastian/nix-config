@@ -159,10 +159,12 @@
         };
         "delta \"magit-delta\"".line-numbers = false;
         diff.colorMoved = "default";
+        fetch.prune = true;
         gpg.format = "ssh";
         "gpg \"ssh\"".program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
         init.defaultBranch = "main";
         merge.conflictstyle = "diff3";
+        pull.rebase = true;
         user.signingkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDdFv1ZT9EzT2mrapiucBoe83vJDwRuBri245aYL+dmI";
       };
       userEmail = "sebastian@wild-siena.com";

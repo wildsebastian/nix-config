@@ -1,48 +1,50 @@
 { config, pkgs, ... }:
 
 {
-  programs.zsh.enable = true;
-  programs.zsh.enableBashCompletion = true;
-  programs.zsh.enableSyntaxHighlighting = true;
-  programs.zsh.promptInit = ''
-    eval "$(starship init zsh)"
-    eval "$(direnv hook zsh)"
+  programs.zsh = {
+    enable = true;
+    enableBashCompletion = true;
+    syntaxHighlighting.enable = true;
+    promptInit = ''
+      eval "$(starship init zsh)"
+      eval "$(direnv hook zsh)"
 
-    if [ -n "$\{commands[fzf-share]\}" ]; then
-      source "$(fzf-share)/key-bindings.zsh"
-      source "$(fzf-share)/completion.zsh"
-    fi
-  '';
+      if [ -n "$\{commands[fzf-share]\}" ]; then
+        source "$(fzf-share)/key-bindings.zsh"
+        source "$(fzf-share)/completion.zsh"
+      fi
+    '';
 
-  programs.zsh.loginShellInit = ''
-    :r() {
-      direnv reload
-    }
+    loginShellInit = ''
+      :r() {
+        direnv reload
+      }
 
-    function gi() {
-      curl -sL https://www.gitignore.io/api/$@
-    }
+      function gi() {
+        curl -sL https://www.gitignore.io/api/$@
+      }
 
-    gfcto() {
-      git fetch && git checkout -b $1 origin/$1
-    }
+      gfcto() {
+        git fetch && git checkout -b $1 origin/$1
+      }
 
-    gfctr() {
-      git fetch && git checkout -b $2 $1/$2
-    }
+      gfctr() {
+        git fetch && git checkout -b $2 $1/$2
+      }
 
-    nixhs() {
-      nix-env -f '<nixpkgs>' -qaP -A haskell.packages.$1 | rg $2;
-    }
+      nixhs() {
+        nix-env -f '<nixpkgs>' -qaP -A haskell.packages.$1 | rg $2;
+      }
 
-    nixpy() {
-      nix-env -f '<nixpkgs>' -qaP -A python$1Packages | rg $2;
-    }
+      nixpy() {
+        nix-env -f '<nixpkgs>' -qaP -A python$1Packages | rg $2;
+      }
 
-    nixel() {
-      nix-env -f '<nixpkgs>' -qaP -A emacsPackages | rg $1;
-    }
-  '';
+      nixel() {
+        nix-env -f '<nixpkgs>' -qaP -A emacsPackages | rg $1;
+      }
+    '';
+  };
 
   environment.etc."zshenv".text = ''
     if [ -d "$HOME/.nixpkgs/bin" ] ; then

@@ -45,6 +45,7 @@ with pkgs; [
   procs
   python39
   ripgrep
+  rnix-lsp
   sd
   silver-searcher
   tokei

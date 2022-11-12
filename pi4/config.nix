@@ -95,12 +95,16 @@
       };
     };
     grafana = {
-      addr = "192.168.178.3";
-      domain = "192.168.178.3";
-      enable = true;
-      port = 3000;
-      protocol = "http";
       dataDir = "/var/lib/grafana";
+      enable = true;
+      settings = {
+        server = {
+          http_addr = "192.168.178.3";
+          http_port = 3000;
+          domain = "192.168.178.3";
+          protocol = "http";
+        };
+      };
     };
     openssh.enable = true;
     prometheus = {
