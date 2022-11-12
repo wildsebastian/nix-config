@@ -308,11 +308,14 @@
     oci-containers.containers = {
       fritz = {
         autoStart = true;
-        environmentFiles = [ /home/sebastian/.fritzbox.env ];
+        cmd = [ "--config" "/app/fritz-exporter.yml" ];
         extraOptions = [ "--pull=newer" ];
         image = "pdreker/fritz_exporter:2";
         login.registry = "registry-1.docker.io";
         ports = [ "9007:9007/tcp" ];
+        volumes = [
+          "/home/sebastian/fritz-exporter.yml:/app/fritz-exporter.yml"
+        ];
       };
 
       pihole = {
