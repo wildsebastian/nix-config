@@ -13,7 +13,7 @@
 (eval-when-compile
   (require 'use-package))
 
-;; Set nix path for emacs deamon started by launchd
+;; Set nix path for emacs daemon started by launchd
 (setenv "NIX_PATH"
         (concat
          "darwin-config="
@@ -555,6 +555,8 @@
   (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
   (setq dashboard-banner-logo-title "Welcome Sebastian")
   (setq dashboard-startup-banner "~/logo256.png")
+  (setq dashboard-center-content t)
+  (setq dashboard-set-navigator t)
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
   (setq dashboard-items '((projects . 10) (agenda . 10))))
@@ -1029,6 +1031,9 @@
   :ensure t
   :mode ("\\.cs\\'" . csharp-tree-sitter-mode))
 
+(defun eglot-format-buffer-on-save ()
+  (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
+
 (use-package eglot
   :ensure t
   :hook
@@ -1043,6 +1048,12 @@
     typescript-mode
     typescriptreact-mode
     ) . eglot-ensure)
+  ((haskell-mode
+    js2-mode
+    nix-mode
+    php-mode
+    typescript-mode
+    typescriptreact-mode) . eglot-format-buffer-on-save)
   :config
   (add-to-list 'eglot-server-programs '((php-mode phps-mode) "intelephense" "--stdio")))
 
