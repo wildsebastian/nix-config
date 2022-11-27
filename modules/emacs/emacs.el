@@ -30,7 +30,7 @@
          )
         )
 
-(setenv "SHELL" "/run/current-system/sw/bin/zsh")
+(setenv "SHELL" "/etc/profiles/per-user/sebastian/bin/zsh")
 
 (setq
  backup-directory-alist '(("." . "~/.emacs_backups"))
@@ -1049,11 +1049,8 @@
     typescriptreact-mode
     ) . eglot-ensure)
   ((haskell-mode
-    js2-mode
     nix-mode
-    php-mode
-    typescript-mode
-    typescriptreact-mode) . eglot-format-buffer-on-save)
+    php-mode) . eglot-format-buffer-on-save)
   :config
   (add-to-list 'eglot-server-programs '((php-mode phps-mode) "intelephense" "--stdio")))
 
