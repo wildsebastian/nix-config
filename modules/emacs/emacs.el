@@ -591,7 +591,9 @@
   (purescript-mode . format-all-mode))
 
 (use-package magit
-  :ensure t)
+  :ensure t
+  :config
+  (setq magit-git-executable "/etc/profiles/per-user/sebastian/bin/git"))
 
 (use-package magit-delta
   :ensure t
