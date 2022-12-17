@@ -169,6 +169,7 @@
         ("C-r" . undo-tree-redo)
         ("u"   . undo-tree-undo))
   :config
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
   (global-undo-tree-mode 1))
 
 (use-package doom-modeline
@@ -424,7 +425,8 @@
   ;; Enable recursive minibuffers
   (setq enable-recursive-minibuffers t)
   ;; Auto reload buffer when the file on disk changes
-  (setq global-auto-revert-mode t))
+  (setq global-auto-revert-mode t)
+  (setq auto-revert-use-notify nil))
 
 (use-package marginalia
   :ensure t
