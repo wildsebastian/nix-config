@@ -11,9 +11,6 @@
     systemPackages = import ./packages.nix { inherit pkgs; };
     variables.LANG = "en_US.UTF-8";
     variables.LC_ALL = "en_US.UTF-8";
-    pathsToLink = [
-      "/share/nix-direnv"
-    ];
   };
 
   fonts = {
@@ -63,9 +60,6 @@
     config.allowUnsupportedSystem = true;
     overlays = [
       emacs.overlay
-      (self: super: {
-        nix-direnv = super.nix-direnv.override { enableFlakes = true; };
-      })
       (import ../overlays/haskell.nix)
       (import ../overlays/packages.nix)
     ];

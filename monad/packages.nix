@@ -24,7 +24,6 @@ with pkgs; [
   curl
   ctags
   delta
-  direnv
   du-dust
   editorconfig-core-c
   exa
@@ -39,7 +38,6 @@ with pkgs; [
   mosh
   neofetch
   ngrok
-  nix-direnv
   nushell
   openssl_1_1
   procs
