@@ -310,7 +310,7 @@
         autoStart = true;
         cmd = [ "--config" "/app/fritz-exporter.yml" ];
         extraOptions = [ "--pull=newer" ];
-        image = "pdreker/fritz_exporter:2";
+        image = "pdreker/fritz_exporter:2.2.1";
         login.registry = "registry-1.docker.io";
         ports = [ "9007:9007/tcp" ];
         volumes = [
@@ -326,7 +326,7 @@
           "--network=host"
           "--pull=newer"
         ];
-        image = "pihole/pihole:latest";
+        image = "pihole/pihole:2022.12";
         volumes = [
           "/home/sebastian/etc-pihole:/etc/pihole"
           "/home/sebastian/etc-dnsmasq.d:/etc/dnsmasq.d"
