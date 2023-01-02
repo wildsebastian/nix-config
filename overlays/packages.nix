@@ -8,7 +8,7 @@ self: super:
     doCheck = false;
   });
 
-  nix = super.nix.overrideDerivation (attrs: {
-    doCheck = false;
-  });
+  # nix = super.nix.overrideDerivation (attrs: {
+  #   doCheck = false;
+  # });
 }
