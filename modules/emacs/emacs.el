@@ -115,13 +115,6 @@
 
 (setq evil-want-C-i-jump nil)
 
-(use-package ace-window
-  :ensure t
-  :init
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
-        aw-minibuffer-flag t)
-  (ace-window-display-mode 1))
-
 (use-package evil
   :ensure t
   :config
@@ -198,6 +191,14 @@
   (doom-modeline-major-mode-icon t)
   (doom-modeline-major-mode-color-icon t)
   (doom-modeline-buffer-state-icon t))
+
+(use-package which-key
+  :ensure t
+  :config
+  (setq which-key-popup-type 'minibuffer
+        which-key-idle-delay 0.3)
+  (which-key-setup-side-window-bottom)
+  (which-key-mode))
 
 (use-package general
   :ensure t
@@ -658,9 +659,11 @@
                    :height 140
                    :italic t))))
 
-(use-package sql)
+(use-package sql
+  :defer 10)
 
-(use-package ob-sql)
+(use-package ob-sql
+  :defer 10)
 
 ;;; ob-coq
 ;;; https://git.sr.ht/~bzg/org-contrib/tree/master/item/lisp/ob-coq.el
@@ -713,6 +716,14 @@
         (error "No current process.  See variable `coq-buffer'"))))
 
 ;;; end ob-coq
+
+(use-package restclient
+  :defer t
+  :ensure t)
+
+(use-package ob-restclient
+  :defer t
+  :ensure t)
 
 (use-package org
   :config
@@ -868,15 +879,18 @@
 
 (use-package nix-mode
   :ensure t
+  :defer t
   :mode "\\.nix\\'")
 
 (use-package python-mode
+  :defer t
   :mode ("\\.py" . python-mode)
   :custom
   (python-shell-interpreter "python3"))
 
 (use-package haskell-mode
   :ensure t
+  :defer t
   :after tree-sitter
   :mode
   ("\\.hs" . haskell-mode)
@@ -900,11 +914,11 @@
                                                       "--local"
                                                       "--haskell"
                                                       "-n")))
-  (setq haskell-hoogle-url "http://127.0.0.1:8100/?hoogle=%s")
-  )
+  (setq haskell-hoogle-url "http://127.0.0.1:8100/?hoogle=%s"))
 
 (use-package purescript-mode
   :ensure t
+  :defer t
   :mode
   ("\\.purs" . purescript-mode))
 
@@ -925,21 +939,25 @@
 
 (use-package yaml-mode
   :ensure t
+  :defer t
   :mode
   ("\\.yml\\'" . yaml-mode))
 
 (use-package idris-mode
   :ensure t
+  :defer t
   :mode
   ("\\.idr" . idris-mode))
 
 (use-package php-mode
   :ensure t
+  :defer t
   :mode
   ("\\.php" . php-mode))
 
 (use-package typescript-mode
   :ensure t
+  :defer t
   :after tree-sitter
   :config
   ;; we choose this instead of tsx-mode so that eglot can automatically figure out language for server
@@ -957,6 +975,7 @@
 ;; great tree-sitter-based indentation for typescript/tsx, css, json
 (use-package tsi
   :after tree-sitter
+  :defer t
   :quelpa (tsi :fetcher github :repo "orzechowskid/tsi.el")
   ;; define autoload definitions which when actually invoked will cause package to be loaded
   :commands (tsi-typescript-mode tsi-json-mode tsi-css-mode)
@@ -968,6 +987,7 @@
 
 (use-package js2-mode
   :ensure t
+  :defer t
   :mode
   ("\\.js\\'" . js2-mode)
   ("\\.jsx\\'" . js2-mode)
@@ -977,6 +997,7 @@
 
 (use-package web-mode
   :ensure t
+  :defer t
   :mode
   ("\\.tpl\\'" . web-mode)
   :config
@@ -986,11 +1007,13 @@
 
 (use-package scss-mode
   :ensure t
+  :defer t
   :mode
   ("\\.scss\\'" . scss-mode))
 
 (use-package markdown-mode
   :ensure t
+  :defer t
   :commands (markdown-mode gfm-mode)
   :mode
   (("README\\.md\\'" . gfm-mode)
@@ -1001,6 +1024,7 @@
 
 (use-package proof-general
   :ensure t
+  :defer t
   :mode ("\\.v\\'" . coq-mode)
   :custom
   (proof-layout-windows 'hybrid)
@@ -1010,11 +1034,13 @@
 
 (use-package scala-mode
   :ensure t
+  :defer t
   :mode "\\.s\\(cala\\|bt\\)$"
   :interpreter ("scala" . scala-mode))
 
 (use-package sbt-mode
   :ensure t
+  :defer t
   :commands sbt-start sbt-command
   :config
   ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
@@ -1029,21 +1055,25 @@
 
 (use-package terraform-mode
   :ensure t
+  :defer t
   :mode ("\\.tf\\'" . terraform-mode))
 
 (use-package yaml-mode
   :ensure t
+  :defer t
   :mode
   ("\\.yml\\'" . yaml-mode)
   ("\\.yaml\\'" . yaml-mode))
 
 (use-package rustic
   :ensure t
+  :defer t
   :custom
   (rustic-format-on-save t))
 
 (use-package csharp-mode
   :ensure t
+  :defer t
   :mode ("\\.cs\\'" . csharp-tree-sitter-mode))
 
 (defun eglot-format-buffer-on-save ()
@@ -1051,6 +1081,7 @@
 
 (use-package eglot
   :ensure t
+  :defer t
   :hook
   ((csharp-mode
     haskell-mode
@@ -1069,16 +1100,9 @@
   :config
   (add-to-list 'eglot-server-programs '((php-mode phps-mode) "intelephense" "--stdio")))
 
-(use-package which-key
-  :ensure t
-  :config
-  (setq which-key-popup-type 'minibuffer
-        which-key-idle-delay 0.3)
-  (which-key-setup-side-window-bottom)
-  (which-key-mode))
-
 (use-package company
   :ensure t
+  :defer t
   :after eglot
   :custom
   (company-minimum-prefix-length 1)
@@ -1087,38 +1111,38 @@
 
 (use-package company-box
   :ensure t
+  :defer t
   :hook (company-mode . company-box-mode))
 
 (use-package company-coq
   :ensure t
+  :defer t
+  :after proof-general
   :hook (coq-mode . company-coq-mode))
 
 (use-package docker
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package dockerfile-mode
   :ensure t
+  :defer t
   :mode ("Dockerfile\\'" . dockerfile-mode))
 
-(use-package restclient
-  :ensure t)
-
-(use-package ob-restclient
-  :ensure t)
-
-(use-package ein
-  :ensure t)
-
 (use-package vterm
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package vterm-toggle
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package multi-vterm
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package eshell
+  :defer t
   :init
   (setq eshell-scroll-to-bottom-on-input 'all
         eshell-error-if-no-glob t
@@ -1129,17 +1153,20 @@
 
 (use-package eshell-vterm
   :ensure t
+  :defer t
   :after eshell vterm
   :config
   (eshell-vterm-mode))
 
 (use-package eshell-git-prompt
   :ensure t
+  :defer t
   :init
   (eshell-git-prompt-use-theme 'multiline))
 
 (use-package eshell-toggle
   :ensure t
+  :defer t
   :custom
   (eshell-toggle-size-fraction 3)
   (eshell-toggle-use-projectile-root t)
@@ -1151,5 +1178,6 @@
 
 (use-package writeroom-mode
   :ensure t
+  :defer t
   :config
   (setq writeroom-width 0.5))
