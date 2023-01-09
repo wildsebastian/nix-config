@@ -47,6 +47,5 @@ with pkgs; [
   sd
   silver-searcher
   tokei
-  wireshark
   wget2
 ]

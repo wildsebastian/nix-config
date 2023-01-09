@@ -167,7 +167,6 @@
 
 (use-package doom-modeline
   :ensure t
-  :after eshell
   :custom-face
   (mode-line ((t (:height 1.0))))
   (mode-line-inactive ((t (:height 1.0))))
@@ -943,11 +942,11 @@
   :mode
   ("\\.yml\\'" . yaml-mode))
 
-(use-package idris-mode
+(use-package idris2-mode
   :ensure t
   :defer t
   :mode
-  ("\\.idr" . idris-mode))
+  ("\\.idr" . idris2-mode))
 
 (use-package php-mode
   :ensure t
