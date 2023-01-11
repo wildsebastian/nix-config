@@ -298,6 +298,14 @@
   hardware.pulseaudio.enable = false;
 
   virtualisation = {
+    containers = {
+      enable = true;
+      containersConf = {
+        settings = {
+	  engine.helper_binaries_dir = ["${pkgs.netavark}/bin"];
+	};
+      };
+    };
     podman = {
       enable = true;
       dockerCompat = true;
