@@ -28,6 +28,7 @@ with pkgs; [
   editorconfig-core-c
   exa
   fd
+  firefox-bin
   fzf
   gnugrep
   gnupg

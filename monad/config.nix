@@ -1,4 +1,4 @@
-{ config, lib, pkgs, darwin, emacs, ... }:
+{ config, lib, pkgs, darwin, emacs, firefox-darwin, ... }:
 
 {
   imports = [
@@ -60,6 +60,7 @@
     config.allowUnsupportedSystem = true;
     overlays = [
       emacs.overlay
+      firefox-darwin.overlay
       (import ../overlays/haskell.nix)
       (import ../overlays/packages.nix)
     ];
