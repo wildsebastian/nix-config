@@ -13,7 +13,6 @@ with pkgs; [
   git
   htop
   jq
-  macchina
   minify
   mosh
   neovim
