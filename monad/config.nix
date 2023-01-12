@@ -8,7 +8,7 @@
   disabledModules = [ "targets/darwin/linkapps.nix" ];
 
   environment = {
-    systemPackages = import ./packages.nix { inherit pkgs; };
+    systemPackages = [];
     variables.LANG = "en_US.UTF-8";
     variables.LC_ALL = "en_US.UTF-8";
   };
