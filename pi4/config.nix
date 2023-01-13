@@ -302,8 +302,8 @@
       enable = true;
       containersConf = {
         settings = {
-	  engine.helper_binaries_dir = ["${pkgs.netavark}/bin"];
-	};
+          engine.helper_binaries_dir = [ "${pkgs.netavark}/bin" ];
+        };
       };
     };
     podman = {

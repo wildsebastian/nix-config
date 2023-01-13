@@ -6,7 +6,7 @@ self: pkgs:
       ghc92 = pkgs.haskell.packages.ghc92.override {
         overrides = self: super: with pkgs.haskell.lib; {
           fsnotify = dontCheck super.fsnotify;
-	  Agda = removeConfigureFlag super.Agda "-foptimise-heavily";
+          Agda = removeConfigureFlag super.Agda "-foptimise-heavily";
         };
       };
     };
