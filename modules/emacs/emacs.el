@@ -931,10 +931,10 @@
                                    (flycheck-mode)
                                    (turn-on-purescript-indentation))))
 
-;; (use-package agda2-mode
-;;   :ensure t
-;;   :mode
-;;   ("\\.agda\\'" . agda2-mode))
+(use-package agda2-mode
+  :ensure t
+  :mode
+  ("\\.agda\\'" . agda2-mode))
 
 (use-package yaml-mode
   :ensure t
@@ -1172,11 +1172,11 @@
   (eshell-toggle-run-command nil)
   (eshell-toggle-init-function #'eshell-toggle-init-eshell))
 
-;; (load-file (let ((coding-system-for-read 'utf-8))
-;;                 (shell-command-to-string "agda-mode locate")))
-
 (use-package writeroom-mode
   :ensure t
   :defer t
   :config
   (setq writeroom-width 0.5))
+
+(load-file (let ((coding-system-for-read 'utf-8))
+                (shell-command-to-string "agda-mode locate")))

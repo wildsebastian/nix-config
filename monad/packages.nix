@@ -4,7 +4,7 @@ let
   zotero = pkgs.callPackage ../darwin/zotero.nix { };
 in
 with pkgs; [
-  # agda
+  agda
   (import ../modules/emacs/emacs.nix { inherit pkgs; })
 
   diffstat
