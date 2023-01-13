@@ -587,6 +587,10 @@
 (use-package tramp
   :ensure t)
 
+(use-package polymode
+  :ensure t
+  :defer t)
+
 (use-package projectile
   :ensure t
   :config
@@ -923,6 +927,7 @@
 
 (use-package psc-ide
   :ensure t
+  :defer t
   :init
   (add-hook 'purescript-mode-hook (
                                    lambda ()
@@ -933,8 +938,14 @@
 
 (use-package agda2-mode
   :ensure t
+  :defer t
+  :after polymode
   :mode
   ("\\.agda\\'" . agda2-mode))
+
+(use-package org-agda-mode
+  :after (polymode agda2-mode)
+  :quelpa (org-agda-mode :fetcher github :repo "alhassy/org-agda-mode"))
 
 (use-package yaml-mode
   :ensure t
