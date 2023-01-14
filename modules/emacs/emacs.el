@@ -588,8 +588,7 @@
   :ensure t)
 
 (use-package polymode
-  :ensure t
-  :defer t)
+  :ensure t)
 
 (use-package projectile
   :ensure t
@@ -600,6 +599,9 @@
   :init
   (when (file-directory-p "~/src")
     (setq projectile-project-search-path '("~/src"))))
+
+(use-package reformatter
+  :ensure t)
 
 (use-package format-all
   :ensure t
@@ -882,7 +884,6 @@
 
 (use-package nix-mode
   :ensure t
-  :defer t
   :mode "\\.nix\\'")
 
 (use-package python-mode
@@ -938,13 +939,11 @@
 
 (use-package agda2-mode
   :ensure t
-  :defer t
   :after polymode
   :mode
   ("\\.agda\\'" . agda2-mode))
 
 (use-package org-agda-mode
-  :after (polymode agda2-mode)
   :quelpa (org-agda-mode :fetcher github :repo "alhassy/org-agda-mode"))
 
 (use-package yaml-mode
