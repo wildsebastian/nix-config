@@ -561,18 +561,39 @@
   (setq-default ispell-program-name "aspell")
   (flyspell-mode 1))
 
-(use-package dashboard
+(use-package projectile
   :ensure t
   :config
+  (projectile-mode)
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  (when (file-directory-p "~/src")
+    (setq projectile-project-search-path '("~/src")))
+  :config
+  (setq projectile-sort-order 'recently-active))
+
+(use-package page-break-lines
+  :ensure t)
+
+(use-package dashboard
+  :ensure t
+  :init
   (dashboard-setup-startup-hook)
-  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
-  (setq dashboard-banner-logo-title "Welcome Sebastian")
+  :config
+  (setq dashboard-projects-backend 'projectile)
+  (setq initial-buffer-choice (lambda ()
+                                (get-buffer-create "*dashboard*")
+                                ;; Needed to show icons on startup
+                                (dashboard-refresh-buffer)))
   (setq dashboard-startup-banner "~/logo256.png")
+  (setq dashboard-set-footer t)
   (setq dashboard-center-content t)
   (setq dashboard-set-navigator t)
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
-  (setq dashboard-items '((projects . 10) (agenda . 10))))
+  (setq dashboard-set-navigator t)
+  (setq dashboard-items '((projects . 5) (recents  . 5) (bookmarks . 5))))
 
 (use-package xterm-color
   :ensure t
@@ -589,16 +610,6 @@
 
 (use-package polymode
   :ensure t)
-
-(use-package projectile
-  :ensure t
-  :config
-  (projectile-mode)
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
-  :init
-  (when (file-directory-p "~/src")
-    (setq projectile-project-search-path '("~/src"))))
 
 (use-package reformatter
   :ensure t)

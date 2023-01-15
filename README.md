@@ -24,3 +24,7 @@ You can append the host of the machine in the flake if nix can not match it auto
 ```sh
 darwin-rebuild switch --flake <path_to_flake>/.#<hostname>
 ```
+
+## Note
+
+After emacs setup, run `M-x all-the-icons-install-fonts`.
