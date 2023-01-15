@@ -102,9 +102,16 @@
 
 ;; Modes that are always active
 (use-package doom-themes
+  :ensure t)
+
+(use-package kaolin-themes
   :ensure t
   :config
-  (load-theme 'doom-nord t))
+  (load-theme 'kaolin-dark t)
+  :custom
+  (kaolin-themes-italic-comments t)
+  (kaolin-themes-distinct-fringe t)
+  (kaolin-themes-git-gutter-solid t))
 
 (use-package editorconfig
   :ensure t
