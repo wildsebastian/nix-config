@@ -38,11 +38,6 @@
     variables.LC_ALL = "en_US.UTF-8";
   };
 
-  fonts = {
-    fontDir.enable = true;
-    fonts = [ pkgs.jetbrains-mono pkgs.nerdfonts ];
-  };
-
   time.timeZone = "Europe/Berlin";
 
   fileSystems = {

@@ -5,7 +5,6 @@ with pkgs; [
   bottom
   curl
   direnv
-  docker-compose
   du-dust
   exa
   fd
