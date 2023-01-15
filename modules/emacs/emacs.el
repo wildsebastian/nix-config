@@ -956,7 +956,6 @@
                                    (turn-on-purescript-indentation))))
 
 (use-package agda2-mode
-  :ensure t
   :after polymode
   :mode
   ("\\.agda\\'" . agda2-mode))
@@ -971,7 +970,6 @@
   ("\\.yml\\'" . yaml-mode))
 
 (use-package idris2-mode
-  :ensure t
   :defer t
   :mode
   ("\\.idr" . idris2-mode))
