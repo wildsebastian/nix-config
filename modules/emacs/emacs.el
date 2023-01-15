@@ -410,6 +410,16 @@
   :init
   (savehist-mode))
 
+(use-package dwim-shell-command
+  :ensure t
+  :bind (([remap shell-command] . dwim-shell-command)
+         :map dired-mode-map
+         ([remap dired-do-async-shell-command] . dwim-shell-command)
+         ([remap dired-do-shell-command] . dwim-shell-command)
+          ([remap dired-smart-shell-command] . dwim-shell-command)))
+
+(require 'dwim-shell-commands)
+
 ;; A few more useful configurations...
 (use-package emacs
   :init
