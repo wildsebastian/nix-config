@@ -622,6 +622,18 @@
 
   (advice-add 'compilation-filter :around #'my/advice-compilation-filter))
 
+(use-package proced
+  :commands proced
+  :config
+  (setq-default proced-auto-update-flag t)
+  (setq proced-auto-update-interval 1
+        proced-goal-attribute nil
+        proced-enable-color-flag t)
+  (add-to-list
+   'proced-format-alist
+   '(custom user pid ppid sess tree pcpu pmem rss start time state (args comm)))
+  (setq-default proced-format 'custom))
+
 (use-package tramp
   :ensure t)
 
