@@ -57,7 +57,6 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
-(flymake-mode -1)
 (tab-bar-mode -1)
 (display-battery-mode t)
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
@@ -293,10 +292,10 @@
    ;; eglot
    "efd" '(eglot-find-declaration :which-key "find definition")
    "efr" '(eglot-find-implementation :which-key "find references")
-   "efn" '(flycheck-next-error :which-key "next error")
-   "efp" '(flycheck-previous-error :which-key "previous error")
-   "efca" '(eglot-code-actions :which-key "code action")
-   "eff" '(eglot-rename :which-key "rename"))
+   "en" '(flymake-goto-next-error :which-key "next error")
+   "ep" '(flymake-goto-previous-error :which-key "previous error")
+   "ea" '(eglot-code-actions :which-key "code action")
+   "er" '(eglot-rename :which-key "rename"))
   )
 
 (use-package yasnippet
@@ -704,6 +703,11 @@
                    :height 140
                    :italic t))))
 
+(use-package flymake
+  :custom
+  (help-at-pt-timer-delay 0.2)
+  (help-at-pt-display-when-idle '(flymake-overlay)))
+
 (use-package sql
   :defer 10)
 
@@ -974,7 +978,7 @@
                                    lambda ()
                                    (psc-ide-mode)
                                    (company-mode)
-                                   (flycheck-mode)
+                                   (flymake-mode)
                                    (turn-on-purescript-indentation))))
 
 (use-package agda2-mode
