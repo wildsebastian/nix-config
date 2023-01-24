@@ -101,7 +101,10 @@
         };
       };
     };
-    openssh.enable = true;
+    openssh = {
+      enable = true;
+      passwordAuthentication = false;
+    };
     prometheus = {
       enable = true;
       port = 9001;
@@ -277,13 +280,22 @@
   };
 
   users = {
-    users.sebastian = {
-      isNormalUser = true;
-      extraGroups = [ "wheel" "docker" ];
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDdFv1ZT9EzT2mrapiucBoe83vJDwRuBri245aYL+dmI sebastian@monad"
-      ];
-      shell = pkgs.zsh;
+    users = {
+      root = {
+        openssh.authorizedKeys.keys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDdFv1ZT9EzT2mrapiucBoe83vJDwRuBri245aYL+dmI sebastian@monad"
+        ];
+        shell = pkgs.zsh;
+      };
+
+      sebastian = {
+        isNormalUser = true;
+        extraGroups = [ "wheel" "docker" ];
+        openssh.authorizedKeys.keys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDdFv1ZT9EzT2mrapiucBoe83vJDwRuBri245aYL+dmI sebastian@monad"
+        ];
+        shell = pkgs.zsh;
+      };
     };
   };
 
