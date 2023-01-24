@@ -42,6 +42,7 @@ with pkgs; [
   mosh
   neofetch
   ngrok
+  nixos-rebuild
   nushell
   openssl_1_1
   procs
