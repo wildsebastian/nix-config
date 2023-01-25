@@ -123,6 +123,9 @@
 
 (use-package evil
   :ensure t
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
   :config
   (setq evil-undo-system 'undo-tree)
   (evil-set-initial-state 'dashboard-mode 'motion)
@@ -141,11 +144,11 @@
 (use-package evil-collection
   :ensure t
   :after evil
+  :init
+  (evil-collection-init)
   :custom
-  (evil-want-integration nil)
-  (evil-collection-company-use-tng nil)
-  :config
-  (evil-collection-init))
+  (evil-collection-magit-want-horizontal-movement t)
+  (evil-collection-magit-use-y-for-yank t))
 
 (use-package evil-surround
   :ensure t
@@ -297,6 +300,16 @@
    "ea" '(eglot-code-actions :which-key "code action")
    "er" '(eglot-rename :which-key "rename"))
   )
+
+(use-package emojify
+  :ensure t
+  :hook (after-init . global-emojify-mode)
+  :config
+  (when (member "Segoe UI Emoji" (font-family-list))
+    (set-fontset-font
+     t 'symbol (font-spec :family "Apple Emoji") nil 'prepend))
+  (setq emojify-display-style 'unicode)
+  (setq emojify-emoji-styles '(unicode)))
 
 (use-package yasnippet
   :ensure t
@@ -702,6 +715,12 @@
                    :background nil
                    :height 140
                    :italic t))))
+
+(use-package code-review
+  :ensure t
+  :custom
+  (code-review-fill-column 80)
+  (code-review-download-dir "/tmp/code-review/"))
 
 (use-package flymake
   :custom
