@@ -212,6 +212,9 @@
   :ensure t
   :config
   (general-define-key
+    "M-e" '(tempel-expand :which-key "Tempel snippet expand")
+  )
+  (general-define-key
    :states '(normal motion visual)
    :keymaps 'override
    :prefix "SPC"
@@ -283,10 +286,9 @@
    "pt" '(projectile-test-project :which-key "run tests")
    "pr" '(projectile-run-project :which-key "run project")
 
-   ;; Yasnippet
-   "y" '(nil :which-key "yasnippet")
-   "yi" '(yas-insert-snippet :which-key "yasnippet insert")
-   "yl" '(yas/describe-tables :which-key "yasnippet show snippets")
+   ;; Snippets
+   "s" '(nil :which-key "tempel snippets")
+   "si" '(tempel-insert :which-key "tempel insert")
    )
   (general-define-key
    :states '(normal motion)
@@ -311,24 +313,19 @@
   (setq emojify-display-style 'unicode)
   (setq emojify-emoji-styles '(unicode)))
 
-(use-package yasnippet
+(use-package tempel
   :ensure t
+  :init
+  ;; Setup completion at point
+  (defun tempel-setup-capf ()
+    (setq-local completion-at-point-functions
+                (cons #'tempel-expand
+                      completion-at-point-functions)))
+  (add-hook 'prog-mode-hook 'tempel-setup-capf)
+  (add-hook 'text-mode-hook 'tempel-setup-capf)
   :config
-  (use-package yasnippet-snippets
-    :ensure t)
-  (use-package consult-yasnippet
-    :ensure t)
-  (yas-reload-all)
-  (yas-global-mode t)
-  (define-key yas-minor-mode-map (kbd "<tab>") nil)
-  (define-key yas-minor-mode-map (kbd "C-'") #'yas-expand)
-  (add-to-list #'yas-snippet-dirs "~/.emacs.d/snippets")
-  (setq yas-prompt-functions '(yas-ido-prompt))
-  (defun help/yas-after-exit-snippet-hook-fn ()
-    (prettify-symbols-mode)
-    (prettify-symbols-mode))
-  (add-hook 'yas-after-exit-snippet-hook #'help/yas-after-exit-snippet-hook-fn)
-  :diminish yas-minor-mode)
+  (use-package tempel-collection
+    :ensure t))
 
 (use-package consult
   :ensure t
