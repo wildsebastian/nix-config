@@ -211,6 +211,9 @@
 (use-package general
   :ensure t
   :config
+  (defun ws/switch-agda-input ()
+    (interactive)
+    (activate-input-method "Agda"))
   (general-define-key
     "M-e" '(tempel-expand :which-key "Tempel snippet expand")
   )
@@ -240,14 +243,13 @@
    "bb" '(consult-buffer :which-key "switch buffers")
    "bk" '(kill-current-buffer :which-key "kill current buffer")
 
-   ;; Perspective Workspace
-   "w" '(nil :which-key "workspace")
-   "ws" '(persp-switch :which-key "switch workspace")
-   "wn" '(persp-next :which-key "next workspace")
-   "wkb" '(persp-kill-buffer :which-key "kill buffer in workspace")
-   "wkw" '(persp-kill :which-key "kill workspace")
-   "wb" '(persp-ibuffer :which-key "switch buffer in workspace")
-   "wr" '(persp-rename :which-key "rename workspace")
+   ;; eglot
+   "efd" '(eglot-find-declaration :which-key "find definition")
+   "efr" '(eglot-find-implementation :which-key "find references")
+   "en" '(flymake-goto-next-error :which-key "next error")
+   "ep" '(flymake-goto-previous-error :which-key "previous error")
+   "ea" '(eglot-code-actions :which-key "code action")
+   "er" '(eglot-rename :which-key "rename")
 
    ;; Magit
    "g" '(nil :which-key "magit")
@@ -262,11 +264,8 @@
    "gss" '(magit-stash :which-key "stash")
    "gsp" '(magit-stash-pop :which-key "stash pop")
 
-   ;; Terminal
-   "t" '(nil :which-key "terminal")
-   "tv" '(multi-vterm :which-key "vterm")
-   "tr" '(multi-vterm-rename-buffer :which-key "rename vterm buffer")
-   "ts" '(shell-command :which-key "shell command")
+   "i" '(nil :which-key "input")
+   "ia" '(ws/switch-agda-input :which-key "Agda input method")
 
    ;; org-roam
    "o" '(nil :which-key "org")
@@ -289,19 +288,22 @@
    ;; Snippets
    "s" '(nil :which-key "tempel snippets")
    "si" '(tempel-insert :which-key "tempel insert")
-   )
-  (general-define-key
-   :states '(normal motion)
-   :keymaps 'override
 
-   ;; eglot
-   "efd" '(eglot-find-declaration :which-key "find definition")
-   "efr" '(eglot-find-implementation :which-key "find references")
-   "en" '(flymake-goto-next-error :which-key "next error")
-   "ep" '(flymake-goto-previous-error :which-key "previous error")
-   "ea" '(eglot-code-actions :which-key "code action")
-   "er" '(eglot-rename :which-key "rename"))
-  )
+   ;; Terminal
+   "t" '(nil :which-key "terminal")
+   "tv" '(multi-vterm :which-key "vterm")
+   "tr" '(multi-vterm-rename-buffer :which-key "rename vterm buffer")
+   "ts" '(shell-command :which-key "shell command")
+
+   ;; Perspective Workspace
+   "w" '(nil :which-key "workspace")
+   "ws" '(persp-switch :which-key "switch workspace")
+   "wn" '(persp-next :which-key "next workspace")
+   "wkb" '(persp-kill-buffer :which-key "kill buffer in workspace")
+   "wkw" '(persp-kill :which-key "kill workspace")
+   "wb" '(persp-ibuffer :which-key "switch buffer in workspace")
+   "wr" '(persp-rename :which-key "rename workspace")
+   ))
 
 (use-package emojify
   :ensure t
@@ -1245,6 +1247,11 @@
   :defer t
   :config
   (setq writeroom-width 0.5))
+
+(use-package wakatime-mode
+  :ensure t
+  :defer t
+  :init (global-wakatime-mode))
 
 (load-file (let ((coding-system-for-read 'utf-8))
                 (shell-command-to-string "agda-mode locate")))

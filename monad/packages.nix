@@ -52,6 +52,7 @@ with pkgs; [
   sd
   silver-searcher
   tokei
+  wakatime
   wget2
   zotero
 ]
