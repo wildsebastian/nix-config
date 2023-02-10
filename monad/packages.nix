@@ -2,6 +2,7 @@
 
 let
   zotero = pkgs.callPackage ../darwin/zotero.nix { };
+  firefox = pkgs.callPackage ../darwin/firefox.nix { };
 in
 with pkgs; [
   agda
@@ -31,7 +32,7 @@ with pkgs; [
   editorconfig-core-c
   exa
   fd
-  firefox-bin
+  firefox
   fzf
   gnugrep
   gnupg

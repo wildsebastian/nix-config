@@ -7,8 +7,4 @@ self: super:
   proj = super.proj.overrideDerivation (attrs: {
     doCheck = false;
   });
-
-  # nix = super.nix.overrideDerivation (attrs: {
-  #   doCheck = false;
-  # });
 }

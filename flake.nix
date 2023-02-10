@@ -11,11 +11,6 @@
       url = "github:nix-community/emacs-overlay";
     };
 
-    firefox-darwin = {
-      url = "github:bandithedoge/nixpkgs-firefox-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -30,7 +25,7 @@
     };
   };
 
-  outputs = { self, darwin, emacs, firefox-darwin, home-manager, nixpkgs, nixos-hardware }@attrs: {
+  outputs = { self, darwin, emacs, home-manager, nixpkgs, nixos-hardware }@attrs: {
     # Macbook Air
     darwinConfigurations = {
       "monad" = darwin.lib.darwinSystem {
