@@ -13,80 +13,85 @@
 (eval-when-compile
   (require 'use-package))
 
-;; Set nix path for emacs daemon started by launchd
-(setenv "NIX_PATH"
-        (concat
-         "darwin-config="
-         (getenv "HOME")
-         "/.nixpkgs/configuration.nix"
-         ":"
-         "nixos-config=/etc/nixos/configuration.nix" ":"
-         "nixpkgs="
-         (getenv "HOME")
-         "/.nix-defexpr/nixpkgs" ":"
-         "darwin="
-         (getenv "HOME")
-         "/.nix-defexpr/darwin"
-         )
-        )
+(use-package emacs
+  :init
+  (setenv "PATH" (concat
+                  "/Users/sebastian/.nix-profile/bin:"
+                  "/etc/profiles/per-user/sebastian/bin:"
+                  "/run/current-system/sw/bin:"
+                  "/nix/var/nix/profiles/default/bin:"
+                  (getenv "PATH")
+                  ))
+  (setenv "SHELL" "/etc/profiles/per-user/sebastian/bin/zsh")
 
+  (setq
+   backup-directory-alist '(("." . "~/.emacs_backups"))
+   backup-by-copying t
+   version-control t
+   delete-old-versions t
+   kept-new-versions 6
+   kept-old-versions 2)
 
-(setenv "PATH" (
-                concat
-                "/Users/sebastian/.nix-profile/bin:/etc/profiles/per-user/sebastian/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:"
-                (getenv "PATH")
-                ))
-(setenv "SHELL" "/etc/profiles/per-user/sebastian/bin/zsh")
+  (setq comp-deferred-compilation t)
+  (setq comp-async-report-warnings-errors nil)
+  (setq-default bidi-paragraph-direction 'left-to-right)
+  (setq-default gc-cons-threshold 100000000)
+  (setq-default read-process-output-max (* 1024 1024)) ;; 1mb
+  (add-to-list 'default-frame-alist '(font . "Sarasa Mono TC 14"))
+  (set-face-attribute 'default t :font "Sarasa Mono TC 14")
+  (set-default-coding-systems 'utf-8)
+  (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+  (tab-bar-mode -1)
+  (display-battery-mode -1)
+  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+  (add-hook 'text-mode-hook #'display-line-numbers-mode)
+  (setq column-number-mode t)
+  (setq display-line-numbers-type 'relative)
+  (fset 'yes-or-no-p 'y-or-n-p)
+  (show-paren-mode t)
+  (setq-default fill-column 80)
+  (setq-default
+   auto-save-interval 60)
 
-(setq
- backup-directory-alist '(("." . "~/.emacs_backups"))
- backup-by-copying t
- version-control t
- delete-old-versions t
- kept-new-versions 6
- kept-old-versions 2)
+  (setq-default tab-width 2)
+  (setq-default indent-tabs-mode nil)
+  (save-place-mode t)
+  (setq ring-bell-function 'ignore blink-cursor-mode nil)
+  (setq scroll-step 2
+        scroll-margin 2
+        hscroll-step 2
+        hscroll-margin 2
+        scroll-conservatively 101
+        scroll-up-aggressively 0.01
+        scroll-down-aggressively 0.01
+        scroll-preserve-screen-position 'always)
 
-(setq comp-deferred-compilation t)
-(setq comp-async-report-warnings-errors nil)
-(setq-default bidi-paragraph-direction 'left-to-right)
-(setq-default gc-cons-threshold 100000000)
-(setq-default read-process-output-max (* 1024 1024)) ;; 1mb
-(add-to-list 'default-frame-alist '(font . "Sarasa Mono TC 14"))
-(set-face-attribute 'default t :font "Sarasa Mono TC 14")
-(set-default-coding-systems 'utf-8)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(tab-bar-mode -1)
-(display-battery-mode t)
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
-(add-hook 'text-mode-hook #'display-line-numbers-mode)
-(setq column-number-mode t)
-(setq display-line-numbers-type 'relative)
-(fset 'yes-or-no-p 'y-or-n-p)
-(show-paren-mode t)
-(setq-default fill-column 80)
-(setq-default
- auto-save-interval 60)
+  ;; scratch buffer settings
+  (setq initial-scratch-message ""
+        initial-major-mode 'org-mode)
 
-(setq-default tab-width 2)
-(setq-default indent-tabs-mode nil)
-(save-place-mode t)
-(setq ring-bell-function 'ignore blink-cursor-mode nil)
-(setq scroll-step 2
-      scroll-margin 2
-      hscroll-step 2
-      hscroll-margin 2
-      scroll-conservatively 101
-      scroll-up-aggressively 0.01
-      scroll-down-aggressively 0.01
-      scroll-preserve-screen-position 'always)
+  (setq evil-want-keybinding nil)
 
-;; scratch buffer settings
-(setq initial-scratch-message ""
-      initial-major-mode 'org-mode)
-
-(setq evil-want-keybinding nil)
+  (defun crm-indicator (args)
+    (cons (concat "[CRM] " (car args)) (cdr args)))
+  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+  ;; Do not allow the cursor in the minibuffer prompt
+  (setq minibuffer-prompt-properties
+        '(read-only t cursor-intangible t face minibuffer-prompt))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+  ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
+  ;; Vertico commands are hidden in normal buffers.
+  (setq read-extended-command-predicate
+        #'command-completion-default-include-p)
+  (setq completion-cycle-threshold 3)
+  (setq tab-always-indent 'complete)
+  ;; Enable recursive minibuffers
+  (setq enable-recursive-minibuffers t)
+  ;; Auto reload buffer when the file on disk changes
+  (setq global-auto-revert-mode t)
+  (setq auto-revert-use-notify nil))
 
 (use-package quelpa
   :ensure t)
@@ -105,6 +110,9 @@
 
 (use-package kaolin-themes
   :ensure t
+  :custom-face
+  (font-lock-comment-delimiter-face ((t (:weight bold :background "systemOrangeColor" :foreground "black"))))
+  (font-lock-comment-face ((t (:weight bold :background "systemOrangeColor" :foreground "black"))))
   :config
   (load-theme 'kaolin-dark t)
   :custom
@@ -183,7 +191,8 @@
   (doom-modeline-mode t)
   (doom-modeline-unicode-fallback t)
   (doom-modeline-window-width-limit fill-column)
-  (doom-modeline-env-version t)
+  (doom-modeline-battery nil)
+  (doom-modeline-env-version nil)
   (doom-modeline-env-load-string "?")
   (doom-modeline-project-detection 'project)
   (doom-modeline-height 30)
@@ -202,6 +211,8 @@
 
 (use-package which-key
   :ensure t
+  :custom-face
+  (which-key-separator-face ((t (:inherit nil :background nil :foreground "#545c5e"))))
   :config
   (setq which-key-popup-type 'minibuffer
         which-key-idle-delay 0.3)
@@ -215,14 +226,14 @@
     (interactive)
     (activate-input-method "Agda"))
   (general-define-key
-    "M-e" '(tempel-expand :which-key "Tempel snippet expand")
-  )
+   "M-e" '(tempel-expand :which-key "Tempel snippet expand")
+   )
   (general-define-key
    :states '(normal motion visual)
    :keymaps 'override
    :prefix "SPC"
 
-   ;; Top level functions
+   ;; top level functions
    "/" '(affe-grep :which-key "grep")
    ":" '(projectile-find-file :which-key "p-find file")
    "[" '(org-capture :which-key "org capture")
@@ -234,7 +245,7 @@
    "q" '(save-buffers-kill-terminal :which-key "quit emacs")
    "#" '(comment-dwim :which-key "add/remove comment")
 
-   ;; Applications
+   ;; applications
    "a" '(nil :which-key "applications")
    "ad" '(docker :which-key "docker")
    "aw" '(writeroom-mode :which-key "writeroom")
@@ -242,6 +253,13 @@
    "b" '(nil :which-key "buffer")
    "bb" '(consult-buffer :which-key "switch buffers")
    "bk" '(kill-current-buffer :which-key "kill current buffer")
+
+   ;; cape
+   "c" '(nil :which-key "cape")
+   "cp" '(nil :which-key "Completion at point variants")
+   "cpf" '(cape-file :which-key "File")
+   "cph" '(cape-history :which-key "History")
+   "cpu" '(cape-rfc1345 :which-key "Unicode")
 
    ;; eglot
    "efd" '(eglot-find-declaration :which-key "find definition")
@@ -251,7 +269,7 @@
    "ea" '(eglot-code-actions :which-key "code action")
    "er" '(eglot-rename :which-key "rename")
 
-   ;; Magit
+   ;; magit
    "g" '(nil :which-key "magit")
    "gm" '(magit :which-key "status")
    "gci" '(blamer-show-commit-info :which-key "blame commit info")
@@ -278,24 +296,28 @@
    "ori" '(org-roam-node-insert :which-key "org roam insert")
    "orf" '(org-roam-node-find :which-key "org roam find")
 
-   ;; Projectile
+   ;; projectile
    "p" '(nil :which-key "projectile")
-   "pff" '(projectile-find-file-other-window :which-key "find file")
+   "pff" '(projectile-find-file :which-key "find file")
+   "psb" '(projectile-switch-to-buffer :which-key "switch buffer")
    "psp" '(projectile-switch-project :which-key "switch project")
-   "pt" '(projectile-test-project :which-key "run tests")
-   "pr" '(projectile-run-project :which-key "run project")
+   "pkb" '(projectile-kill-buffers :which-key "kill project buffers")
+   "pr" '(nil :which-key "project run")
+   "prt" '(projectile-test-project :which-key "run tests")
+   "prp" '(projectile-run-project :which-key "run project")
+   "prs" '(projectile-run-shell-command-in-root :which-key "run shell command")
 
-   ;; Snippets
+   ;; snippets
    "s" '(nil :which-key "tempel snippets")
    "si" '(tempel-insert :which-key "tempel insert")
 
-   ;; Terminal
+   ;; terminal
    "t" '(nil :which-key "terminal")
    "tv" '(multi-vterm :which-key "vterm")
    "tr" '(multi-vterm-rename-buffer :which-key "rename vterm buffer")
    "ts" '(shell-command :which-key "shell command")
 
-   ;; Perspective Workspace
+   ;; perspective workspace
    "w" '(nil :which-key "workspace")
    "ws" '(persp-switch :which-key "switch workspace")
    "wn" '(persp-next :which-key "next workspace")
@@ -427,34 +449,9 @@
          :map dired-mode-map
          ([remap dired-do-async-shell-command] . dwim-shell-command)
          ([remap dired-do-shell-command] . dwim-shell-command)
-          ([remap dired-smart-shell-command] . dwim-shell-command)))
+         ([remap dired-smart-shell-command] . dwim-shell-command)))
 
 (require 'dwim-shell-commands)
-
-;; A few more useful configurations...
-(use-package emacs
-  :init
-  ;; Add prompt indicator to `completing-read-multiple'.
-  ;; Alternatively try `consult-completing-read-multiple'.
-  (defun crm-indicator (args)
-    (cons (concat "[CRM] " (car args)) (cdr args)))
-  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
-
-  ;; Do not allow the cursor in the minibuffer prompt
-  (setq minibuffer-prompt-properties
-        '(read-only t cursor-intangible t face minibuffer-prompt))
-  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
-
-  ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
-  ;; Vertico commands are hidden in normal buffers.
-  (setq read-extended-command-predicate
-        #'command-completion-default-include-p)
-
-  ;; Enable recursive minibuffers
-  (setq enable-recursive-minibuffers t)
-  ;; Auto reload buffer when the file on disk changes
-  (setq global-auto-revert-mode t)
-  (setq auto-revert-use-notify nil))
 
 (use-package marginalia
   :ensure t
@@ -498,20 +495,7 @@
 
 ;; Add extensions
 (use-package cape
-  :ensure t
-  :init
-  ;; Add `completion-at-point-functions', used by `completion-at-point'.
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-keyword)
-  (add-to-list 'completion-at-point-functions #'cape-sgml)
-  (add-to-list 'completion-at-point-functions #'cape-rfc1345)
-  (add-to-list 'completion-at-point-functions #'cape-ispell)
-  (add-to-list 'completion-at-point-functions #'cape-symbol)
-  ;; (add-to-list 'completion-at-point-functions #'cape-dict)
-  ;; (add-to-list 'completion-at-point-functions #'cape-tex)
-  ;; (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  ;; (add-to-list 'completion-at-point-functions #'cape-line)
-  )
+  :ensure t)
 
 (use-package affe
   :ensure t
@@ -597,7 +581,7 @@
   ("C-c p" . projectile-command-map)
   :init
   (when (file-directory-p "~/src")
-    (setq projectile-project-search-path '("~/src")))
+    (setq projectile-project-search-path '("~/src/")))
   :config
   (setq projectile-sort-order 'recently-active))
 
@@ -621,6 +605,7 @@
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
   (setq dashboard-set-navigator t)
+  (setq dashboard-set-init-info nil)
   (setq dashboard-items '((projects . 5) (recents  . 5) (bookmarks . 5))))
 
 (use-package xterm-color
@@ -657,8 +642,7 @@
 (use-package format-all
   :ensure t
   :hook
-  (python-mode . format-all-mode)
-  (purescript-mode . format-all-mode))
+  (prog-mode . format-all-mode))
 
 (use-package magit
   :ensure t
@@ -1254,4 +1238,4 @@
   :init (global-wakatime-mode))
 
 (load-file (let ((coding-system-for-read 'utf-8))
-                (shell-command-to-string "agda-mode locate")))
+             (shell-command-to-string "agda-mode locate")))
