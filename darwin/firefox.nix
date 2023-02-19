@@ -2,6 +2,7 @@
 
 stdenv.mkDerivation rec {
   pname = "Firefox";
+  # https://product-details.mozilla.org/1.0/firefox_versions.json
   version = "110.0";
 
   src = fetchurl rec {

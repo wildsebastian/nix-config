@@ -2,6 +2,7 @@
 
 stdenv.mkDerivation rec {
   pname = "Zotero";
+  # https://www.zotero.org/support/changelog
   version = "6.0.21";
 
   src = fetchurl rec {
