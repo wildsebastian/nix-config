@@ -249,6 +249,7 @@
    "a" '(nil :which-key "applications")
    "ad" '(docker :which-key "docker")
    "aw" '(writeroom-mode :which-key "writeroom")
+
    ;; Buffers
    "b" '(nil :which-key "buffer")
    "bb" '(consult-buffer :which-key "switch buffers")
@@ -321,7 +322,7 @@
    "w" '(nil :which-key "workspace")
    "ws" '(persp-switch :which-key "switch workspace")
    "wn" '(persp-next :which-key "next workspace")
-   "wkb" '(persp-kill-buffer :which-key "kill buffer in workspace")
+   "wkb" '(persp-kill-buffer* :which-key "kill buffer in workspace")
    "wkw" '(persp-kill :which-key "kill workspace")
    "wb" '(persp-ibuffer :which-key "switch buffer in workspace")
    "wr" '(persp-rename :which-key "rename workspace")
