@@ -111,8 +111,8 @@
 (use-package kaolin-themes
   :ensure t
   :custom-face
-  (font-lock-comment-delimiter-face ((t (:weight bold :background "systemOrangeColor" :foreground "black"))))
-  (font-lock-comment-face ((t (:weight bold :background "systemOrangeColor" :foreground "black"))))
+  (font-lock-comment-delimiter-face ((t (:weight bold :foreground "#fce085"))))
+  (font-lock-comment-face ((t (:weight bold :foreground "#fce085"))))
   :config
   (load-theme 'kaolin-dark t)
   :custom
