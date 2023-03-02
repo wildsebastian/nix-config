@@ -3,12 +3,12 @@
 stdenv.mkDerivation rec {
   pname = "Firefox";
   # https://product-details.mozilla.org/1.0/firefox_versions.json
-  version = "110.0";
+  version = "110.0.1";
 
   src = fetchurl rec {
     name = "${pname}-${version}.dmg";
     url = "https://download-installer.cdn.mozilla.net/pub/firefox/releases/${version}/mac/en-US/${pname}%20${version}.dmg";
-    sha256 = "sha256-MFFh3WRWWoFvIqpvLoB/E5ozyK/N7OysoMfaDNO7OqQ=";
+    sha256 = "sha256-EszFSYVNWksa4uiIsBTibRFQmSlyZtAnWLT+G05pRgw=";
   };
 
   buildInputs = [ undmg ];
