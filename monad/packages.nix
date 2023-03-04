@@ -5,7 +5,9 @@ let
   firefox = pkgs.callPackage ../darwin/firefox.nix { };
 in
 with pkgs; [
-  agda
+  (agda.withPackages (p: [
+    p.standard-library
+  ]))
   (import ../modules/emacs/emacs.nix { inherit pkgs; })
 
   diffstat

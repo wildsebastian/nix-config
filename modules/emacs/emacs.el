@@ -966,10 +966,13 @@
 
 (use-package agda2-mode
   :after polymode
+  :defer t
   :mode
   ("\\.agda\\'" . agda2-mode))
 
 (use-package org-agda-mode
+  :after polymode
+  :defer t
   :quelpa (org-agda-mode :fetcher github :repo "alhassy/org-agda-mode"))
 
 (use-package yaml-mode
