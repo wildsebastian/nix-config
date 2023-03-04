@@ -59,7 +59,7 @@
         };
         colors = {
           primary = {
-            background = "#2e3440";
+            background = "#18181B";
             foreground = "#d8dee9";
             dim_foreground = "#a5abb6";
           };
