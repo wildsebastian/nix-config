@@ -3,6 +3,7 @@
 {
   imports = [
     ../modules/tmux.nix
+    ../services/sketchybar.nix
   ];
 
   disabledModules = [ "targets/darwin/linkapps.nix" ];
@@ -77,6 +78,9 @@
       package = (import ../modules/emacs/emacs.nix { inherit pkgs; });
     };
     nix-daemon = {
+      enable = true;
+    };
+    sketchybar = {
       enable = true;
     };
   };
