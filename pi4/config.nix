@@ -340,7 +340,7 @@
           "--network=host"
           "--pull=newer"
         ];
-        image = "pihole/pihole:2022.12.1";
+        image = "pihole/pihole:2023.02.2";
         volumes = [
           "/home/sebastian/etc-pihole:/etc/pihole"
           "/home/sebastian/etc-dnsmasq.d:/etc/dnsmasq.d"
