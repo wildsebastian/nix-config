@@ -798,6 +798,7 @@
         org-agenda-include-diary t
         org-latex-listings 'minted
         org-latex-packages-alist '(("" "minted"))
+        org-latex-toc-command "\\tableofcontents \\clearpage"
         org-latex-pdf-process
         '("pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
           "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
