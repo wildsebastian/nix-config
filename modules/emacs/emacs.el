@@ -37,9 +37,8 @@
   (setq-default bidi-paragraph-direction 'left-to-right)
   (setq-default gc-cons-threshold 100000000)
   (setq-default read-process-output-max (* 1024 1024)) ;; 1mb
-  (add-to-list 'default-frame-alist '(font . "Sarasa Mono TC 14"))
-  (set-face-attribute 'default t :font "Sarasa Mono TC 14")
   (set-default-coding-systems 'utf-8)
+  (setq x-underline-at-descent-line t)
   (menu-bar-mode -1)
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
@@ -110,15 +109,44 @@
 
 (use-package kaolin-themes
   :ensure t
-  :custom-face
-  (font-lock-comment-delimiter-face ((t (:weight bold :foreground "#fce085"))))
-  (font-lock-comment-face ((t (:weight bold :foreground "#fce085"))))
-  :config
-  (load-theme 'kaolin-dark t)
+  ;; :custom-face
+  ;; (font-lock-comment-delimiter-face ((t (:weight bold :foreground "#fce085"))))
+  ;; (font-lock-comment-face ((t (:weight bold :foreground "#fce085"))))
+  ;; :config
+  ;; (load-theme 'kaolin-dark t)
   :custom
   (kaolin-themes-italic-comments t)
   (kaolin-themes-distinct-fringe t)
   (kaolin-themes-git-gutter-solid t))
+
+(use-package modus-themes
+  :ensure t
+  :init
+  (setq
+    modus-themes-fringes 'intense
+    modus-themes-mixed-fonts t
+    modus-themes-headings
+      '((1 . (variable-pitch bold 1.3))
+        (2 . (variable-pitch semibold 1.2))
+        (3 . (variable-pitch 1.1))
+        (4 . (1.05))
+        (5 . (1.05))
+        (6 . (1.05))
+        (7 . (1.05))
+        (8 . (1.05)))
+    modus-themes-scale-headings t
+    modus-themes-org-blocks 'tinted-background)
+  (load-theme 'modus-vivendi-tinted))
+
+(set-face-attribute 'default nil :font "Iosevka" :height 130)
+(set-face-attribute 'fixed-pitch nil :font "Iosevka" :height 1.2)
+(set-face-attribute 'variable-pitch nil :font "Iosevka Aile" :height 1.2)
+
+(defun my-modus-themes-custom-faces ()
+  (modus-themes-with-colors (custom-set-faces
+    `(org-document-title ((,class :inherit (bold variable-pitch) :height 1.8))))))
+
+(add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
 
 (use-package editorconfig
   :ensure t
@@ -771,59 +799,62 @@
      (restclient . t)
      (shell . t)
      (sql . t)))
-  (setq org-ellipsis " ▾"
-        org-hide-emphasis-markers t
-        org-startup-indented t
-        org-src-fontify-natively t
-        org-src-tab-acts-natively t
-        org-confirm-babel-evaluate nil
-        org-edit-src-content-indentation 2
-        org-hide-block-startup t
-        org-src-preserve-indentation nil
-        org-startup-folded t
-        org-startup-with-inline-images t
-        org-image-actual-width 360
-        org-cycle-separator-lines 2
-        org-modules (quote (org-habit))
-        org-treat-insert-todo-heading-as-state-change t
-        org-log-done 'note
-        org-log-into-drawer t
-        org-habit-show-habits-only-for-today t
-		    org-todo-keywords '(
-                            (sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-			                      (sequence "BACKLOG(b)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|"
-                                      "DELEGATED(D)" "CANCELLED(c)"))
-        org-archive-location "~/appunti/archive.org::* From %s"
-        org-agenda-files '("~/appunti/gtd.org" "~/appunti/someday.org")
-        org-agenda-include-diary t
-        org-latex-listings 'minted
-        org-latex-packages-alist '(("" "minted"))
-        org-latex-toc-command "\\tableofcontents \\clearpage"
-        org-latex-pdf-process
-        '("pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
-          "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
-          "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f")
-        org-capture-templates
-        '(("i" "Inbox" entry (file "~/appunti/inbox.org"))
-		      ("t" "Todo" entry (file+headline "~/appunti/gtd.org" "Tasks")
-		       "* TODO %?\n  %i\n  %a")
-		      ("s" "Someday" entry (file "~/appunti/someday.org")
-		       "* TODO %?\n  %i\n  %a")))
+  :custom
+  (org-ellipsis "")
+  (org-hide-emphasis-markers t)
+  (org-startup-indented t)
+  (org-src-fontify-natively t)
+  (org-src-tab-acts-natively t)
+  (org-confirm-babel-evaluate nil)
+  (org-edit-src-content-indentation 2)
+  (org-hide-block-startup t)
+  (org-src-preserve-indentation nil)
+  (org-startup-folded t)
+  (org-startup-with-inline-images t)
+  (org-image-actual-width 360)
+  (org-cycle-separator-lines 2)
+  (org-modules (quote (org-habit)))
+  (org-treat-insert-todo-heading-as-state-change t)
+  (org-log-done 'note)
+  (org-log-into-drawer t)
+  (org-habit-show-habits-only-for-today t)
+	(org-todo-keywords '(
+                      (sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+	                    (sequence "BACKLOG(b)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|"
+                                "DELEGATED(D)" "CANCELLED(c)")))
+  (org-archive-location "~/appunti/archive.org::* From %s")
+  (org-agenda-files '("~/appunti/gtd.org" "~/appunti/someday.org"))
+  (org-agenda-include-diary t)
+  (org-latex-listings 'minted)
+  (org-latex-packages-alist '(("" "minted")))
+  (org-latex-toc-command "\\tableofcontents \\clearpage")
+  (org-latex-pdf-process
+  '("pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
+    "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
+    "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"))
+  (org-capture-templates
+  '(("i" "Inbox" entry (file "~/appunti/inbox.org"))
+	  ("t" "Todo" entry (file+headline "~/appunti/gtd.org" "Tasks")
+	   "* TODO %?\n  %i\n  %a")
+	  ("s" "Someday" entry (file "~/appunti/someday.org")
+	   "* TODO %?\n  %i\n  %a")))
 
   (use-package org-contrib
     :ensure t)
 
-  (use-package org-modern
-    :ensure t
-    :commands (org-modern-mode org-modern-agenda)
-    :custom
-    (org-modern-table-vertical 1)
-    (org-modern-table-horizontal 1)
-    (org-modern-block t)
-    :init
-    (setq org-modern-todo t
-          org-modern-variable-pitch nil)
-    (global-org-modern-mode))
+  ;; (use-package org-modern
+  ;;   :ensure t
+  ;;   :commands (org-modern-mode org-modern-agenda)
+  ;;   :custom
+  ;;   (org-modern-table-vertical 1)
+  ;;   (org-modern-table-horizontal 1)
+  ;;   (org-modern-block t)
+  ;;   (org-modern-block-fringe t)
+  ;;   (set-face-attribute 'org-modern-symbol nil :family "Iosevka Nerd Font Mono" :height 130)
+  ;;   :init
+  ;;   (setq org-modern-todo t
+  ;;         org-modern-variable-pitch nil)
+  ;;   (global-org-modern-mode))
 
   (use-package evil-org
     :ensure t
@@ -832,6 +863,9 @@
     :config
     (require 'evil-org-agenda)
     (evil-org-agenda-set-keys)))
+
+(custom-set-faces
+  '(org-document-title ((t (:height 180 :weight medium)))))
 
 (use-package org-roam
   :ensure t
@@ -884,7 +918,6 @@
 ;; Modes that are loaded under certain circumstances
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 (add-hook 'org-mode-hook #'display-fill-column-indicator-mode)
-(set-face-foreground 'fill-column-indicator "red")
 (add-hook 'prog-mode-hook #'company-mode)
 
 (use-package tree-sitter

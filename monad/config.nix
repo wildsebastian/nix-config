@@ -16,10 +16,13 @@
 
   fonts = {
     fontDir.enable = true;
-    fonts = [
-      pkgs.jetbrains-mono
-      pkgs.nerdfonts
-      pkgs.sarasa-gothic
+    fonts = with pkgs; [
+      iosevka
+      (iosevka-bin.override { variant = "aile"; })
+      (iosevka-bin.override { variant = "sgr-iosevka-term"; })
+      jetbrains-mono
+      nerdfonts
+      sarasa-gothic
     ];
   };
 
