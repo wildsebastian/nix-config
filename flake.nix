@@ -25,40 +25,56 @@
     };
   };
 
-  outputs = { self, darwin, emacs, home-manager, nixpkgs, nixos-hardware }@attrs: {
-    # Macbook Air
-    darwinConfigurations = {
-      "monad" = darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
+  outputs =
+    { self
+    , darwin
+    , emacs
+    , home-manager
+    , nixos-hardware
+    , nixpkgs
+    }@attrs: {
+      # Macbook Air
+      darwinConfigurations = {
+        "monad" = darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          specialArgs = attrs;
+          modules = [
+            ./monad/config.nix
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.sebastian = import ./monad/home.nix;
+            }
+          ];
+        };
+      };
+
+      # Expose the package set, including overlays, for convenience.
+      darwinPackages = self.darwinConfigurations."monad".pkgs;
+
+      # RaspberryPi4
+      nixosConfigurations.pi4-0 = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
         specialArgs = attrs;
         modules = [
-          ./monad/config.nix
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.sebastian = import ./monad/home.nix;
-          }
+          nixos-hardware.nixosModules.raspberry-pi-4
+          ./pi4/config.nix
         ];
       };
-    };
 
-    # Expose the package set, including overlays, for convenience.
-    darwinPackages = self.darwinConfigurations."monad".pkgs;
+      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        specialArgs = attrs;
+        modules = [
+          nixos-hardware.nixosModules.raspberry-pi-4
+          ./vm/config.nix
+        ];
+      };
 
-    # RaspberryPi4
-    nixosConfigurations.pi4-0 = nixpkgs.lib.nixosSystem {
-      system = "aarch64-linux";
-      specialArgs = attrs;
-      modules = [
-        nixos-hardware.nixosModules.raspberry-pi-4
-        ./pi4/config.nix
-      ];
+      formatter = {
+        aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixpkgs-fmt;
+        aarch64-linux = nixpkgs.legacyPackages.aarch64-linux.nixpkgs-fmt;
+      };
     };
-
-    formatter = {
-      aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixpkgs-fmt;
-      aarch64-linux = nixpkgs.legacyPackages.aarch64-linux.nixpkgs-fmt;
-    };
-  };
 }

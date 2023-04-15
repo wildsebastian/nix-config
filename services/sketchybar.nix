@@ -26,7 +26,11 @@ in
 
     services.sketchybar.package = mkOption {
       type = path;
-      default = pkgs.sketchybar;
+      default = (pkgs.sketchybar.overrideAttrs (super: {
+        buildInputs = super.buildInputs ++ [
+          pkgs.darwin.apple_sdk.frameworks.CoreWLAN
+        ];
+      }));
       description = "The sketchybar package to use.";
     };
 
