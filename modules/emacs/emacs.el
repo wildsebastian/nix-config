@@ -33,6 +33,7 @@
    kept-old-versions 2)
 
   (setq comp-deferred-compilation t)
+  (setq pixel-scroll-precision-mode t)
   (setq comp-async-report-warnings-errors nil)
   (setq-default bidi-paragraph-direction 'left-to-right)
   (setq-default gc-cons-threshold 100000000)
@@ -199,6 +200,12 @@
   (evil-goggles-mode)
   (evil-goggles-use-diff-faces))
 
+(use-package evil-anzu
+  :ensure t
+  :after evil
+  :config
+  (global-anzu-mode t))
+
 (use-package undo-tree
   :ensure t
   :after evil
@@ -212,26 +219,33 @@
 
 (use-package doom-modeline
   :ensure t
+  :hook
+  (after-init . doom-modeline-mode)
+  (doom-modeline-mode . size-indication-mode) ; filesize in modeline
+  (doom-modeline-mode . column-number-mode)   ; cursor column in modeline
   :custom-face
   (mode-line ((t (:height 1.0))))
   (mode-line-inactive ((t (:height 1.0))))
   :custom
-  (doom-modeline-mode t)
-  (doom-modeline-unicode-fallback t)
-  (doom-modeline-window-width-limit fill-column)
-  (doom-modeline-battery nil)
-  (doom-modeline-env-version nil)
-  (doom-modeline-env-load-string "?")
-  (doom-modeline-project-detection 'project)
-  (doom-modeline-height 30)
+  (projectile-dynamic-mode-line t)
+  (doom-modeline-hud nil)
   (doom-modeline-bar-width 1)
-  (doom-modeline-lsp t)
   (doom-modeline-github nil)
   (doom-modeline-mu4e nil)
-  (doom-modeline-irc nil)
-  (doom-modeline-minor-modes nil)
   (doom-modeline-persp-name nil)
-  (doom-modeline-buffer-file-name-style 'file-name)
+  (doom-modeline-minor-modes nil)
+  (doom-modeline-major-mode nil)
+  (doom-modeline-buffer-file-name-style 'auto)
+  (doom-modeline-buffer-encoding t)
+  (doom-modeline-unicode-fallback t)
+  (doom-modeline-window-width-limit 85)
+  (doom-modeline-battery nil)
+  (doom-modeline-env-version t)
+  (doom-modeline-env-load-string "?")
+  (doom-modeline-vcs-max-length 12)
+  (doom-modeline-indent-info t)
+  (doom-modeline-project-detection 'projectile)
+  (doom-modeline-lsp t)
   (doom-modeline-icon t)
   (doom-modeline-major-mode-icon t)
   (doom-modeline-major-mode-color-icon t)
@@ -290,14 +304,6 @@
    "cph" '(cape-history :which-key "History")
    "cpu" '(cape-rfc1345 :which-key "Unicode")
 
-   ;; eglot
-   "efd" '(eglot-find-declaration :which-key "find definition")
-   "efr" '(eglot-find-implementation :which-key "find references")
-   "en" '(flymake-goto-next-error :which-key "next error")
-   "ep" '(flymake-goto-previous-error :which-key "previous error")
-   "ea" '(eglot-code-actions :which-key "code action")
-   "er" '(eglot-rename :which-key "rename")
-
    ;; magit
    "g" '(nil :which-key "magit")
    "gm" '(magit :which-key "status")
@@ -313,6 +319,14 @@
 
    "i" '(nil :which-key "input")
    "ia" '(ws/switch-agda-input :which-key "Agda input method")
+
+   ;; lsp
+   "lfd" '(lsp-find-definition :which-key "find definition")
+   "lfr" '(lsp-find-implementation :which-key "find references")
+   "ln" '(flymake-goto-next-error :which-key "next error")
+   "lp" '(flymake-goto-previous-error :which-key "previous error")
+   "la" '(lsp-code-actions-at-point :which-key "code action")
+   "lr" '(lsp-rename :which-key "rename")
 
    ;; org-roam
    "o" '(nil :which-key "org")
@@ -639,9 +653,6 @@
    '(custom user pid ppid sess tree pcpu pmem rss start time state (args comm)))
   (setq-default proced-format 'custom))
 
-(use-package tramp
-  :ensure t)
-
 (use-package polymode
   :ensure t)
 
@@ -920,29 +931,6 @@
 (add-hook 'org-mode-hook #'display-fill-column-indicator-mode)
 (add-hook 'prog-mode-hook #'company-mode)
 
-(use-package tree-sitter
-  :ensure t
-  :config
-  ;; activate tree-sitter on any buffer containing code for which it has a parser available
-  (global-tree-sitter-mode)
-  ;; you can easily see the difference tree-sitter-hl-mode makes for python, ts or tsx
-  ;; by switching on and off
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
-
-(use-package tree-sitter-langs
-  :ensure t
-  :after tree-sitter)
-
-(use-package tree-sitter-indent
-  :ensure t
-  :after tree-sitter)
-
-(add-hook 'rust-mode-hook #'tree-sitter-indent-mode)
-(add-hook 'csharp-mode-hook #'tree-sitter-indent-mode)
-(add-hook 'typescript-mode-hook #'tree-sitter-indent-mode)
-(add-hook 'typescriptreact-mode-hook #'tree-sitter-indent-mode)
-(add-hook 'haskell-mode-hook #'tree-sitter-indent-mode)
-
 (use-package nix-mode
   :ensure t
   :mode "\\.nix\\'")
@@ -987,6 +975,10 @@
   :mode
   ("\\.purs" . purescript-mode))
 
+(use-package dhall-mode
+  :ensure t
+  :mode "\\.dhall\\'")
+
 (use-package psc-ide
   :ensure t
   :defer t
@@ -1029,7 +1021,6 @@
 (use-package typescript-mode
   :ensure t
   :defer t
-  :after tree-sitter
   :config
   ;; we choose this instead of tsx-mode so that eglot can automatically figure out language for server
   ;; see https://github.com/joaotavora/eglot/issues/624 and https://github.com/joaotavora/eglot#handling-quirky-servers
@@ -1045,7 +1036,6 @@
 ;; https://github.com/orzechowskid/tsi.el/
 ;; great tree-sitter-based indentation for typescript/tsx, css, json
 (use-package tsi
-  :after tree-sitter
   :defer t
   :quelpa (tsi :fetcher github :repo "orzechowskid/tsi.el")
   ;; define autoload definitions which when actually invoked will cause package to be loaded
@@ -1071,6 +1061,7 @@
   :defer t
   :mode
   ("\\.tpl\\'" . web-mode)
+  ("\\.vue\\'" . web-mode)
   :config
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-code-indent-offset 2)
@@ -1145,14 +1136,14 @@
 (use-package csharp-mode
   :ensure t
   :defer t
-  :mode ("\\.cs\\'" . csharp-tree-sitter-mode))
+  :mode ("\\.cs\\'" . csharp-ts-mode))
 
-(defun eglot-format-buffer-on-save ()
-  (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
-
-(use-package eglot
+(use-package lsp-mode
   :ensure t
   :defer t
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
   :hook
   ((csharp-mode
     haskell-mode
@@ -1162,19 +1153,30 @@
     php-mode
     python-mode
     scala-mode
+    ;; terraform-mode
     typescript-mode
     typescriptreact-mode
-    ) . eglot-ensure)
-  ((haskell-mode
-    nix-mode
-    php-mode) . eglot-format-buffer-on-save)
+    ) . lsp-deferred)
+    ;; if you want which-key integration
+    (lsp-mode . lsp-enable-which-key-integration)
+    (before-save . lsp-format-buffer)
   :config
-  (add-to-list 'eglot-server-programs '((php-mode phps-mode) "intelephense" "--stdio")))
+  (setq lsp-disabled-clients '(tfls))
+  :commands lsp)
+
+(use-package lsp-ui
+  :ensure t
+  :after lsp-mode
+  :commands lsp-ui-mode)
+
+(use-package lsp-haskell
+  :ensure t
+  :after lsp-mode)
 
 (use-package company
   :ensure t
   :defer t
-  :after eglot
+  :after lsp-mode
   :custom
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.0)
