@@ -16,7 +16,7 @@ with pkgs; [
   mosh
   neovim
   nushell
-  openssl_1_1
+  openssl
   procs
   ripgrep
   sd

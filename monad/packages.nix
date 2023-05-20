@@ -47,7 +47,7 @@ with pkgs; [
   ngrok
   nixos-rebuild
   nushell
-  openssl_1_1
+  openssl
   procs
   python39
   ripgrep
