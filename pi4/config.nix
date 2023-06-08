@@ -66,7 +66,7 @@
     };
   };
 
-  system.stateVersion = "22.05";
+  system.stateVersion = "23.05";
 
   programs = {
     mosh.enable = true;
@@ -299,9 +299,6 @@
     };
   };
 
-  # Enable GPU acceleration
-  hardware.raspberry-pi."4".fkms-3d.enable = true;
-
   hardware.pulseaudio.enable = false;
 
   virtualisation = {
@@ -325,7 +322,7 @@
         autoStart = true;
         cmd = [ "--config" "/app/fritz-exporter.yml" ];
         extraOptions = [ "--pull=newer" ];
-        image = "pdreker/fritz_exporter:2.2.1";
+        image = "pdreker/fritz_exporter:2.2.3";
         ports = [ "9007:9007/tcp" ];
         volumes = [
           "/home/sebastian/fritz-exporter.yml:/app/fritz-exporter.yml"
@@ -340,7 +337,7 @@
           "--network=host"
           "--pull=newer"
         ];
-        image = "pihole/pihole:2023.02.2";
+        image = "pihole/pihole:2023.05.2";
         volumes = [
           "/home/sebastian/etc-pihole:/etc/pihole"
           "/home/sebastian/etc-dnsmasq.d:/etc/dnsmasq.d"
