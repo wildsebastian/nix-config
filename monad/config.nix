@@ -68,6 +68,12 @@
     ];
   };
 
+  users.users = {
+    sebastian = {
+      home = "/Users/sebastian";
+    };
+  };
+
   networking = {
     hostName = "monad";
     knownNetworkServices = [ "Wi-Fi" ];

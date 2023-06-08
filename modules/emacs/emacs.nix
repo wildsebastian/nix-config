@@ -2,7 +2,7 @@
 
 pkgs.emacsWithPackagesFromUsePackage {
   config = ./emacs.el;
-  package = pkgs.emacsUnstable;
+  package = pkgs.emacs-unstable;
   alwaysEnsure = false;
   alwaysTangle = false;
 

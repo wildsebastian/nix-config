@@ -63,15 +63,6 @@
         ];
       };
 
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-        specialArgs = attrs;
-        modules = [
-          nixos-hardware.nixosModules.raspberry-pi-4
-          ./vm/config.nix
-        ];
-      };
-
       formatter = {
         aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixpkgs-fmt;
         aarch64-linux = nixpkgs.legacyPackages.aarch64-linux.nixpkgs-fmt;
