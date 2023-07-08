@@ -7,6 +7,9 @@
   ];
 
   disabledModules = [ "targets/darwin/linkapps.nix" ];
+  documentation = {
+    enable = false;
+  };
 
   environment = {
     systemPackages = [ ];

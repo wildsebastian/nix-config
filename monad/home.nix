@@ -32,6 +32,8 @@
     };
   };
 
+  manual.manpages.enable = false;
+
   # Let Home Manager install and manage itself.
   programs = {
     alacritty = {
@@ -224,7 +226,9 @@
       enable = true;
       enableAutosuggestions = true;
       enableCompletion = true;
-      enableSyntaxHighlighting = true;
+      syntaxHighlighting = {
+        enable = true;
+      };
       autocd = true;
       envExtra = ''
         if [ -d "$HOME/.nixpkgs/bin" ] ; then

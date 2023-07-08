@@ -529,19 +529,14 @@
     (cons compiled_input (lambda (str) (orderless--highlight compiled_input str))))
   (setq affe-regexp-compiler #'affe-orderless-regexp-compiler))
 
-(use-package all-the-icons
-  :ensure t
-  :config
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(coq-mode all-the-icons-fileicon "coq" :face all-the-icons-lblue))
-  (add-to-list 'all-the-icons-extension-icon-alist '("v" all-the-icons-fileicon "coq")))
+(use-package nerd-icons
+  :ensure t)
 
-(use-package all-the-icons-completion
+(use-package nerd-icons-completion
   :ensure t
   :after (marginalia all-the-icons)
-  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
-  :init
-  (all-the-icons-completion-mode))
+  :config
+  (nerd-icons-completion-mode))
 
 (use-package dirvish
   :ensure t
@@ -718,12 +713,6 @@
                    :background nil
                    :height 140
                    :italic t))))
-
-(use-package code-review
-  :ensure t
-  :custom
-  (code-review-fill-column 80)
-  (code-review-download-dir "/tmp/code-review/"))
 
 (use-package flymake
   :custom
@@ -1060,6 +1049,7 @@
   :ensure t
   :defer t
   :mode
+  ("\\.html\\'" . web-mode)
   ("\\.tpl\\'" . web-mode)
   ("\\.vue\\'" . web-mode)
   ("\\.twig\\'" . web-mode)
