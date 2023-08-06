@@ -6,8 +6,9 @@ pkgs.emacsWithPackagesFromUsePackage {
   alwaysEnsure = false;
   alwaysTangle = false;
 
-  extraEmacsPackages = epkgs: [
-    epkgs.agda2-mode
-    epkgs.idris2-mode
+  extraEmacsPackages = epkgs: with epkgs; [
+    agda2-mode
+    idris2-mode
+    treesit-grammars.with-all-grammars
   ];
 }

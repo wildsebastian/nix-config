@@ -651,13 +651,12 @@
 (use-package polymode
   :ensure t)
 
-(use-package reformatter
-  :ensure t)
-
-(use-package format-all
+(use-package apheleia
   :ensure t
-  :hook
-  (prog-mode . format-all-mode))
+  :config
+  (setf (alist-get 'php-mode apheleia-mode-alist)
+		'(prettier))
+  (apheleia-global-mode t))
 
 (use-package magit
   :ensure t
@@ -1150,7 +1149,6 @@
     ) . lsp-deferred)
     ;; if you want which-key integration
     (lsp-mode . lsp-enable-which-key-integration)
-    (before-save . lsp-format-buffer)
   :config
   (setq lsp-disabled-clients '(tfls))
   :commands lsp)

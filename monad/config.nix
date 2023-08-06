@@ -3,7 +3,6 @@
 {
   imports = [
     ../modules/tmux.nix
-    ../services/sketchybar.nix
   ];
 
   disabledModules = [ "targets/darwin/linkapps.nix" ];
@@ -100,14 +99,14 @@
   system = {
     activationScripts.applications.text = pkgs.lib.mkForce (
       ''
-                echo "setting up ~/Applications..." >&2
-                rm -rf ~/Applications/Nix\ Apps
-                mkdir -p ~/Applications/Nix\ Apps
-                for app in $(find ${config.system.build.applications}/Applications -maxdepth 1 -type l); do
-                  src="$(/usr/bin/stat -f%Y "$app")"
-                  cp -r "$src" ~/Applications/Nix\ Apps
-                done
-        	chown sebastian ~/Applications -R
+        echo "setting up ~/Applications..." >&2
+        rm -rf ~/Applications/Nix\ Apps
+        mkdir -p ~/Applications/Nix\ Apps
+        for app in $(find ${config.system.build.applications}/Applications -maxdepth 1 -type l); do
+          src="$(/usr/bin/stat -f%Y "$app")"
+          cp -r "$src" ~/Applications/Nix\ Apps
+        done
+        chown sebastian ~/Applications -R
       ''
     );
 
