@@ -78,14 +78,35 @@
   services = {
     nginx = {
       enable = true;
-      virtualHosts."192.168.178.3" = {
+      appendHttpConfig = ''
+        map $http_upgrade $connection_upgrade {
+          default upgrade;
+          \'\' close;
+        }
+      '';
+      virtualHosts."wild-siena.home" = {
         enableACME = false;
         enableSSL = false;
         locations."/" = {
           proxyPass = "http://192.168.178.3:3000";
+          extraConfig = ''
+            proxy_set_header Host $host;
+          '';
+        };
+        locations."/api/live" = {
+          proxyPass = "http://192.168.178.3:3000";
+          extraConfig = ''
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection $connection_upgrade;
+            proxy_set_header Host $host;
+          '';
         };
         locations."/pihole/" = {
           proxyPass = "http://192.168.178.3:8000/admin/";
+          extraConfig = ''
+            proxy_set_header Host $host;
+          '';
         };
       };
     };
@@ -96,7 +117,8 @@
         server = {
           http_addr = "192.168.178.3";
           http_port = 3000;
-          domain = "192.168.178.3";
+          domain = "wild-siena.home";
+          enforce_domain = true;
           protocol = "http";
         };
       };
