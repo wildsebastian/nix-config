@@ -23,6 +23,11 @@
     nixpkgs = {
       url = "github:nixos/nixpkgs";
     };
+
+    phps = {
+      url = "github:fossar/nix-phps";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -32,6 +37,7 @@
     , home-manager
     , nixos-hardware
     , nixpkgs
+    , phps
     }@attrs: {
       # Macbook Air
       darwinConfigurations = {

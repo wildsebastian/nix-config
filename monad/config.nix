@@ -1,4 +1,4 @@
-{ config, lib, pkgs, darwin, emacs, ... }:
+{ config, lib, pkgs, darwin, emacs, phps, ... }:
 
 {
   imports = [
@@ -11,7 +11,7 @@
   };
 
   environment = {
-    systemPackages = [ ];
+    systemPackages = [ phps.packages.aarch64-darwin.php74 ];
     variables.LANG = "en_US.UTF-8";
     variables.LC_ALL = "en_US.UTF-8";
   };
