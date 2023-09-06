@@ -46,8 +46,8 @@
   };
 
   environment.etc."zshenv".text = ''
-    if [ -d "$HOME/.nixpkgs/bin" ] ; then
-      PATH="$HOME/.nixpkgs/bin:$PATH"
+    if [ -d "$HOME/src/nix-config/bin" ] ; then
+      PATH="$HOME/src/nix-config/bin:$PATH"
     fi
 
     if [[ "$INSIDE_EMACS" = 'vterm' ]]; then

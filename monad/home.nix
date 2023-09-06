@@ -193,6 +193,15 @@
       enableZshIntegration = true;
       settings = {
         aws.symbol = "  ";
+        azure = {
+          disabled = false;
+          format = "on [$symbol($subscription)]($style) ";
+          symbol = "  ";
+          style = "blue bold";
+          subscription_aliases = {
+            "Azure subscription 1" = "Kemb - Reporting";
+          };
+        };
         buf.symbol = " ";
         c.symbol = " ";
         conda.symbol = " ";
@@ -212,6 +221,13 @@
         nim.symbol = " ";
         nix_shell.symbol = " ";
         nodejs.symbol = " ";
+        os = {
+          disabled = false;
+          format = "[$symbol($version )]($style)";
+          symbols = {
+            Macos = "  ";
+          };
+        };
         package.symbol = " ";
         purescript.symbol = " ";
         python.symbol = " ";
@@ -219,6 +235,14 @@
         ruby.symbol = " ";
         rust.symbol = " ";
         spack.symbol = "🅢 ";
+        custom = {
+          docker = {
+            command = "docker_status.sh";
+            when = "docker info > /dev/null 2>&1";
+            symbol = "   ";
+            style = "blue bold";
+          };
+        };
       };
     };
 
@@ -231,8 +255,8 @@
       };
       autocd = true;
       envExtra = ''
-        if [ -d "$HOME/.nixpkgs/bin" ] ; then
-          PATH="$HOME/.nixpkgs/bin:$PATH"
+        if [ -d "$HOME/src/nix-config/bin" ] ; then
+          PATH="$HOME/src/nix-config/bin:$PATH"
         fi
 
         if [[ "$INSIDE_EMACS" = 'vterm' ]]; then

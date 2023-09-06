@@ -2,7 +2,6 @@
 
 let
   zotero = pkgs.callPackage ../darwin/zotero.nix { };
-  firefox = pkgs.callPackage ../darwin/firefox.nix { };
 in
 with pkgs; [
   (agda.withPackages (p: [
@@ -34,7 +33,6 @@ with pkgs; [
   editorconfig-core-c
   exa
   fd
-  firefox
   fzf
   gnugrep
   gnupg
@@ -55,6 +53,7 @@ with pkgs; [
   sd
   silver-searcher
   tokei
+  vagrant
   wakatime
   wget2
   zotero
