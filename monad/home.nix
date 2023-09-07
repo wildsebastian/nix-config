@@ -192,6 +192,7 @@
       enable = true;
       enableZshIntegration = true;
       settings = {
+        command_timeout = 1000;
         aws.symbol = "  ";
         azure = {
           disabled = false;

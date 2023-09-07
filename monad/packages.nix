@@ -31,7 +31,7 @@ with pkgs; [
   delta
   du-dust
   editorconfig-core-c
-  exa
+  eza
   fd
   fzf
   gnugrep
