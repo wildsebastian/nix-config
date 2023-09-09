@@ -293,7 +293,7 @@
         gl = "git log --color -32";
         grbm = "git rebase origin/master";
         gst = "git status";
-        ls = "exa";
+        ls = "eza";
         ps = "procs";
         vim = "nvim";
         wget = "wget2";

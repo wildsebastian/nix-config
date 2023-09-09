@@ -4,6 +4,8 @@ let
   zotero = pkgs.callPackage ../darwin/zotero.nix { };
 in
 with pkgs; [
+  pam-reattach
+
   (agda.withPackages (p: [
     p.standard-library
   ]))
