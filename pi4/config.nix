@@ -344,7 +344,7 @@
         autoStart = true;
         cmd = [ "--config" "/app/fritz-exporter.yml" ];
         extraOptions = [ "--pull=newer" ];
-        image = "pdreker/fritz_exporter:2.2.3";
+        image = "pdreker/fritz_exporter:2.2.4";
         ports = [ "9007:9007/tcp" ];
         volumes = [
           "/home/sebastian/fritz-exporter.yml:/app/fritz-exporter.yml"
