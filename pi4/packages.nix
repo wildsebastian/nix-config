@@ -6,7 +6,7 @@ with pkgs; [
   curl
   direnv
   du-dust
-  exa
+  eza
   fd
   fzf
   git
