@@ -91,9 +91,9 @@
     nix-daemon = {
       enable = true;
     };
-    sketchybar = {
-      enable = true;
-    };
+    # sketchybar = {
+    #   enable = true;
+    # };
   };
 
   security = {

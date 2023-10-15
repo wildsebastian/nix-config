@@ -3,12 +3,12 @@
 stdenv.mkDerivation rec {
   pname = "Zotero";
   # https://www.zotero.org/support/changelog
-  version = "6.0.27";
+  version = "6.0.28";
 
   src = fetchurl rec {
     name = "${pname}-${version}.dmg";
     url = "https://download.zotero.org/client/release/${version}/${name}";
-    sha256 = "sha256-ZtNMFBZ7CGp4O/xceB+2JDuPZ3FPdcuOkP8nHYIa3FE=";
+    sha256 = "0w5hv9rq382bq7r61k8wy52wyhjr73m092100kwy835cw9kkakvi";
   };
 
   buildInputs = [ undmg ];
