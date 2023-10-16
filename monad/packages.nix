@@ -57,6 +57,5 @@ with pkgs; [
   tokei
   vagrant
   wakatime
-  wget2
   zotero
 ]

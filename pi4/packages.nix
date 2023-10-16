@@ -22,5 +22,4 @@ with pkgs; [
   sd
   starship
   tokei
-  wget2
 ]
