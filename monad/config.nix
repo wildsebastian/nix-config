@@ -11,7 +11,7 @@
   };
 
   environment = {
-    systemPackages = [ phps.packages.aarch64-darwin.php74 ];
+    systemPackages = [ ];
     variables.LANG = "en_US.UTF-8";
     variables.LC_ALL = "en_US.UTF-8";
   };
@@ -24,6 +24,7 @@
       (iosevka-bin.override { variant = "sgr-iosevka-term"; })
       jetbrains-mono
       nerdfonts
+      monaspace
       sarasa-gothic
     ];
   };
@@ -66,6 +67,7 @@
     config.allowUnsupportedSystem = true;
     overlays = [
       emacs.overlay
+      phps.overlays.default
       (import ../overlays/packages.nix)
     ];
   };

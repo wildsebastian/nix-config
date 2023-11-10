@@ -124,28 +124,44 @@
   :ensure t
   :init
   (setq
-    modus-themes-fringes 'intense
-    modus-themes-mixed-fonts t
-    modus-themes-headings
-      '((1 . (variable-pitch bold 1.3))
-        (2 . (variable-pitch semibold 1.2))
-        (3 . (variable-pitch 1.1))
-        (4 . (1.05))
-        (5 . (1.05))
-        (6 . (1.05))
-        (7 . (1.05))
-        (8 . (1.05)))
-    modus-themes-scale-headings t
-    modus-themes-org-blocks 'tinted-background)
-  (load-theme 'modus-vivendi-tinted))
+   modus-themes-fringes 'intense
+   modus-themes-mixed-fonts t
+   modus-themes-headings
+   '((1 . (variable-pitch bold 1.3))
+     (2 . (variable-pitch semibold 1.2))
+     (3 . (variable-pitch 1.1))
+     (4 . (1.05))
+     (5 . (1.05))
+     (6 . (1.05))
+     (7 . (1.05))
+     (8 . (1.05)))
+   modus-themes-scale-headings t
+   modus-themes-org-blocks 'tinted-background))
+;; (load-theme 'modus-vivendi-tinted))
 
-(set-face-attribute 'default nil :font "Iosevka" :height 130)
-(set-face-attribute 'fixed-pitch nil :font "Iosevka" :height 1.2)
-(set-face-attribute 'variable-pitch nil :font "Iosevka Aile" :height 1.2)
+(use-package haki-theme
+  :ensure t
+  :config
+  (setq haki-region "#2e8b6d"
+        ;; If you skip setting this, it will use 'default' font.
+        haki-heading-font "Monaspace Radon"
+        haki-sans-font "Iosevka Nerd Font"
+        haki-title-font "Monaspace Xenon"
+        haki-link-font "VictorMono Nerd Font" ;; or Maple Mono looks good
+        haki-code-font "JetBrains Mono") ;; inline code/verbatim (org,markdown..)
+
+  ;; For meow/evil users (change border of mode-line according to modal states)
+  (add-hook 'post-command-hook #'haki-modal-mode-line)
+
+  (load-theme 'haki t))
+
+;; (set-face-attribute 'default nil :font "Iosevka" :height 130)
+;; (set-face-attribute 'fixed-pitch nil :font "Iosevka" :height 1.2)
+;; (set-face-attribute 'variable-pitch nil :font "Iosevka Aile" :height 1.2)
 
 (defun my-modus-themes-custom-faces ()
   (modus-themes-with-colors (custom-set-faces
-    `(org-document-title ((,class :inherit (bold variable-pitch) :height 1.8))))))
+                             `(org-document-title ((,class :inherit (bold variable-pitch) :height 1.8))))))
 
 (add-hook 'modus-themes-after-load-theme-hook #'my-modus-themes-custom-faces)
 
@@ -655,7 +671,7 @@
   :ensure t
   :config
   (setf (alist-get 'php-mode apheleia-mode-alist)
-		'(prettier))
+		    '(prettier))
   (apheleia-global-mode t))
 
 (use-package magit
@@ -818,9 +834,9 @@
   (org-log-into-drawer t)
   (org-habit-show-habits-only-for-today t)
 	(org-todo-keywords '(
-                      (sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-	                    (sequence "BACKLOG(b)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|"
-                                "DELEGATED(D)" "CANCELLED(c)")))
+                       (sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+	                     (sequence "BACKLOG(b)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|"
+                                 "DELEGATED(D)" "CANCELLED(c)")))
   (org-archive-location "~/appunti/archive.org::* From %s")
   (org-agenda-files '("~/appunti/gtd.org" "~/appunti/someday.org"))
   (org-agenda-include-diary t)
@@ -828,15 +844,15 @@
   (org-latex-packages-alist '(("" "minted")))
   (org-latex-toc-command "\\tableofcontents \\clearpage")
   (org-latex-pdf-process
-  '("pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
-    "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
-    "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"))
+   '("pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
+     "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"
+     "pdflatex --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -output-directory %o %f"))
   (org-capture-templates
-  '(("i" "Inbox" entry (file "~/appunti/inbox.org"))
-	  ("t" "Todo" entry (file+headline "~/appunti/gtd.org" "Tasks")
-	   "* TODO %?\n  %i\n  %a")
-	  ("s" "Someday" entry (file "~/appunti/someday.org")
-	   "* TODO %?\n  %i\n  %a")))
+   '(("i" "Inbox" entry (file "~/appunti/inbox.org"))
+	   ("t" "Todo" entry (file+headline "~/appunti/gtd.org" "Tasks")
+	    "* TODO %?\n  %i\n  %a")
+	   ("s" "Someday" entry (file "~/appunti/someday.org")
+	    "* TODO %?\n  %i\n  %a")))
 
   (use-package org-contrib
     :ensure t)
@@ -864,7 +880,7 @@
     (evil-org-agenda-set-keys)))
 
 (custom-set-faces
-  '(org-document-title ((t (:height 180 :weight medium)))))
+ '(org-document-title ((t (:height 180 :weight medium)))))
 
 (use-package org-roam
   :ensure t
@@ -1147,8 +1163,8 @@
     typescript-mode
     typescriptreact-mode
     ) . lsp-deferred)
-    ;; if you want which-key integration
-    (lsp-mode . lsp-enable-which-key-integration)
+  ;; if you want which-key integration
+  (lsp-mode . lsp-enable-which-key-integration)
   :config
   (setq lsp-disabled-clients '(tfls))
   :commands lsp)

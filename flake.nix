@@ -25,7 +25,7 @@
     };
 
     phps = {
-      url = "github:fossar/nix-phps";
+      url = "github:loophp/nix-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -51,6 +51,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.sebastian = import ./monad/home.nix;
+              home-manager.extraSpecialArgs = { inherit phps; };
             }
           ];
         };

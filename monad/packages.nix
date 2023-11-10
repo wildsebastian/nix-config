@@ -22,6 +22,7 @@ with pkgs; [
   patch
   patchutils
 
+  asitop
   autossh
   (aspellWithDicts (d: [ d.de d.en d.it ]))
   bat
@@ -33,6 +34,7 @@ with pkgs; [
   delta
   du-dust
   editorconfig-core-c
+  php74
   eza
   fd
   fzf
