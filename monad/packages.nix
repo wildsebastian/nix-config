@@ -34,7 +34,7 @@ with pkgs; [
   delta
   du-dust
   editorconfig-core-c
-  php74
+  #php74
   eza
   fd
   fzf
@@ -56,8 +56,7 @@ with pkgs; [
   rnix-lsp
   sd
   silver-searcher
-  tokei
-  vagrant
+  # tokei
   wakatime
   zotero
 ]

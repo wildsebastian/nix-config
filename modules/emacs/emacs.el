@@ -136,28 +136,15 @@
      (7 . (1.05))
      (8 . (1.05)))
    modus-themes-scale-headings t
-   modus-themes-org-blocks 'tinted-background))
-;; (load-theme 'modus-vivendi-tinted))
+   modus-themes-org-blocks 'tinted-background)
+  (load-theme 'modus-vivendi))
 
 (use-package haki-theme
-  :ensure t
-  :config
-  (setq haki-region "#2e8b6d"
-        ;; If you skip setting this, it will use 'default' font.
-        haki-heading-font "Monaspace Radon"
-        haki-sans-font "Iosevka Nerd Font"
-        haki-title-font "Monaspace Xenon"
-        haki-link-font "VictorMono Nerd Font" ;; or Maple Mono looks good
-        haki-code-font "JetBrains Mono") ;; inline code/verbatim (org,markdown..)
+  :ensure t)
 
-  ;; For meow/evil users (change border of mode-line according to modal states)
-  (add-hook 'post-command-hook #'haki-modal-mode-line)
-
-  (load-theme 'haki t))
-
-;; (set-face-attribute 'default nil :font "Iosevka" :height 130)
-;; (set-face-attribute 'fixed-pitch nil :font "Iosevka" :height 1.2)
-;; (set-face-attribute 'variable-pitch nil :font "Iosevka Aile" :height 1.2)
+(set-face-attribute 'default nil :font "Fira Code" :width 'regular :height 120 :weight 'normal)
+(set-face-attribute 'fixed-pitch nil :font "Fira Code" :width 'regular :height 120 :weight 'normal)
+(set-face-attribute 'variable-pitch nil :font "Fira Code" :width 'regular :height 120 :weight 'normal)
 
 (defun my-modus-themes-custom-faces ()
   (modus-themes-with-colors (custom-set-faces
@@ -541,8 +528,8 @@
   :after (consult orderless)
   :config
   (defun affe-orderless-regexp-compiler (input _type _ignorecase)
-    (setq compiled_input (orderless-pattern-compiler input))
-    (cons compiled_input (lambda (str) (orderless--highlight compiled_input str))))
+    (setq input (orderless-pattern-compiler input))
+    (cons input (apply-partially #'orderless--highlight input t)))
   (setq affe-regexp-compiler #'affe-orderless-regexp-compiler))
 
 (use-package nerd-icons

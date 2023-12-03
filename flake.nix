@@ -25,7 +25,7 @@
     };
 
     phps = {
-      url = "github:loophp/nix-shell";
+      url = "github:fossar/nix-phps";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

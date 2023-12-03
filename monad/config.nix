@@ -19,13 +19,11 @@
   fonts = {
     fontDir.enable = true;
     fonts = with pkgs; [
-      iosevka
-      (iosevka-bin.override { variant = "aile"; })
-      (iosevka-bin.override { variant = "sgr-iosevka-term"; })
+      fira-code
       jetbrains-mono
-      nerdfonts
       monaspace
-      sarasa-gothic
+      nerdfonts
+      victor-mono
     ];
   };
 
