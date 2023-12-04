@@ -85,7 +85,7 @@
 
   services = {
     emacs = {
-      enable = true;
+      enable = false;
       package = (import ../modules/emacs/emacs.nix { inherit pkgs; });
     };
     nix-daemon = {
