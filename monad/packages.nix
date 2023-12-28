@@ -34,6 +34,7 @@ with pkgs; [
   delta
   du-dust
   editorconfig-core-c
+  exercism
   #php74
   eza
   fd

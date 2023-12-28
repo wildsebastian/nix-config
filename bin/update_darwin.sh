@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-cd ~/src/nix-config
+cd ~/src/nix-config || exit
 nix flake update
 darwin-rebuild switch --flake .#
 sudo nix-collect-garbage --delete-older-than 7d
-cd ~
+cd ~ || exit

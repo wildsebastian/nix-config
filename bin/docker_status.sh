@@ -1,3 +1,3 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-echo "`docker --version | cut -d " " -f 3 | cut -d "," -f 1`"
+docker --version | cut -d " " -f 3 | cut -d "," -f 1

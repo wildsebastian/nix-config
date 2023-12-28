@@ -28,6 +28,11 @@
       url = "github:fossar/nix-phps";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -38,6 +43,7 @@
     , nixos-hardware
     , nixpkgs
     , phps
+    , pre-commit-hooks
     }@attrs: {
       # Macbook Air
       darwinConfigurations = {
@@ -68,6 +74,31 @@
           nixos-hardware.nixosModules.raspberry-pi-4
           ./pi4/config.nix
         ];
+      };
+
+
+      checks = {
+        aarch64-darwin = {
+          pre-commit-check = pre-commit-hooks.lib.aarch64-darwin.run {
+            src = ./.;
+            hooks = {
+              nixpkgs-fmt.enable = true;
+              shellcheck.enable = true;
+              terraform-format.enable = true;
+            };
+          };
+        };
+
+        aarch64-linux = {
+          pre-commit-check = pre-commit-hooks.lib.aarch64-linux.run {
+            src = ./.;
+            hooks = {
+              nixpkgs-fmt.enable = true;
+              shellcheck.enable = true;
+              terraform-format.enable = true;
+            };
+          };
+        };
       };
 
       formatter = {
