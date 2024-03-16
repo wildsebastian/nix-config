@@ -59,7 +59,8 @@ flycheck_*.el
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -83,5 +84,12 @@ Temporary Items
 ### macOS Patch ###
 # iCloud generated files
 *.icloud
+
+bin/
+!bin/docker_status.sh
+!bin/new_tmux_session.sh
+!bin/update_darwin.sh
+
+.idea/
 
 # End of https://www.toptal.com/developers/gitignore/api/emacs,macos

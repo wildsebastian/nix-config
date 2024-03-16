@@ -77,14 +77,14 @@
             text = "CellForeground";
             background = "#4c566a";
           };
+          footer_bar = {
+            background = "#434c5e";
+            foreground = "#d8dee9";
+          };
           search = {
             matches = {
               foreground = "CellBackground";
               background = "#88c0d0";
-            };
-            footer_bar = {
-              background = "#434c5e";
-              foreground = "#d8dee9";
             };
           };
           normal = {
@@ -177,6 +177,10 @@
         pull.rebase = true;
         user.signingkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDdFv1ZT9EzT2mrapiucBoe83vJDwRuBri245aYL+dmI";
       };
+      includes = [{
+        path = "~/.config/git/teleclinic.inc";
+        condition = "gitdir:~/src/teleclinic/";
+      }];
       userEmail = "sebastian@wild-siena.com";
       userName = "Sebastian Wild";
     };
@@ -250,7 +254,7 @@
 
     zsh = {
       enable = true;
-      enableAutosuggestions = true;
+      autosuggestion.enable = true;
       enableCompletion = true;
       syntaxHighlighting = {
         enable = true;
@@ -295,7 +299,6 @@
         grbm = "git rebase origin/master";
         gst = "git status";
         ls = "eza";
-        ps = "procs";
         vim = "nvim";
         wget = "wget2";
       };

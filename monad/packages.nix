@@ -35,7 +35,6 @@ with pkgs; [
   du-dust
   editorconfig-core-c
   exercism
-  #php74
   eza
   fd
   fzf
@@ -54,10 +53,10 @@ with pkgs; [
   procs
   python39
   ripgrep
-  rnix-lsp
+  rustup
   sd
   silver-searcher
-  # tokei
+  tokei
   wakatime
   zotero
 ]
