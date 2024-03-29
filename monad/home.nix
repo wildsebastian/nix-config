@@ -33,6 +33,7 @@
   };
 
   manual.manpages.enable = false;
+  manual.html.enable = false;
 
   # Let Home Manager install and manage itself.
   programs = {
@@ -291,6 +292,7 @@
       shellAliases = {
         cat = "bat";
         du = "dust";
+        drs = "darwin-rebuild switch --flake .#";
         ec = "nohup emacsclient -c & disown";
         em = "nohup emacs & disown";
         gf = "git fetch";
@@ -301,6 +303,9 @@
         ls = "eza";
         vim = "nvim";
         wget = "wget2";
+        tns = "new_tmux_session.sh";
+        ta = "tmux attach -t";
+        tl = "tmux ls";
       };
     };
   };

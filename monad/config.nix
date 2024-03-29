@@ -8,6 +8,8 @@
   disabledModules = [ "targets/darwin/linkapps.nix" ];
   documentation = {
     enable = false;
+    doc.enable = false;
+    info.enable = false;
   };
 
   environment = {

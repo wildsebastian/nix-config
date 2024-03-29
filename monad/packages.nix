@@ -38,6 +38,7 @@ with pkgs; [
   eza
   fd
   fzf
+  git-credential-manager
   gnugrep
   gnupg
   htop
