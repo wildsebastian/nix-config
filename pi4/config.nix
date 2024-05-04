@@ -66,7 +66,7 @@
     };
   };
 
-  system.stateVersion = "23.05";
+  system.stateVersion = "24.05";
 
   programs = {
     mosh.enable = true;
@@ -125,7 +125,13 @@
     };
     openssh = {
       enable = true;
-      settings.PasswordAuthentication = false;
+      settings = {
+        PasswordAuthentication = false;
+        AllowUsers = ["sebastian"];
+        UseDns = true;
+        X11Forwarding = false;
+        PermitRootLogin = "prohibit-password";
+      };
     };
     prometheus = {
       enable = true;

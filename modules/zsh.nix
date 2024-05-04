@@ -7,11 +7,6 @@
     syntaxHighlighting.enable = true;
     promptInit = ''
       eval "$(starship init zsh)"
-
-      if [ -n "$\{commands[fzf-share]\}" ]; then
-        source "$(fzf-share)/key-bindings.zsh"
-        source "$(fzf-share)/completion.zsh"
-      fi
     '';
 
     loginShellInit = ''
@@ -66,7 +61,7 @@
     gl = "git log --color -32";
     grbm = "git rebase origin/master";
     gst = "git status";
-    ls = "exa";
+    ls = "eza";
     nixs = "nix-env -f '<nixpkgs>' -qaP | grep";
     ps = "procs";
     vim = "nvim";

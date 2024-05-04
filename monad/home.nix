@@ -146,11 +146,6 @@
       };
     };
 
-    fzf = {
-      enable = true;
-      enableZshIntegration = true;
-    };
-
     git = {
       enable = true;
       package = (pkgs.gitAndTools.gitFull.override { sendEmailSupport = true; });
@@ -273,12 +268,14 @@
       history = {
         expireDuplicatesFirst = true;
         ignoreDups = true;
+        ignorePatterns = ["(ls|cd|pwd|exit)*"];
         save = 10000;
         share = true;
         size = 10000;
       };
       initExtra = ''
         eval "$(starship init zsh)"
+        eval "$(fzf --zsh)"
       '';
       loginExtra = ''
         :r() {
