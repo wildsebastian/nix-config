@@ -5,7 +5,7 @@
 
   home = {
     username = "sebastian";
-    stateVersion = "22.11";
+    stateVersion = "24.11";
     packages = import ./packages.nix { inherit pkgs; };
 
     activation = lib.mkIf pkgs.stdenv.isDarwin {
