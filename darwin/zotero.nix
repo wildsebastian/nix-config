@@ -3,7 +3,7 @@
 stdenv.mkDerivation rec {
   pname = "Zotero";
   # https://www.zotero.org/support/changelog
-  version = "6.0.37";
+  version = "7.0.3";
 
   src = fetchurl rec {
     name = "${pname}-${version}.dmg";

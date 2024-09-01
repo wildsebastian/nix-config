@@ -1,12 +1,9 @@
 { pkgs ? import <nixpkgs> { } }:
 
-let
-  zotero = pkgs.callPackage ../darwin/zotero.nix { };
-in
 with pkgs; [
   pam-reattach
 
-  # (import ../modules/emacs/emacs.nix { inherit pkgs; })
+  (import ../modules/emacs/emacs.nix { inherit pkgs; })
 
   nix-prefetch-git
 
@@ -25,5 +22,4 @@ with pkgs; [
   ripgrep
   tokei
   wakatime
-  zotero
 ]

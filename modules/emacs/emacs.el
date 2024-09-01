@@ -926,12 +926,6 @@
   :ensure t
   :mode "\\.nix\\'")
 
-(use-package python-mode
-  :defer t
-  :mode ("\\.py" . python-mode)
-  :custom
-  (python-shell-interpreter "python3"))
-
 (use-package haskell-mode
   :ensure t
   :defer t
@@ -960,111 +954,14 @@
                                                       "-n")))
   (setq haskell-hoogle-url "http://127.0.0.1:8100/?hoogle=%s"))
 
-(use-package purescript-mode
-  :ensure t
-  :defer t
-  :mode
-  ("\\.purs" . purescript-mode))
-
 (use-package dhall-mode
   :ensure t
   :mode "\\.dhall\\'")
-
-(use-package psc-ide
-  :ensure t
-  :defer t
-  :init
-  (add-hook 'purescript-mode-hook (
-                                   lambda ()
-                                   (psc-ide-mode)
-                                   (company-mode)
-                                   (flymake-mode)
-                                   (turn-on-purescript-indentation))))
-
-(use-package agda2-mode
-  :after polymode
-  :defer t
-  :mode
-  ("\\.agda\\'" . agda2-mode))
-
-(use-package org-agda-mode
-  :after polymode
-  :defer t
-  :quelpa (org-agda-mode :fetcher github :repo "alhassy/org-agda-mode"))
-
-(use-package yaml-mode
-  :ensure t
-  :defer t
-  :mode
-  ("\\.yml\\'" . yaml-mode))
 
 (use-package idris2-mode
   :defer t
   :mode
   ("\\.idr" . idris2-mode))
-
-(use-package php-mode
-  :ensure t
-  :defer t
-  :mode
-  ("\\.php" . php-mode))
-
-(use-package typescript-mode
-  :ensure t
-  :defer t
-  :config
-  ;; we choose this instead of tsx-mode so that eglot can automatically figure out language for server
-  ;; see https://github.com/joaotavora/eglot/issues/624 and https://github.com/joaotavora/eglot#handling-quirky-servers
-  (define-derived-mode typescriptreact-mode typescript-mode
-    "TypeScript TSX")
-
-  ;; use our derived mode for tsx files
-  (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescriptreact-mode))
-  ;; by default, typescript-mode is mapped to the treesitter typescript parser
-  ;; use our derived mode to map both .tsx AND .ts -> typescriptreact-mode -> treesitter tsx
-  (add-to-list 'tree-sitter-major-mode-language-alist '(typescriptreact-mode . tsx)))
-
-;; https://github.com/orzechowskid/tsi.el/
-;; great tree-sitter-based indentation for typescript/tsx, css, json
-(use-package tsi
-  :defer t
-  :quelpa (tsi :fetcher github :repo "orzechowskid/tsi.el")
-  ;; define autoload definitions which when actually invoked will cause package to be loaded
-  :commands (tsi-typescript-mode tsi-json-mode tsi-css-mode)
-  :init
-  (add-hook 'typescript-mode-hook (lambda () (tsi-typescript-mode 1)))
-  (add-hook 'json-mode-hook (lambda () (tsi-json-mode 1)))
-  (add-hook 'css-mode-hook (lambda () (tsi-css-mode 1)))
-  (add-hook 'scss-mode-hook (lambda () (tsi-scss-mode 1))))
-
-(use-package js2-mode
-  :ensure t
-  :defer t
-  :mode
-  ("\\.js\\'" . js2-mode)
-  ("\\.jsx\\'" . js2-mode)
-  :config
-  (setq js2-mode-show-parse-errors nil
-        js2-mode-show-strict-warnings nil))
-
-(use-package web-mode
-  :ensure t
-  :defer t
-  :mode
-  ("\\.html\\'" . web-mode)
-  ("\\.tpl\\'" . web-mode)
-  ("\\.vue\\'" . web-mode)
-  ("\\.twig\\'" . web-mode)
-  :config
-  (setq web-mode-markup-indent-offset 2)
-  (setq web-mode-code-indent-offset 2)
-  (setq web-mode-css-indent-offset 2))
-
-(use-package scss-mode
-  :ensure t
-  :defer t
-  :mode
-  ("\\.scss\\'" . scss-mode))
 
 (use-package markdown-mode
   :ensure t
@@ -1087,49 +984,12 @@
   (proof-shrink-windows-tofit t)
   (proof-splash-enable t))
 
-(use-package scala-mode
-  :ensure t
-  :defer t
-  :mode "\\.s\\(cala\\|bt\\)$"
-  :interpreter ("scala" . scala-mode))
-
-(use-package sbt-mode
-  :ensure t
-  :defer t
-  :commands sbt-start sbt-command
-  :config
-  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-  ;; allows using SPACE when in the minibuffer
-  (substitute-key-definition
-   'minibuffer-complete-word
-   'self-insert-command
-   minibuffer-local-completion-map)
-  ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-  (setq sbt:program-options '("-Dsbt.supershell=false"))
-  )
-
-(use-package terraform-mode
-  :ensure t
-  :defer t
-  :mode ("\\.tf\\'" . terraform-mode))
-
 (use-package yaml-mode
   :ensure t
   :defer t
   :mode
   ("\\.yml\\'" . yaml-mode)
   ("\\.yaml\\'" . yaml-mode))
-
-(use-package rustic
-  :ensure t
-  :defer t
-  :custom
-  (rustic-format-on-save t))
-
-(use-package csharp-mode
-  :ensure t
-  :defer t
-  :mode ("\\.cs\\'" . csharp-ts-mode))
 
 (use-package lsp-mode
   :ensure t
@@ -1140,15 +1000,8 @@
   :hook
   ((csharp-mode
     haskell-mode
-    js2-mode
     nix-mode
     purescript-mode
-    php-mode
-    python-mode
-    scala-mode
-    ;; terraform-mode
-    typescript-mode
-    typescriptreact-mode
     ) . lsp-deferred)
   ;; if you want which-key integration
   (lsp-mode . lsp-enable-which-key-integration)
@@ -1185,15 +1038,6 @@
   :after proof-general
   :hook (coq-mode . company-coq-mode))
 
-(use-package docker
-  :ensure t
-  :defer t)
-
-(use-package dockerfile-mode
-  :ensure t
-  :defer t
-  :mode ("Dockerfile\\'" . dockerfile-mode))
-
 (use-package vterm
   :ensure t
   :defer t)
@@ -1206,48 +1050,7 @@
   :ensure t
   :defer t)
 
-(use-package eshell
-  :defer t
-  :init
-  (setq eshell-scroll-to-bottom-on-input 'all
-        eshell-error-if-no-glob t
-        eshell-hist-ignoredups t
-        eshell-save-history-on-exit t
-        eshell-prefer-lisp-functions nil
-        eshell-destroy-buffer-when-process-dies t))
-
-(use-package eshell-vterm
-  :ensure t
-  :defer t
-  :after eshell vterm
-  :config
-  (eshell-vterm-mode))
-
-(use-package eshell-git-prompt
-  :ensure t
-  :defer t
-  :init
-  (eshell-git-prompt-use-theme 'multiline))
-
-(use-package eshell-toggle
-  :ensure t
-  :defer t
-  :custom
-  (eshell-toggle-size-fraction 3)
-  (eshell-toggle-use-projectile-root t)
-  (eshell-toggle-run-command nil)
-  (eshell-toggle-init-function #'eshell-toggle-init-eshell))
-
-(use-package writeroom-mode
-  :ensure t
-  :defer t
-  :config
-  (setq writeroom-width 0.5))
-
 (use-package wakatime-mode
   :ensure t
   :defer t
   :init (global-wakatime-mode))
-
-(load-file (let ((coding-system-for-read 'utf-8))
-             (shell-command-to-string "agda-mode locate")))

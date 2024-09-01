@@ -365,7 +365,7 @@
           "--network=host"
           "--pull=newer"
         ];
-        image = "pihole/pihole:2024.03.2";
+        image = "pihole/pihole:2024.07.0";
         volumes = [
           "/home/sebastian/etc-pihole:/etc/pihole"
           "/home/sebastian/etc-dnsmasq.d:/etc/dnsmasq.d"
