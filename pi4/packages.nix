@@ -4,6 +4,7 @@ with pkgs; [
   bat
   bottom
   curl
+  delta
   direnv
   du-dust
   eza
