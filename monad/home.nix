@@ -134,7 +134,9 @@
           unfocused_hollow = true;
           thickness = 0.15;
         };
-        live_config_reload = true;
+        general = {
+          live_config_reload = true;
+        };
       };
     };
 
@@ -261,8 +263,12 @@
           PATH="$HOME/src/nix-config/bin:$PATH"
         fi
 
-        if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
-          source /etc/zprofile
+        if [ -d "/usr/local/share/dotnet" ] ; then
+          PATH="/usr/local/share/dotnet:$PATH"
+        fi
+
+        if [ -d "$HOME/.dotnet/tools" ] ; then
+          PATH="$HOME/.dotnet/tools:$PATH"
         fi
       '';
       history = {
