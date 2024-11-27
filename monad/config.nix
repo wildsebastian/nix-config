@@ -23,7 +23,7 @@
       fira-code
       jetbrains-mono
       monaspace
-      nerdfonts
+      nerd-fonts.iosevka
       victor-mono
     ];
   };
