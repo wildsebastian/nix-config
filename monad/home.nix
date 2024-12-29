@@ -150,7 +150,7 @@
 
     git = {
       enable = true;
-      package = (pkgs.gitAndTools.gitFull.override { sendEmailSupport = true; });
+      package = (pkgs.gitAndTools.gitFull.override { sendEmailSupport = true; svnSupport = false; guiSupport = false; });
       delta = {
         enable = true;
         options = {
