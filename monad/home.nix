@@ -164,6 +164,8 @@
         commit.gpgsign = true;
         core = {
           editor = "nvim";
+          autocrlf = false;
+          eol = "lf";
         };
         "delta \"magit-delta\"".line-numbers = false;
         diff.colorMoved = "default";

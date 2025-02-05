@@ -7,6 +7,7 @@ with pkgs; [
 
   nix-prefetch-git
 
+  azure-cli
   bat
   bottom
   delta
@@ -21,5 +22,4 @@ with pkgs; [
   openssl
   ripgrep
   tokei
-  wakatime
 ]
