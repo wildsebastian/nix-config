@@ -29,7 +29,7 @@
   };
 
   nix = {
-    configureBuildUsers = true;
+    enable = true;
     extraOptions = ''
       gc-keep-derivations = true
       gc-keep-outputs = true
@@ -40,7 +40,7 @@
       automatic = true;
       options = "--delete-older-than 30d";
     };
-    package = pkgs.nixVersions.stable;
+    package = pkgs.nixVersions.latest;
     settings = {
       cores = 6;
       experimental-features = [ "nix-command" "flakes" ];
@@ -80,12 +80,6 @@
   };
 
   programs.zsh.enable = true;
-
-  services = {
-    nix-daemon = {
-      enable = true;
-    };
-  };
 
   security = {
     pam = {
