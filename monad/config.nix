@@ -83,15 +83,15 @@
 
   security = {
     pam = {
-      enableSudoTouchIdAuth = true;
+      services.sudo_local.touchIdAuth = true;
     };
   };
 
   system = {
     defaults = {
       NSGlobalDomain = {
-        AppleInterfaceStyle = "Dark";
-        AppleInterfaceStyleSwitchesAutomatically = false;
+        AppleInterfaceStyle = null;
+        AppleInterfaceStyleSwitchesAutomatically = true;
         AppleKeyboardUIMode = 3;
         AppleMeasurementUnits = "Centimeters";
         AppleMetricUnits = 1;

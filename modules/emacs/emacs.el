@@ -727,58 +727,6 @@
 (use-package ob-sql
   :defer 10)
 
-;;; ob-coq
-;;; https://git.sr.ht/~bzg/org-contrib/tree/master/item/lisp/ob-coq.el
-;;; replace functions defined in coq-inferior.el
-;;; Try to refactor to work with functions from ProofGeneral
-;;; http://alan.petitepomme.net/tips/executing_coq.html
-
-(require 'comint)
-
-(defvar coq-program-name "coqtop")
-
-(defvar coq-buffer)
-
-(define-derived-mode inferior-coq-mode comint-mode "Run Coq"
-  ""
-  (setq comint-prompt-regexp "^[^<]* < *"))
-
-(defun coq-args-to-list (string)
-  (let ((where (string-match "[ \t]" string)))
-    (cond ((null where) (list string))
-          ((not (= where 0))
-           (cons (substring string 0 where)
-                 (coq-args-to-list (substring string (+ 1 where)
-                                              (length string)))))
-          (t (let ((pos (string-match "[^ \t]" string)))
-               (if (null pos)
-                   nil
-                 (coq-args-to-list (substring string pos
-                                              (length string)))))))))
-
-(defun run-coq (cmd)
-  (interactive (list (if current-prefix-arg
-                         (read-string "Run Coq: " coq-program-name)
-                       coq-program-name)))
-  (if (not (comint-check-proc "*coq*"))
-      (let ((cmdlist (coq-args-to-list cmd)))
-        (set-buffer (apply 'make-comint "coq" (car cmdlist)
-                           nil (cdr cmdlist)))
-        (inferior-coq-mode)))
-  (setq coq-program-name cmd)
-  (setq coq-buffer "*coq*")
-  (switch-to-buffer "*coq*"))
-
-(defun coq-proc ()
-  "Return the current coq process.  See variable `coq-buffer'."
-  (let ((proc (get-buffer-process (if (eq major-mode 'inferior-coq-mode)
-                                      (current-buffer)
-                                    coq-buffer))))
-    (or proc
-        (error "No current process.  See variable `coq-buffer'"))))
-
-;;; end ob-coq
-
 (use-package restclient
   :defer t
   :ensure t)
@@ -791,8 +739,7 @@
   :config
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((coq . t)
-     (ditaa . t)
+   '((ditaa . t)
      (emacs-lisp . t)
      (gnuplot . t)
      (haskell . t)
@@ -874,7 +821,7 @@
   :after org
   :init
   (setq org-roam-v2-ack t)
-  (org-roam-db-autosync-mode)
+  ;; (org-roam-db-autosync-mode)
   :hook
   (after-init . org-roam-setup)
   :custom
@@ -895,22 +842,22 @@
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start t))
 
-(use-package citar
-  :ensure t
-  :bind
-  (:map org-mode-map :package org ("C-c b" . #'org-cite-insert))
-  :custom
-  (citar-bibliography '("~/bib/references.bib"))
-  (org-cite-global-bibliography '("~/bib/references.bib"))
-  (org-cite-insert-processor 'citar)
-  (org-cite-follow-processor 'citar)
-  (org-cite-activate-processor 'citar)
-  (citar-bibliography org-cite-global-bibliography))
-
-(use-package citar-embark
-  :after citar embark
-  :no-require
-  :config (citar-embark-mode))
+;; (use-package citar
+;;   :ensure t
+;;   :bind
+;;   (:map org-mode-map :package org ("C-c b" . #'org-cite-insert))
+;;   :custom
+;;   (citar-bibliography '("~/bib/references.bib"))
+;;   (org-cite-global-bibliography '("~/bib/references.bib"))
+;;   (org-cite-insert-processor 'citar)
+;;   (org-cite-follow-processor 'citar)
+;;   (org-cite-activate-processor 'citar)
+;;   (citar-bibliography org-cite-global-bibliography))
+;;
+;; (use-package citar-embark
+;;   :after citar embark
+;;   :no-require
+;;   :config (citar-embark-mode))
 
 (use-package org-auto-tangle
   :ensure t
@@ -1049,8 +996,3 @@
 (use-package multi-vterm
   :ensure t
   :defer t)
-
-(use-package wakatime-mode
-  :ensure t
-  :defer t
-  :init (global-wakatime-mode))

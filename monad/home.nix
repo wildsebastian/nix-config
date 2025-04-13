@@ -262,6 +262,7 @@
         enable = true;
       };
       autocd = true;
+      completionInit = "autoload -Uz compinit && compinit";
       envExtra = ''
         if [ -d "$HOME/src/nix-config/bin" ] ; then
           PATH="$HOME/src/nix-config/bin:$PATH"
@@ -286,6 +287,9 @@
       initExtra = ''
         eval "$(starship init zsh)"
         eval "$(fzf --zsh)"
+      '';
+      initExtraBeforeCompInit = ''
+        FPATH="$HOME/src/nix-config/modules/_docker_completion:$FPATH"
       '';
       loginExtra = ''
         :r() {

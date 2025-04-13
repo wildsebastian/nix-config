@@ -3,7 +3,7 @@
 with pkgs; [
   pam-reattach
 
-  # (import ../modules/emacs/emacs.nix { inherit pkgs; })
+  (import ../modules/emacs/emacs.nix { inherit pkgs; })
 
   nix-prefetch-git
 
