@@ -18,6 +18,7 @@ with pkgs; [
   fzf
   gnupg
   jq
+  kubectl
   nixos-rebuild
   openssl
   ripgrep
