@@ -13,6 +13,8 @@ with pkgs; [
   git
   htop
   jq
+  kubectl
+  kubernetes-helm-wrapped
   minify
   mosh
   neovim

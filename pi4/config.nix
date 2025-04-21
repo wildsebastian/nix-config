@@ -1,5 +1,12 @@
 { config, pkgs, lib, ... }:
 
+let
+  buildGo123Module = pkgs.buildGo123Module;
+  fetchFromGitHub = pkgs.fetchFromGitHub;
+  k3s = pkgs.k3s;
+  nixosTests = pkgs.nixosTests;
+  symlinkJoin = pkgs.symlinkJoin;
+in
 {
   imports = [
     ../modules/tmux.nix
@@ -66,8 +73,10 @@
     }];
     defaultGateway = "192.168.178.1";
     nameservers = [ "192.168.178.3" "1.1.1.1" ];
+    # Need to figure out what is necessary for K8s
+    firewall.enable = false;
     firewall.interfaces.eth0 = {
-      allowedTCPPorts = [ 22 53 6443 ];
+      allowedTCPPorts = [ 22 53 6443 8443 ];
       allowedUDPPorts = [ 53 ];
     };
 
@@ -83,7 +92,33 @@
       histSize = 10000;
     };
   };
+
   services = {
+    # Necessary until https://github.com/NixOS/nixpkgs/pull/390981 is merged
+    etcd.package = (import ../modules/etcd.nix { inherit lib symlinkJoin k3s nixosTests buildGo123Module fetchFromGitHub; });
+    flannel = {
+      enable = true;
+      network = "10.0.0.0/16";
+    };
+    kubernetes = {
+      apiserverAddress = "https://pi4-0:6443";
+      apiserver = {
+        securePort = 6443;
+        advertiseAddress = "192.168.178.3";
+      };
+      clusterCidr = "10.0.0.0/16";
+      easyCerts = true;
+      masterAddress = "pi4-0";
+      roles = ["master" "node"];
+      addons.dns.enable = true;
+      # need to point it to the arm version of the container
+      addons.dns.coredns = {
+          imageName = "coredns/coredns";
+          imageDigest = "sha256:a0ead06651cf580044aeb0a0feba63591858fb2e43ade8c9dea45a6a89ae7e5e";
+          finalImageTag = "arm64-1.10.1";
+          sha256 = "sha256-IxHzSUf9g8lAmaKjcSquPKA4D6ygAz5weqKXPErHjKc=";
+      };
+    };
     openssh = {
       enable = true;
       settings = {
