@@ -284,12 +284,9 @@
         share = true;
         size = 10000;
       };
-      initExtra = ''
+      initContent = ''
         eval "$(starship init zsh)"
         eval "$(fzf --zsh)"
-      '';
-      initExtraBeforeCompInit = ''
-        FPATH="$HOME/src/nix-config/modules/_docker_completion:$FPATH"
       '';
       loginExtra = ''
         :r() {

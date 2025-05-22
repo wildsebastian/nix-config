@@ -88,6 +88,7 @@
   };
 
   system = {
+    primaryUser = "sebastian";
     defaults = {
       NSGlobalDomain = {
         AppleInterfaceStyle = null;
